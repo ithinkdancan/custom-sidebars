@@ -1,0 +1,143 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: customsidebars\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-08-21 12:58+0100\n"
+"PO-Revision-Date: 2010-08-21 12:59+0100\n"
+"Last-Translator: asdasd <dsadas@das.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;gettext;gettext_noop;_e\n"
+"X-Poedit-Basepath: D:\\web\\wordpress\\wp-content\\plugins\\custom-sidebars\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: customsidebars.php:129
+msgid "You do not have permission to delete sidebars"
+msgstr "No tiene permiso para borrar barras laterales"
+
+#: customsidebars.php:144
+#, php-format
+msgid "The sidebar \"%s\" has been deleted."
+msgstr "La barra lateral \"%s\" ha sido borrada."
+
+#: customsidebars.php:146
+#, php-format
+msgid "There was not any sidebar called \"%s\" and it could not been deleted."
+msgstr "No hay ninguna barra lateral llamada \"%s\" y no ha podido ser borrada."
+
+#: customsidebars.php:171
+msgid "Custom sidebars"
+msgstr "Barras laterales"
+
+#: customsidebars.php:260
+msgid "The custom sidebars settings has been updated successfully."
+msgstr "Los cambios realizados han sido guardados correctamente."
+
+#: customsidebars.php:301
+msgid "You have to fill all the fields to create a new sidebar."
+msgstr "Debe completar todos los campos para crear una nueva barra lateral."
+
+#: customsidebars.php:321
+#: customsidebars.php:338
+msgid "The sidebar has been created successfully."
+msgstr "La barra lateral ha sido creada correctamente."
+
+#: customsidebars.php:324
+msgid "There is already a sidebar registered with that name, please choose a different one."
+msgstr "Ya existe una barra lateral con ese nombre, por favor, elija un nombre diferente."
+
+#: customsidebars.php:344
+msgid "Create a new sidebar"
+msgstr "Crear una nueva barra lateral"
+
+#: metabox.php:1
+msgid "You can assign specific sidebars to this post, just select a sidebar and the default one will be replaced, if it is available on your template."
+msgstr "Puede asignar barras laterales específicas para esta entrada, simplemente seleccione una y la barra por defecto sera reemplazada si está disponible en su plantilla."
+
+#: metabox.php:13
+msgid "There are not replaceable sidebars selected. You can define what sidebar will be able for replacement in the <a href=\"themes.php?page=customsidebars\">Custom Sidebars config page</a>."
+msgstr "No hay barras laterales reemplazables seleccionadas. Puede definir las barras disponibles para reemplazar en la <a href=\"themes.php?page=customsidebars\">página de configuración de barras laterales</a>."
+
+#: view.php:4
+msgid "Custom Sidebars"
+msgstr "Barras Laterales"
+
+#: view.php:11
+msgid "New Sidebar"
+msgstr "Nueva Barra Lateral"
+
+#: view.php:12
+msgid "When a custom sidebar is created, it is shown in the widgets view and you can define what the new sidebar will contain. Once the sidebar is setted up, it is possible to select it for displaying in any post or page."
+msgstr "Cuando una barra lateral es creada se mostrará en la vista widgets y allí será posible definir lo que va a contener. Una vez configurada, será seleccionable para reemplazos en cualquier entrada o página."
+
+#: view.php:15
+#: view.php:42
+msgid "Name"
+msgstr "Nombre"
+
+#: view.php:18
+msgid "The name has to be unique."
+msgstr "El nombre de la barra tiene que ser único."
+
+#: view.php:24
+#: view.php:43
+msgid "Description"
+msgstr "Descripción"
+
+#: view.php:32
+msgid "Create Sidebar"
+msgstr "Crear una Barra Lateral"
+
+#: view.php:36
+msgid "All the Custom Sidebars"
+msgstr "Todas las barras"
+
+#: view.php:37
+msgid "If a sidebar is deleted and is currently on use, the posts and pages which uses it will show the default sidebar instead."
+msgstr "Si una barra lateral que está siendo usada se borra, las entradas y páginas que la utilizarán pasarán a mostrar la barra definida por defecto en su lugar."
+
+#: view.php:44
+#: view.php:62
+msgid "Delete"
+msgstr "Borrar"
+
+#: view.php:52
+msgid "Are you sure to delete this sidebar?"
+msgstr "Está seguro de borrar esta barra lateral?"
+
+#: view.php:66
+msgid "There are no custom sidebars available. You can create a new one using the left form."
+msgstr "No hay barras laterales disponibles. Puede crear una desde el formulario de la izquierda."
+
+#: view.php:83
+#, fuzzy
+msgid "Replaceable Sidebars"
+msgstr "Barras reemplazables"
+
+#: view.php:84
+msgid "Select here the sidebars available for replacing. They will appear for replace when a post or page is edited or created. They will be also available for the default replacements of post type sidebars. You can select several bars holding the SHIFT key when clicking on them."
+msgstr "Seleccione las barras laterales que estarán disponibles para reemplazar. Puede seleccionar un remplazo para ellas cuando edite o cree una página o post, o para todas las entradas de un mismo tipo. Se pueden seleccionar varias barras manteniendo pulsada la tecla MAYUSCULAS cuando haga click en ellas."
+
+#: view.php:86
+msgid "Select the boxes available for substitution"
+msgstr "Seleccione las barras disponibles para sustitución."
+
+#: view.php:98
+#: view.php:134
+msgid "Save Changes"
+msgstr "Guardar cambios"
+
+#: view.php:102
+msgid "Default Sidebars"
+msgstr "Barras laterales por defecto"
+
+#: view.php:103
+msgid "These sidebars replacements will be applied to every entry of the post type, unless the entry was told to display a specific sidebar."
+msgstr "Los reemplazos aplicados a un tipo de entrada serán aplicados a todas las entradas de ese tipo, a menos que se haya especificado una barra lateral particular a alguna de ella."
+
+#: view.php:124
+msgid "There are no replaceable sidebars selected. You must select some of them in the form above to be able for replacing them in all the post type entries."
+msgstr "No hay barras laterales reemplazables seleccionadas. Debe seleccionar alguna en el formulario superior para que esten disponibles para reemplazo y así poder asignar barras por defecto a los tipos de entradas."
+
