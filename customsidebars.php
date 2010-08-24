@@ -1,11 +1,27 @@
 <?php
 /*
-Plugin Name: Custom sidebars
+Plugin Name: Custom Sidebars
 Plugin URI: http://marquex.posterous.com/pages/custom-sidebars
 Description: Allows to create your own widgetized areas and sidebars, and select what sidebars to use for each post or page.
 Version: 0.1
-Author: Javier Marquez (marquex@gmail.com)
+Author: Javier Marquez
 Author URI: http://marquex.mp
+*/
+
+/*  Copyright 2010  Javier Marquez  (email : marquex@gmail.com)
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License, version 2, as 
+    published by the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 if(!class_exists('CustomSidebars')):
