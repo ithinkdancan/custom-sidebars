@@ -1,24 +1,24 @@
 === Plugin Name ===
 Contributors: marquex
 Donate link: http://marquex.posterous.com/pages/custom-sidebars
-Tags: widgets, sidebars, custom, sidebar, widget, personalize
+Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 3.0
 Tested up to: 3.01
 Stable tag: trunk
 
-Allows to create your own widgetized areas and sidebars, and select what sidebars to use for each post or page.
+Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
 
 == Description ==
 
 Sometimes it is necessary to show different elements on the sidebars for some posts or pages. The themes nowadays give you some areas to put the widgets, but those areas are common for all the posts that are using the same template. NOTE: **You need to use a theme that accepts widgets to make this plugin work** 
 
-Custom Sidebars allows you to create all the widgetized areas you need, configure them adding widgets, and replace the default ones on the posts or pages you want in just few clicks.
+Custom Sidebars allows you to create all the widgetized areas you need, your own custom sidebars, configure them adding widgets, and replace the default ones on the posts or pages you want in just few clicks.
 
-You can set also new default sidebars for all the posts of a content type easily, keeping the chance of change them individually.
+You can set also new default sidebars for all the posts of a custom content type easily, keeping the chance of change them individually.
 
 This way your will boost the content manager facet of your Wordpress installation.  
 
-Translations are welcome! I will write your name down here if you donate your translation work. Thanks very much to:
+Translations are welcome to the custom sidebars plugin! I will write your name down here if you donate your translation work. Thanks very much to:
 
 *	marquex - English
 *	marquex - Spanish
@@ -55,11 +55,19 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 
 == Screenshots ==
 
-1. main.png
-2. adding-widgets.png
-3. sidebars-metabox.png
+1. screenshot-1.png The Custom Sidebars options page. Placed in the appearance menu, you can create or delete sidebars there, set the replaceable sidebars and assign custom sidebars for all the posts of a certain post-type. 
+2. screenshot-2.png The new sidebars created by the plugin, can be customized in the Widgets menu.
+3. screenshot-3.png A new box is added to the post and page edit forms, where you can set your custom sidebars up.
 
 == Changelog ==
 
+= 0.2 =
+Improved security by adding wp_nonces to the forms.
+Added the pt-widget post type to the ignored post types.
+Improved i18n files.
+Fixed screenshots for documentation.
+
 = 0.1 =
 Initial release
+
+
