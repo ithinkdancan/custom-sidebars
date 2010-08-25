@@ -11,6 +11,7 @@
 <h2 class="title"><?php _e('New Sidebar','custom-sidebars'); ?></h2>
 <p><?php _e('When a custom sidebar is created, it is shown in the widgets view and you can define what the new sidebar will contain. Once the sidebar is setted up, it is possible to select it for displaying in any post or page.', 'custom-sidebars'); ?></p>
 <form action="themes.php?page=customsidebars" method="post">
+<?php wp_nonce_field( 'custom-sidebars-new');?>
 <div id="namediv" class="stuffbox">
 <h3><label for="sidebar_name"><?php _e('Name','custom-sidebars'); ?></label></h3>
 <div class="inside">
@@ -29,7 +30,7 @@
 
 
 
-<input type="hidden" id="_wpnonce" name="_wpnonce" value="0a6b5c3eae" /><input type="hidden" name="_wp_http_referer" value="/wordpress/wp-admin/themes.php?page=customsidebars" /><p class="submit"><input type="submit" class="button-primary" name="create-sidebars" value="<?php _e('Create Sidebar','custom-sidebars'); ?>" /></p>
+<p class="submit"><input type="submit" class="button-primary" name="create-sidebars" value="<?php _e('Create Sidebar','custom-sidebars'); ?>" /></p>
 </form>
 
 
@@ -59,7 +60,7 @@
 	<tr id="cs-1" class="alternate">
 		<td class="name column-name"><?php echo $cs['name']?></td>
 		<td class="email column-email"><?php echo $cs['description']?></td>
-		<td class="role column-role"><a class="csdeletelink" href="themes.php?page=customsidebars&delete=<?php echo $cs['id']; ?>"><?php _e('Delete','custom-sidebars'); ?></a></td>
+		<td class="role column-role"><a class="csdeletelink" href="themes.php?page=customsidebars&delete=<?php echo $cs['id']; ?>&_n=<?php echo $deletenonce; ?>"><?php _e('Delete','custom-sidebars'); ?></a></td>
 	</tr>
 	<?php endforeach;else:?>
 	<tr id="cs-1" class="alternate">
@@ -79,6 +80,7 @@
 <div id="col-left">
 
 <form action="themes.php?page=customsidebars" method="post">
+<?php wp_nonce_field( 'custom-sidebars-options');?>
 <div id="modifiable-sidebars">
 <h2><?php _e('Replaceable Sidebars','custom-sidebars'); ?></h2>
 <p><?php _e('Select here the sidebars available for replacing. They will appear for replace when a post or page is edited or created. They will be also available for the default replacements of post type sidebars. You can select several bars holding the SHIFT key when clicking on them.','custom-sidebars'); ?></p>

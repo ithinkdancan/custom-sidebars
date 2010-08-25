@@ -1,27 +1,11 @@
 <?php
 /*
-Plugin Name: Custom Sidebars
+Plugin Name: Custom sidebars
 Plugin URI: http://marquex.posterous.com/pages/custom-sidebars
-Description: Allows to create your own widgetized areas and sidebars, and select what sidebars to use for each post or page.
-Version: 0.1
-Author: Javier Marquez
+Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
+Version: 0.2
+Author: Javier Marquez (marquex@gmail.com)
 Author URI: http://marquex.mp
-*/
-
-/*  Copyright 2010  Javier Marquez  (email : marquex@gmail.com)
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as 
-    published by the Free Software Foundation.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 if(!class_exists('CustomSidebars')):
@@ -34,7 +18,7 @@ class CustomSidebars{
 	var $sidebar_prefix = 'cs-';
 	var $postmeta_key = '_cs_replacements';
 	var $cap_required = 'edit_themes';
-	var $ignore_post_types = array('attachment', 'revision', 'nav_menu_item');
+	var $ignore_post_types = array('attachment', 'revision', 'nav_menu_item', 'pt-widget');
 	var $options = array();
 	
 	function CustomSidebars(){
@@ -139,6 +123,8 @@ class CustomSidebars{
 	function deleteSidebar(){
 		if(! current_user_can($this->cap_required) )
 			return new WP_Error('cscantdelete', __('You do not have permission to delete sidebars','custom-sidebars'));
+			
+		if (! wp_verify_nonce($_REQUEST['_n'], 'custom-sidebars-delete') ) die('Security check stop your request.'); 
 		
 		$newsidebars = array();
 		$deleted = FALSE;
@@ -182,6 +168,8 @@ class CustomSidebars{
 		$defaults = $this->getDefaultReplacements();
 		$modifiable = $this->getModifiableSidebars();
 		$post_types = $this->getPostTypes();
+		
+		$deletenonce = wp_create_nonce('custom-sidebars-delete');
 		
 		//Form			
 		include('view.php');		
@@ -253,6 +241,7 @@ class CustomSidebars{
 	}
 	
 	private function updateModifiable(){
+		check_admin_referer('custom-sidebars-options');
 		$options = array();
 		
 		//Modifiable bars
@@ -320,6 +309,7 @@ class CustomSidebars{
 	}
 	
 	private function storeSidebar(){
+		check_admin_referer('custom-sidebars-new');
 		$name = trim($_POST['sidebar_name']);
 		$description = trim($_POST['sidebar_description']);
 		if(empty($name) OR empty($description))
