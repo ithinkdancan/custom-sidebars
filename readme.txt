@@ -61,13 +61,20 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 
 == Changelog ==
 
+= 0.3 =
+
+*	PHP 4 Compatible (Thanks to Kay Larmer)
+*	Fixed a bug introduced in v0.2 that did not allow to save the replaceable bars options
+
 = 0.2 =
-Improved security by adding wp_nonces to the forms.
-Added the pt-widget post type to the ignored post types.
-Improved i18n files.
-Fixed screenshots for documentation.
+
+*	Improved security by adding wp_nonces to the forms.
+*	Added the pt-widget post type to the ignored post types.
+*	Improved i18n files.
+*	Fixed screenshots for documentation.
 
 = 0.1 =
-Initial release
+
+*	Initial release
 
 
