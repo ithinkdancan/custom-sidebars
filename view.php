@@ -80,7 +80,7 @@
 <div id="col-left">
 
 <form action="themes.php?page=customsidebars" method="post">
-<?php wp_nonce_field( 'custom-sidebars-options');?>
+<?php wp_nonce_field( 'custom-sidebars-options','options_wpnonce');?>
 <div id="modifiable-sidebars">
 <h2><?php _e('Replaceable Sidebars','custom-sidebars'); ?></h2>
 <p><?php _e('Select here the sidebars available for replacing. They will appear for replace when a post or page is edited or created. They will be also available for the default replacements of post type sidebars. You can select several bars holding the SHIFT key when clicking on them.','custom-sidebars'); ?></p>

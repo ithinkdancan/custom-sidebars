@@ -3,7 +3,7 @@
 Plugin Name: Custom sidebars
 Plugin URI: http://marquex.posterous.com/pages/custom-sidebars
 Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
-Version: 0.2
+Version: 0.3
 Author: Javier Marquez (marquex@gmail.com)
 Author URI: http://marquex.mp
 */
@@ -219,7 +219,7 @@ class CustomSidebars{
 		load_plugin_textdomain( 'custom-sidebars', 'wp-content/plugins/'.$dir, $dir);
 	}
 	
-	private function getReplacements($postid){
+	function getReplacements($postid){
 		$replacements = get_post_meta($postid, $this->postmeta_key, TRUE);
 		if($replacements == '')
 			$replacements = array();
@@ -228,20 +228,20 @@ class CustomSidebars{
 		return $replacements;
 	}
 	
-	private function getModifiableSidebars(){
+	function getModifiableSidebars(){
 		if( $modifiable = $this->options ); //get_option($this->option_modifiable) )
 			return $modifiable['modifiable'];
 		return array(); 
 	}
 	
-	private function getDefaultReplacements(){
+	function getDefaultReplacements(){
 		if( $modifiable = $this->options ); //get_option($this->option_modifiable) )
 			return $modifiable['defaults'];
 		return array(); 
 	}
 	
-	private function updateModifiable(){
-		check_admin_referer('custom-sidebars-options');
+	function updateModifiable(){
+		check_admin_referer('custom-sidebars-options', 'options_wpnonce');
 		$options = array();
 		
 		//Modifiable bars
@@ -308,7 +308,7 @@ class CustomSidebars{
 		}
 	}
 	
-	private function storeSidebar(){
+	function storeSidebar(){
 		check_admin_referer('custom-sidebars-new');
 		$name = trim($_POST['sidebar_name']);
 		$description = trim($_POST['sidebar_description']);
@@ -382,17 +382,17 @@ class CustomSidebars{
 			return $message;		
 	}
 	
-	private function setMessage($text){
+	function setMessage($text){
 		$this->message = $text;
 		$this->message_class = 'updated';
 	}
 	
-	private function setError($text){
+	function setError($text){
 		$this->message = $text;
 		$this->message_class = 'error';
 	}
 	
-	private function getPostTypes(){
+	function getPostTypes(){
 		$pt = get_post_types();
 		$ptok = array();
 		
