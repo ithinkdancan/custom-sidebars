@@ -61,6 +61,10 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 
 == Changelog ==
 
+= 0.4 =
+
+*	Empty sidebars will now be shown as empty, instead of displaying the theme's default sidebar.
+
 = 0.3 =
 
 *	PHP 4 Compatible (Thanks to Kay Larmer)
