@@ -3,7 +3,7 @@
 Plugin Name: Custom sidebars
 Plugin URI: http://marquex.posterous.com/pages/custom-sidebars
 Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
-Version: 0.3
+Version: 0.4
 Author: Javier Marquez (marquex@gmail.com)
 Author URI: http://marquex.mp
 */
@@ -39,14 +39,23 @@ class CustomSidebars{
 	function getThemeSidebars($include_custom_sidebars = FALSE){
 		$sidebars = get_option('sidebars_widgets');
 		$themesidebars = array();
+		$customsidebars = array();
 		if($sidebars){
 			foreach(array_keys($sidebars) as $sb){
 				if(array_search($sb, array('wp_inactive_widgets', 'array_version')) === FALSE){
-					if($include_custom_sidebars OR substr($sb, 0, 3) != $this->sidebar_prefix)
+					if(substr($sb, 0, 3) != $this->sidebar_prefix)
 						$themesidebars[] = $sb;
+					else
+						$customsidebars[] = $sb;
 				}
 			}
 		}
+		
+		if($include_custom_sidebars){
+			sort($customsidebars);
+			return array_merge($customsidebars , $themesidebars);
+		}
+			
 		return $themesidebars;
 	}
 	
@@ -64,7 +73,7 @@ class CustomSidebars{
 		if(!is_single() && !is_page())
 			return;
 		
-		global $_wp_sidebars_widgets, $post, $wp_registered_sidebars;
+		global $_wp_sidebars_widgets, $post, $wp_registered_sidebars, $wp_registered_widgets;
 		$replacements = $this->getReplacements($post->ID);
 		$post_type = get_post_type($post);
 		
@@ -82,8 +91,14 @@ class CustomSidebars{
 		foreach($modifiable as $sb){
 			//specific post sidebars
 			if(isset($replacements[$sb])){
-				if(array_search($replacements[$sb], array_keys($wp_registered_sidebars)) !== FALSE)
-					$_wp_sidebars_widgets[$sb] = $_wp_sidebars_widgets[$replacements[$sb]];
+				if(array_search($replacements[$sb], array_keys($wp_registered_sidebars)) !== FALSE){
+					if(sizeof($_wp_sidebars_widgets[$replacements[$sb]]) == 0){ //No widgets on custom bar, show nothing
+						$wp_registered_widgets['csemptywidget'] = $this->getEmptyWidget();
+						$_wp_sidebars_widgets[$sb] = array('csemptywidget');
+					}
+					else
+						$_wp_sidebars_widgets[$sb] = $_wp_sidebars_widgets[$replacements[$sb]];
+				}
 				else{
 					unset($replacements[$sb]);
 					$updated = TRUE;
@@ -92,7 +107,12 @@ class CustomSidebars{
 			//otherwise post type sidebars
 			else if(isset($default_replacements[$sb])){
 				if(array_search($default_replacements[$sb], array_keys($wp_registered_sidebars)) !== FALSE)
-					$_wp_sidebars_widgets[$sb] = $_wp_sidebars_widgets[$default_replacements[$sb]];
+					if(sizeof($_wp_sidebars_widgets[$replacements[$sb]]) == 0){ //No widgets on custom bar, show nothing
+						$wp_registered_widgets['csemptywidget'] = $this->getEmptyWidget();
+						$_wp_sidebars_widgets[$sb] = array('csemptywidget');
+					}
+					else
+						$_wp_sidebars_widgets[$sb] = $_wp_sidebars_widgets[$default_replacements[$sb]];
 				else{
 					unset($default_replacements[$sb]);
 					$updated = TRUE;
@@ -142,6 +162,14 @@ class CustomSidebars{
 		}//endif custom
 		//update option
 		update_option( $this->option_name, $newsidebars );
+		
+		//Let's delete it also in the sidebar-widgets
+		$sidebars2 = get_option('sidebars_widgets');
+		if(array_search($id, array_keys($sidebars2))!==FALSE){
+			unset($sidebars2[$id]);
+			update_option('sidebars_widgets', $sidebars2);			 
+		}		
+		
 		if($deleted)
 			$this->setMessage(sprintf(__('The sidebar "%s" has been deleted.','custom-sidebars'), $_GET['delete']));
 		else
@@ -330,10 +358,24 @@ class CustomSidebars{
 						'before_title' => '',
 						'after_title' => '',
 						) ;
+						
 					
 					//update option
 					update_option( $this->option_name, $sidebars );
+					
+					
+					//Let's store it also in the sidebar-widgets
+					$sidebars2 = get_option('sidebars_widgets');
+					if(array_search($id, array_keys($sidebars2))===FALSE){
+						$sidebars2[$id] = array(); 
+					}
+					
+					update_option('sidebars_widgets', $sidebars2);
+					
+					
 					$this->setMessage( __('The sidebar has been created successfully.','custom-sidebars'));
+					
+					
 				}
 				else
 					$this->setError(__('There is already a sidebar registered with that name, please choose a different one.','custom-sidebars'));
@@ -350,6 +392,15 @@ class CustomSidebars{
 						'after_title' => '',
 						) );
 				add_option($this->option_name, $sidebars);
+				
+				//Let's store it also in the sidebar-widgets
+				$sidebars2 = get_option('sidebars_widgets');
+				if(array_search($id, array_keys($sidebars2))===FALSE){
+					$sidebars2[$id] = array(); 
+				}
+				
+				update_option('sidebars_widgets', $sidebars2);
+				
 				$this->setMessage( __('The sidebar has been created successfully.','custom-sidebars'));					
 			}
 		}
@@ -404,6 +455,17 @@ class CustomSidebars{
 		return $ptok; 
 	}
 	
+	function getEmptyWidget(){
+		return array(
+			'name' => 'CS Empty Widget',
+			'id' => 'csemptywidget',
+			'callback' => array(new CustomSidebarsEmptyPlugin(), 'display_callback'),
+			'params' => array(array('number' => 2)),
+			'classname' => 'CustomSidebarsEmptyPlugin',
+			'description' => 'CS dummy widget'
+		);
+	}
+	
 }
 endif; //exists class
 
@@ -420,3 +482,20 @@ if(!isset($plugin_sidebars)){
 	add_action( 'init', array($plugin_sidebars,'loadTextDomain'));
 	
 }
+
+if(! class_exists('CustomSidebarsEmptyPlugin')){
+class CustomSidebarsEmptyPlugin extends WP_Widget {
+	function CustomSidebarsEmptyPlugin() {
+		parent::WP_Widget(false, $name = 'CustomSidebarsEmptyPlugin');
+	}
+	function form($instance) {
+		//Nothing, just a dummy plugin to display nothing
+	}
+	function update($new_instance, $old_instance) {
+		//Nothing, just a dummy plugin to display nothing
+	}
+	function widget($args, $instance) {		
+		echo '';
+	}
+} //end class
+} //end if class exists
