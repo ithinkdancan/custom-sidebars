@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: customsidebars\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-25 14:53+0100\n"
-"PO-Revision-Date: 2010-08-25 14:53+0100\n"
-"Last-Translator: mamona <mamona@moama.es>\n"
+"POT-Creation-Date: 2010-09-15 18:36+0100\n"
+"PO-Revision-Date: 2010-09-15 18:45+0100\n"
+"Last-Translator: asdasd <dsadas@das.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13,44 +13,49 @@ msgstr ""
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: customsidebars.php:125
+#: customsidebars.php:145
+#: customsidebars.php:513
 msgid "You do not have permission to delete sidebars"
 msgstr "No tiene permiso para borrar barras laterales"
 
-#: customsidebars.php:146
+#: customsidebars.php:176
 #, php-format
 msgid "The sidebar \"%s\" has been deleted."
 msgstr "La barra lateral \"%s\" ha sido borrada."
 
-#: customsidebars.php:148
+#: customsidebars.php:178
 #, php-format
 msgid "There was not any sidebar called \"%s\" and it could not been deleted."
 msgstr "No hay ninguna barra lateral llamada \"%s\" y no ha podido ser borrada."
 
-#: customsidebars.php:179
+#: customsidebars.php:213
 msgid "Custom sidebars"
 msgstr "Barras laterales"
 
-#: customsidebars.php:272
+#: customsidebars.php:306
 msgid "The custom sidebars settings has been updated successfully."
 msgstr "Los cambios realizados han sido guardados correctamente."
 
-#: customsidebars.php:316
+#: customsidebars.php:350
 msgid "You have to fill all the fields to create a new sidebar."
 msgstr "Debe completar todos los campos para crear una nueva barra lateral."
 
-#: customsidebars.php:336
-#: customsidebars.php:353
+#: customsidebars.php:384
+#: customsidebars.php:414
 msgid "The sidebar has been created successfully."
 msgstr "La barra lateral ha sido creada correctamente."
 
-#: customsidebars.php:339
+#: customsidebars.php:389
 msgid "There is already a sidebar registered with that name, please choose a different one."
 msgstr "Ya existe una barra lateral con ese nombre, por favor, elija un nombre diferente."
 
-#: customsidebars.php:359
+#: customsidebars.php:420
 msgid "Create a new sidebar"
 msgstr "Crear una nueva barra lateral"
+
+#: customsidebars.php:544
+msgid "The Custom Sidebars data has been removed successfully,"
+msgstr "La información sobre Custom Sidebars ha sido borrada de la base de datos correctamente."
 
 #: metabox.php:1
 msgid "You can assign specific sidebars to this post, just select a sidebar and the default one will be replaced, if it is available on your template."
@@ -60,83 +65,100 @@ msgstr "Puede asignar barras laterales específicas para esta entrada, simplemen
 msgid "There are not replaceable sidebars selected. You can define what sidebar will be able for replacement in the <a href=\"themes.php?page=customsidebars\">Custom Sidebars config page</a>."
 msgstr "No hay barras laterales reemplazables seleccionadas. Puede definir las barras disponibles para reemplazar en la <a href=\"themes.php?page=customsidebars\">página de configuración de barras laterales</a>."
 
-#: view.php:4
+#: view.php:8
 msgid "Custom Sidebars"
 msgstr "Barras Laterales"
 
-#: view.php:11
+#: view.php:15
 msgid "New Sidebar"
 msgstr "Nueva Barra Lateral"
 
-#: view.php:12
+#: view.php:16
 msgid "When a custom sidebar is created, it is shown in the widgets view and you can define what the new sidebar will contain. Once the sidebar is setted up, it is possible to select it for displaying in any post or page."
 msgstr "Cuando una barra lateral es creada se mostrará en la vista widgets y allí será posible definir lo que va a contener. Una vez configurada, será seleccionable para reemplazos en cualquier entrada o página."
 
-#: view.php:16
-#: view.php:43
+#: view.php:20
+#: view.php:47
 msgid "Name"
 msgstr "Nombre"
 
-#: view.php:19
+#: view.php:23
 msgid "The name has to be unique."
 msgstr "El nombre de la barra tiene que ser único."
 
-#: view.php:25
-#: view.php:44
+#: view.php:29
+#: view.php:48
 msgid "Description"
 msgstr "Descripción"
 
-#: view.php:33
+#: view.php:37
 msgid "Create Sidebar"
 msgstr "Crear una Barra Lateral"
 
-#: view.php:37
+#: view.php:41
 msgid "All the Custom Sidebars"
 msgstr "Todas las barras"
 
-#: view.php:38
+#: view.php:42
 msgid "If a sidebar is deleted and is currently on use, the posts and pages which uses it will show the default sidebar instead."
 msgstr "Si una barra lateral que está siendo usada se borra, las entradas y páginas que la utilizarán pasarán a mostrar la barra definida por defecto en su lugar."
 
-#: view.php:45
-#: view.php:63
+#: view.php:49
+#: view.php:67
 msgid "Delete"
 msgstr "Borrar"
 
-#: view.php:53
+#: view.php:57
 msgid "Are you sure to delete this sidebar?"
 msgstr "Está seguro de borrar esta barra lateral?"
 
-#: view.php:67
+#: view.php:71
 msgid "There are no custom sidebars available. You can create a new one using the left form."
-msgstr "No hay barras laterales disponibles. Puede crear una desde el formulario de la izquierda."
+msgstr "No hay barras laterales disponibles. Puede crear una desde el formulario de arriba."
 
-#: view.php:85
+#: view.php:89
 msgid "Replaceable Sidebars"
 msgstr "Barras Reemplazables"
 
-#: view.php:86
+#: view.php:90
 msgid "Select here the sidebars available for replacing. They will appear for replace when a post or page is edited or created. They will be also available for the default replacements of post type sidebars. You can select several bars holding the SHIFT key when clicking on them."
 msgstr "Seleccione las barras laterales que estarán disponibles para reemplazar. Puede seleccionar un remplazo para ellas cuando edite o cree una página o post, o para todas las entradas de un mismo tipo. Se pueden seleccionar varias barras manteniendo pulsada la tecla MAYUSCULAS cuando haga click en ellas."
 
-#: view.php:88
+#: view.php:92
 msgid "Select the boxes available for substitution"
 msgstr "Seleccione las barras disponibles para sustitución."
 
-#: view.php:100
-#: view.php:136
+#: view.php:104
+#: view.php:140
 msgid "Save Changes"
 msgstr "Guardar cambios"
 
-#: view.php:104
+#: view.php:108
 msgid "Default Sidebars"
 msgstr "Barras laterales por defecto"
 
-#: view.php:105
+#: view.php:109
 msgid "These sidebars replacements will be applied to every entry of the post type, unless the entry was told to display a specific sidebar."
 msgstr "Los reemplazos aplicados a un tipo de entrada serán aplicados a todas las entradas de ese tipo, a menos que se haya especificado una barra lateral particular a alguna de ella."
 
-#: view.php:126
+#: view.php:130
 msgid "There are no replaceable sidebars selected. You must select some of them in the form above to be able for replacing them in all the post type entries."
 msgstr "No hay barras laterales reemplazables seleccionadas. Debe seleccionar alguna en el formulario superior para que esten disponibles para reemplazo y así poder asignar barras por defecto a los tipos de entradas."
+
+#: view.php:147
+#: view.php:150
+msgid "Reset Sidebars"
+msgstr "Resetear Barras Laterales"
+
+#: view.php:148
+msgid "Click on the button below to delete all the Custom Sidebars data from the database. Keep in mind that once the button is clicked you will have to create new sidebars and customize them to restore your current sidebars configuration.</p><p>If you are going to uninstall the plugin permanently, you should use this button before, so there will be no track about the plugin left in the database."
+msgstr "Al hacer click en el botón de abajo se borrará toda la información sobre el plugin Custom Sidebars de la base de datos. Tenga en cuenta que, una vez borrada la información, tendrá que crear todas las barras y personalizarlas si quiere recuperar la configuración actual.</p><p>Si va a desinstalar el plugin de manera permanente, es recomendado que pulse el boton de resetear las barras laterales antes, así no quedará ningun rastro del plugin en su base de datos."
+
+#: view.php:150
+msgid "Are you sure to reset the sidebars?"
+msgstr "¿Está seguro de resetear las barras laterales?"
+
+#: view.php:157
+msgid "Do you like this plugin? Support its development with a donation :)"
+msgstr "¿Le gusta este plugin? Puede ayudar a su desarrollo con una donación :)"
 

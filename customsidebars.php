@@ -3,7 +3,7 @@
 Plugin Name: Custom sidebars
 Plugin URI: http://marquex.posterous.com/pages/custom-sidebars
 Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
-Version: 0.4
+Version: 0.5
 Author: Javier Marquez (marquex@gmail.com)
 Author URI: http://marquex.mp
 */
@@ -107,7 +107,7 @@ class CustomSidebars{
 			//otherwise post type sidebars
 			else if(isset($default_replacements[$sb])){
 				if(array_search($default_replacements[$sb], array_keys($wp_registered_sidebars)) !== FALSE)
-					if(sizeof($_wp_sidebars_widgets[$replacements[$sb]]) == 0){ //No widgets on custom bar, show nothing
+					if(sizeof($_wp_sidebars_widgets[$default_replacements[$sb]]) == 0){ //No widgets on custom bar, show nothing
 						$wp_registered_widgets['csemptywidget'] = $this->getEmptyWidget();
 						$_wp_sidebars_widgets[$sb] = array('csemptywidget');
 					}
@@ -163,12 +163,14 @@ class CustomSidebars{
 		//update option
 		update_option( $this->option_name, $newsidebars );
 		
-		//Let's delete it also in the sidebar-widgets
+		/*//Let's delete it also in the sidebar-widgets
 		$sidebars2 = get_option('sidebars_widgets');
 		if(array_search($id, array_keys($sidebars2))!==FALSE){
 			unset($sidebars2[$id]);
 			update_option('sidebars_widgets', $sidebars2);			 
-		}		
+		}*/
+
+		$this->refreshSidebarsWidgets();
 		
 		if($deleted)
 			$this->setMessage(sprintf(__('The sidebar "%s" has been deleted.','custom-sidebars'), $_GET['delete']));
@@ -177,11 +179,15 @@ class CustomSidebars{
 	}
 	
 	function createPage(){
+		
+		//$this->refreshSidebarsWidgets();
 		if(!empty($_POST)){
 			if(isset($_POST['create-sidebars']))
 				$this->storeSidebar();
 			else if(isset($_POST['update-modifiable']))
 				$this->updateModifiable();
+			else if(isset($_POST['reset-sidebars']))
+				$this->resetSidebars();			
 				
 			$this->retrieveOptions();
 		}
@@ -344,8 +350,8 @@ class CustomSidebars{
 			$this->setError(__('You have to fill all the fields to create a new sidebar.','custom-sidebars'));
 		else{
 			$id = $this->sidebar_prefix . sanitize_title_with_dashes($name);
-			$sidebars = get_option($this->option_name);
-			if($sidebars){
+			$sidebars = get_option($this->option_name, FALSE);
+			if($sidebars !== FALSE){
 				$sidebars = $sidebars;
 				if(! $this->getSidebar($id,$sidebars) ){
 					//Create a new sidebar
@@ -363,14 +369,16 @@ class CustomSidebars{
 					//update option
 					update_option( $this->option_name, $sidebars );
 					
-					
+					/*
 					//Let's store it also in the sidebar-widgets
 					$sidebars2 = get_option('sidebars_widgets');
 					if(array_search($id, array_keys($sidebars2))===FALSE){
 						$sidebars2[$id] = array(); 
 					}
 					
-					update_option('sidebars_widgets', $sidebars2);
+					update_option('sidebars_widgets', $sidebars2); */
+						
+					$this->refreshSidebarsWidgets();
 					
 					
 					$this->setMessage( __('The sidebar has been created successfully.','custom-sidebars'));
@@ -393,13 +401,15 @@ class CustomSidebars{
 						) );
 				add_option($this->option_name, $sidebars);
 				
-				//Let's store it also in the sidebar-widgets
+			/*	//Let's store it also in the sidebar-widgets
 				$sidebars2 = get_option('sidebars_widgets');
 				if(array_search($id, array_keys($sidebars2))===FALSE){
 					$sidebars2[$id] = array(); 
 				}
 				
-				update_option('sidebars_widgets', $sidebars2);
+				update_option('sidebars_widgets', $sidebars2); */
+				
+				$this->refreshSidebarsWidgets();
 				
 				$this->setMessage( __('The sidebar has been created successfully.','custom-sidebars'));					
 			}
@@ -464,6 +474,74 @@ class CustomSidebars{
 			'classname' => 'CustomSidebarsEmptyPlugin',
 			'description' => 'CS dummy widget'
 		);
+	}
+	
+	function refreshSidebarsWidgets(){
+		$widgetized_sidebars = get_option('sidebars_widgets');
+		$delete_widgetized_sidebars = array();
+		$cs_sidebars = get_option($this->option_name);
+		
+		foreach($widgetized_sidebars as $id => $bar){
+			if(substr($id,0,3)=='cs-'){
+				$found = FALSE;
+				foreach($cs_sidebars as $csbar){
+					if($csbar['id'] == $id)
+						$found = TRUE;
+				}
+				if(! $found)
+					$delete_widgetized_sidebars[] = $id;
+			}
+		}
+		
+		
+		foreach($cs_sidebars as $cs){
+			if(array_search($cs['id'], array_keys($widgetized_sidebars))===FALSE){
+				$widgetized_sidebars[$cs['id']] = array(); 
+			}
+		}
+		
+		foreach($delete_widgetized_sidebars as $id){
+			unset($widgetized_sidebars[$id]);
+		}
+		
+		update_option('sidebars_widgets', $widgetized_sidebars);
+		
+	}
+	
+	function resetSidebars(){
+		if(! current_user_can($this->cap_required) )
+			return new WP_Error('cscantdelete', __('You do not have permission to delete sidebars','custom-sidebars'));
+			
+		if (! wp_verify_nonce($_REQUEST['reset-n'], 'custom-sidebars-delete') ) die('Security check stopped your request.'); 
+		
+		delete_option($this->option_modifiable);
+		delete_option($this->option_name);
+		
+		$widgetized_sidebars = get_option('sidebars_widgets');	
+		$delete_widgetized_sidebars = array();	
+		foreach($widgetized_sidebars as $id => $bar){
+			if(substr($id,0,3)=='cs-'){
+				$found = FALSE;
+				if(empty($cs_sidebars))
+					$found = TRUE;
+				else{
+					foreach($cs_sidebars as $csbar){
+						if($csbar['id'] == $id)
+							$found = TRUE;
+					}
+				}
+				if(! $found)
+					$delete_widgetized_sidebars[] = $id;
+			}
+		}
+		
+		foreach($delete_widgetized_sidebars as $id){
+			unset($widgetized_sidebars[$id]);
+		}
+		
+		update_option('sidebars_widgets', $widgetized_sidebars);
+		
+		$this->setMessage( __('The Custom Sidebars data has been removed successfully,','custom-sidebars'));	
 	}
 	
 }

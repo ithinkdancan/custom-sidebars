@@ -61,6 +61,12 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 
 == Changelog ==
 
+= 0.5 =
+
+*	Fixed a bug that didn't allow to create new bars when every previous bars were deleted.
+*	Fixed a bug introduced in v0.4 that did not allow to assign bars per post-types properly
+*	Added an option to remove all the Custom Sidebars data from the database easily.
+
 = 0.4 =
 
 *	Empty sidebars will now be shown as empty, instead of displaying the theme's default sidebar.
