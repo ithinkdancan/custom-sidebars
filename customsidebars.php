@@ -100,7 +100,8 @@ class CustomSidebars{
 						$_wp_sidebars_widgets[$sb] = $_wp_sidebars_widgets[$replacements[$sb]];
 				}
 				else{
-					unset($replacements[$sb]);
+					if(isset($replacements[$sb]))
+						unset($replacements[$sb]);
 					$updated = TRUE;
 				}
 			}
@@ -114,7 +115,8 @@ class CustomSidebars{
 					else
 						$_wp_sidebars_widgets[$sb] = $_wp_sidebars_widgets[$default_replacements[$sb]];
 				else{
-					unset($default_replacements[$sb]);
+					if(isset($default_replacements[$sb]))
+						unset($default_replacements[$sb]);
 					$updated = TRUE;
 				}
 			}
@@ -195,6 +197,9 @@ class CustomSidebars{
 			$this->deleteSidebar();
 			$this->retrieveOptions();			
 		}
+		else if(!empty($_GET['p'])){
+			
+		}
 		
 		$customsidebars = $this->getCustomSidebars();
 		$themesidebars = $this->getThemeSidebars();
@@ -205,8 +210,18 @@ class CustomSidebars{
 		
 		$deletenonce = wp_create_nonce('custom-sidebars-delete');
 		
-		//Form			
-		include('view.php');		
+		//Form
+		if(!empty($_GET['p'])){
+			if($_GET['p']=='defaults')
+				include('view-defaults.php');
+			else if($_GET['p']=='edit')
+				include('view-edit.php');
+			else
+				include('view.php');	
+				
+		}
+		else		
+			include('view.php');		
 	}
 	
 	function addSubMenus(){
