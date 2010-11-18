@@ -17,10 +17,10 @@ else
 ?>
 <div id="icon-themes" class="icon32"><br /></div>
 <h2>
-<a class="nav-tab <?php echo $tabconfig; ?>" href="themes.php?page=customsidebars">Custom Sidebars</a>
-<a class="nav-tab <?php echo $tabdefaults; ?>" href="themes.php?page=customsidebars&p=defaults">Default Sidebars</a>
+<a class="nav-tab <?php echo $tabconfig; ?>" href="themes.php?page=customsidebars"><?php _e('Custom Sidebars','custom-sidebars'); ?></a>
+<a class="nav-tab <?php echo $tabdefaults; ?>" href="themes.php?page=customsidebars&p=defaults"><?php _e('Default Sidebars','custom-sidebars'); ?></a>
 <?php if($tabedit): ?>
-<a class="nav-tab nav-tab-active" href="#">Edit Sidebar</a>
+<a class="nav-tab nav-tab-active" href="#"><?php _e('Edit Sidebar','custom-sidebars'); ?></a>
 <?php endif; ?>
 </h2>
 <?php $this->message(); ?>	

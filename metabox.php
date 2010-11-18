@@ -2,9 +2,10 @@
 <?php if(!empty($sidebars)): foreach($sidebars as $s):?>
 	<p><b><?php echo $s;?></b>: 
 	<select name="cs_replacement_<?php echo $s ?>">
+		<option value=""></option>
 		<?php foreach($available as $a):?>
-		<option id="<?php echo $a?>" <?php echo ($selected[$s]==$a) ? 'selected="selected"' : ''; ?>>
-			<?php echo $a; ?>
+		<option value="<?php echo $a['id']; ?>" <?php echo ($selected[$s]==$a['id']) ? 'selected="selected"' : ''; ?>>
+			<?php echo $a['name']; ?>
 		</option>
 		<?php endforeach;?>
 	</select>

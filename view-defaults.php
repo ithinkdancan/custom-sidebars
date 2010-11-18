@@ -20,9 +20,9 @@
 			<p><?php echo $m; ?>: 
 				<select name="ptdefault-<?php echo $pt;?>-<?php echo $m;?>">
 					<option value=""></option>
-				<?php foreach($allsidebars as $sb):?>
-					<option value="<?php echo $sb; ?>" <?php echo (isset($defaults[$pt][$m]) && $defaults[$pt][$m]==$sb) ? 'selected="selected"' : ''; ?>>
-						<?php echo $sb; ?>
+				<?php foreach($allsidebars as $key => $sb):?>
+					<option value="<?php echo $key; ?>" <?php echo (isset($defaults[$pt][$m]) && $defaults[$pt][$m]==$key) ? 'selected="selected"' : ''; ?>>
+						<?php echo $sb['name']; ?>
 					</option>
 				<?php endforeach;?>
 				</select>
@@ -37,7 +37,7 @@
 	<?php endforeach; ?>
 </div> 
 
-
+<p class="submit"><input type="submit" class="button-primary" name="update-modifiable" value="<?php _e('Save Changes','custom-sidebars'); ?>" /></p>
 
 
 
