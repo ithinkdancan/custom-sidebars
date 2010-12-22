@@ -3,12 +3,64 @@
 
 <?php include('view-tabs.php'); ?>
 
-<div id="defaultsidebarspage">
-<div id="poststuff">
+<?php //var_dump($categories);?>
 
-<h2><?php _e('Default Sidebars','custom-sidebars'); ?></h2>
+<div id="defaultsidebarspage">
+
+<form action="themes.php?page=customsidebars&p=defaults" method="post">
+
+<div id="poststuff" class="defaultscontainer">
+<h2><?php _e('Default sidebars for posts','custom-sidebars'); ?></h2>
+<div id ="defaultsforposts" class="stuffbox">
 <p><?php _e('These sidebars replacements will be applied to every entry of the post type, unless the entry was told to display a specific sidebar.','custom-sidebars'); ?></p>
 
+<div class="cscolright">
+
+<?php /***************************************
+category_posts_{$id_category}_{$id_modifiable} : Posts by category
+*********************************************/?>
+
+<div class="defaultsSelector">
+<h3 class="csh3title"><?php _e('By category','custom-sidebars'); ?></h3>
+<?php if(!empty($categories)): foreach($categories as $c): if($c->cat_ID != 1):?>
+	<div id="category-page-<?php echo $c->id; ?>" class="postbox closed" >
+		<div class="handlediv" title="Haz clic para cambiar"><br /></div>
+		<h3 class='hndle'><span><?php _e($c->name); ?></span></h3>
+		
+		<div class="inside">
+		<?php if(!empty($modifiable)): foreach($modifiable as $m):?>
+			<p><?php echo $m; ?>: 
+				<select name="category_posts_<?php echo $c->cat_ID; ?>_<?php echo $m;?>">
+					<option value=""></option>
+				<?php foreach($allsidebars as $key => $sb):?>
+					<option value="<?php echo $key; ?>" <?php echo (isset($defaults['category_posts'][$c->cat_ID][$m]) && $defaults['category_posts'][$c->cat_ID][$m]==$key) ? 'selected="selected"' : ''; ?>>
+						<?php echo $sb['name']; ?>
+					</option>
+				<?php endforeach;?>
+				</select>
+			</p>
+		<?php endforeach;else:?>
+			<p><?php _e('There are no replaceable sidebars selected. You must select some of them in the form above to be able for replacing them in all the post type entries.','custom-sidebars'); ?></p>
+		<?php endif;?>
+		</div>
+		
+	</div>
+	
+	<?php endif;endforeach;else: ?>
+		<p><?php _e('There are no categories available.','custom-sidebars'); ?></p>
+	<?php endif;?>
+</div>
+
+</div>
+
+<div class="cscolleft">
+
+<?php /***************************************
+type_posts_{$id_post_type}_{$id_modifiable} : Posts by category
+*********************************************/?>
+
+<div class="defaultsSelector">
+<h3 class="csh3title"><?php _e('By post type','custom-sidebars'); ?></h3>
 <div id="posttypes-default" class="meta-box-sortables">
 	<?php foreach($post_types as $pt):?>
 	<div id="pt-<?php echo $pt; ?>" class="postbox closed" >
@@ -18,10 +70,10 @@
 		<div class="inside">
 		<?php if(!empty($modifiable)): foreach($modifiable as $m):?>
 			<p><?php echo $m; ?>: 
-				<select name="ptdefault-<?php echo $pt;?>-<?php echo $m;?>">
+				<select name="type_posts_<?php echo $pt;?>_<?php echo $m;?>">
 					<option value=""></option>
 				<?php foreach($allsidebars as $key => $sb):?>
-					<option value="<?php echo $key; ?>" <?php echo (isset($defaults[$pt][$m]) && $defaults[$pt][$m]==$key) ? 'selected="selected"' : ''; ?>>
+					<option value="<?php echo $key; ?>" <?php echo (isset($defaults['post_type_posts'][$pt][$m]) && $defaults['post_type_posts'][$pt][$m]==$key) ? 'selected="selected"' : ''; ?>>
 						<?php echo $sb['name']; ?>
 					</option>
 				<?php endforeach;?>
@@ -36,14 +88,178 @@
 	
 	<?php endforeach; ?>
 </div> 
+</div>
+</div>
 
-<p class="submit"><input type="submit" class="button-primary" name="update-modifiable" value="<?php _e('Save Changes','custom-sidebars'); ?>" /></p>
+<p class="submit"><input type="submit" class="button-primary" name="update-defaults-posts" value="<?php _e('Save Changes','custom-sidebars'); ?>" /></p>
+</div>
 
 
+<h2><?php _e('Default sidebars for pages','custom-sidebars'); ?></h2>
+<div id ="defaultsforpages" class="stuffbox">
+<p><?php _e('These sidebars replacements will be applied to every entry of the post type, unless the entry was told to display a specific sidebar.','custom-sidebars'); ?></p>
 
+<div class="cscolright">
 
+<?php /***************************************
+category_page_{$id_category}_{$id_modifiable} : Category list page
+*********************************************/?>
+
+<div class="defaultsSelector">
+  
+<h3 class="csh3title"><?php _e('Category posts list','custom-sidebars'); ?></h3>
+<?php if(!empty($categories)): foreach($categories as $c): if($c->cat_ID != 1):?>
+	<div id="category-page-<?php echo $c->id; ?>" class="postbox closed" >
+		<div class="handlediv" title="Haz clic para cambiar"><br /></div>
+		<h3 class='hndle'><span><?php _e($c->name); ?></span></h3>
+		
+		<div class="inside">
+		<?php if(!empty($modifiable)): foreach($modifiable as $m):?>
+			<p><?php echo $m; ?>: 
+				<select name="category_page_<?php echo $c->cat_ID; ?>_<?php echo $m;?>">
+					<option value=""></option>
+				<?php foreach($allsidebars as $key => $sb):?>
+					<option value="<?php echo $key; ?>" <?php echo (isset($defaults['category_pages'][$c->cat_ID][$m]) && $defaults['category_pages'][$c->cat_ID][$m]==$key) ? 'selected="selected"' : ''; ?>>
+						<?php echo $sb['name']; ?>
+					</option>
+				<?php endforeach;?>
+				</select>
+			</p>
+		<?php endforeach;else:?>
+			<p><?php _e('There are no replaceable sidebars selected. You must select some of them in the form above to be able for replacing them in all the post type entries.','custom-sidebars'); ?></p>
+		<?php endif;?>
+		</div>
+		
+	</div>
+	
+	<?php endif;endforeach;else: ?>
+		<p><?php _e('There are no categories available.','custom-sidebars'); ?></p>
+	<?php endif;?>
+</div>
+
+<?php /***************************************
+tag_page_{$id_modifiable} : Post by tag list page
+*********************************************/?>
+
+<div class="defaultsSelector">
+
+<h3 class="csh3title"><?php _e('Tag pages','custom-sidebars'); ?></h3>
+<?php if(!empty($modifiable)): foreach($modifiable as $m):?>
+			<p><?php echo $m; ?>: 
+				<select name="tag_page_<?php echo $m;?>">
+					<option value=""></option>
+				<?php foreach($allsidebars as $key => $sb):?>
+					<option value="<?php echo $key; ?>" <?php echo (isset($defaults['tags'][$m]) && $defaults['tags'][$m]==$key) ? 'selected="selected"' : ''; ?>>
+						<?php echo $sb['name']; ?>
+					</option>
+				<?php endforeach;?>
+				</select>
+			</p>
+		<?php endforeach;else:?>
+			<p><?php _e('There are no replaceable sidebars selected. You must select some of them in the form above to be able for replacing them in all the post type entries.','custom-sidebars'); ?></p>
+		<?php endif;?>
+</div>
 
 </div>
+
+<div class="cscolleft">
+
+<?php /***************************************
+type_page_{$id_post_type}_{$id_modifiable} : Posts by post type list page
+*********************************************/?>
+
+<div class="defaultsSelector">
+
+<h3 class="csh3title"><?php _e('Post-type posts list','custom-sidebars'); ?></h3>
+<div id="posttypelist-default" class="meta-box-sortables">
+	<?php foreach($post_types as $pt):?>
+	<div id="pt-<?php echo $pt; ?>" class="postbox closed" >
+		<div class="handlediv" title="Haz clic para cambiar"><br /></div>
+		<h3 class='hndle'><span><?php _e($pt); ?></span></h3>
+		
+		<div class="inside">
+		<?php if(!empty($modifiable)): foreach($modifiable as $m):?>
+			<p><?php echo $m; ?>: 
+				<select name="type_page_<?php echo $pt;?>_<?php echo $m;?>">
+					<option value=""></option>
+				<?php foreach($allsidebars as $key => $sb):?>
+					<option value="<?php echo $key; ?>" <?php echo (isset($defaults['post_type_pages'][$pt][$m]) && $defaults['post_type_pages'][$pt][$m]==$key) ? 'selected="selected"' : ''; ?>>
+						<?php echo $sb['name']; ?>
+					</option>
+				<?php endforeach;?>
+				</select>
+			</p>
+		<?php endforeach;else:?>
+			<p><?php _e('There are no replaceable sidebars selected. You must select some of them in the form above to be able for replacing them in all the post type entries.','custom-sidebars'); ?></p>
+		<?php endif;?>
+		</div>
+		
+	</div>
+	
+	<?php endforeach; ?>
+</div>
+
+</div>
+
+<h3 class="csh3title"><?php _e('Blog page','custom-sidebars'); ?></h3>
+
+<?php /***************************************
+blog_page_{$id_modifiable} : Main blog page
+*********************************************/?>
+
+<div class="defaultsSelector">
+
+<?php if(!empty($modifiable)): foreach($modifiable as $m):?>
+			<p><?php echo $m; ?>: 
+				<select name="blog_page_<?php echo $m;?>">
+					<option value=""></option>
+				<?php foreach($allsidebars as $key => $sb):?>
+					<option value="<?php echo $key; ?>" <?php echo (isset($defaults['blog'][$m]) && $defaults['blog'][$m]==$key) ? 'selected="selected"' : ''; ?>>
+						<?php echo $sb['name']; ?>
+					</option>
+				<?php endforeach;?>
+				</select>
+			</p>
+		<?php endforeach;else:?>
+			<p><?php _e('There are no replaceable sidebars selected. You must select some of them in the form above to be able for replacing them in all the post type entries.','custom-sidebars'); ?></p>
+		<?php endif;?>
+		
+</div>
+
+
+<?php /***************************************
+authors_page_{$id_modifiable} : Any author page
+*********************************************/?>
+
+<div class="defaultsSelector">
+
+<h3 class="csh3title"><?php _e('Author pages','custom-sidebars'); ?></h3>
+<?php if(!empty($modifiable)): foreach($modifiable as $m):?>
+			<p><?php echo $m; ?>: 
+				<select name="authors_page_<?php echo $m;?>">
+					<option value=""></option>
+				<?php foreach($allsidebars as $key => $sb):?>
+					<option value="<?php echo $key; ?>" <?php echo (isset($defaults['authors'][$m]) && $defaults['authors'][$m]==$key) ? 'selected="selected"' : ''; ?>>
+						<?php echo $sb['name']; ?>
+					</option>
+				<?php endforeach;?>
+				</select>
+			</p>
+		<?php endforeach;else:?>
+			<p><?php _e('There are no replaceable sidebars selected. You must select some of them in the form above to be able for replacing them in all the post type entries.','custom-sidebars'); ?></p>
+		<?php endif;?>
+
+</div>
+
+</div>
+
+<p class="submit"><input type="submit" class="button-primary" name="update-defaults-pages" value="<?php _e('Save Changes','custom-sidebars'); ?>" /></p>
+</div>
+
+</div>
+
+</form>
+
 </div>
 
 <?php include('view-footer.php'); ?>

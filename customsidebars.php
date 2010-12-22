@@ -3,7 +3,7 @@
 Plugin Name: Custom sidebars
 Plugin URI: http://marquex.posterous.com/pages/custom-sidebars
 Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
-Version: 0.5
+Version: 0.6
 Author: Javier Marquez (marquex@gmail.com)
 Author URI: http://marquex.mp
 */
@@ -92,85 +92,34 @@ class CustomSidebars{
 	
 	function replaceSidebars(){
 		
-		if(!is_single() && !is_page())
-			return;
-		
 		global $_wp_sidebars_widgets, $post, $wp_registered_sidebars, $wp_registered_widgets;
-		$replacements = $this->getReplacements($post->ID);
-		$post_type = get_post_type($post);
-		
-		//defult post type replacements
-		$default_replacements = $this->getDefaultReplacements();
-		if(isset($default_replacements[$post_type]))
-			$default_replacements = $default_replacements[$post_type];
-		else
-			$default_replacements = array();
 		
 		$updated = FALSE;
 		$modifiable = $this->getModifiableSidebars();
 		if(!empty($modifiable)){
-		//Here, where the magic happens 
-		foreach($modifiable as $sb){
-			//specific post sidebars
-			if(isset($replacements[$sb])){
-				if(array_search($replacements[$sb], array_keys($wp_registered_sidebars)) !== FALSE){
-					if(sizeof($_wp_sidebars_widgets[$replacements[$sb]]) == 0){ //No widgets on custom bar, show nothing
+			//Here, where the magic happens
+			$default_replacements = $this->getDefaultReplacements();
+			foreach($modifiable as $sb){
+				
+				if($replacement = $this->determineReplacement($default_replacements, $sb)){
+					
+					//var_dump($replacement);
+					list($replacement, $replacement_type) = $replacement;
+					if(sizeof($_wp_sidebars_widgets[$replacement]) == 0){ //No widgets on custom bar, show nothing
 						$wp_registered_widgets['csemptywidget'] = $this->getEmptyWidget();
 						$_wp_sidebars_widgets[$sb] = array('csemptywidget');
 					}
 					else{
-						$_wp_sidebars_widgets[$sb] = $_wp_sidebars_widgets[$replacements[$sb]];
+						$_wp_sidebars_widgets[$sb] = $_wp_sidebars_widgets[$replacement];
 						//replace before/after widget/title?
-						$sidebar_for_replacing = $wp_registered_sidebars[$replacements[$sb]];
+						$sidebar_for_replacing = $wp_registered_sidebars[$replacement];
 						if($this->replace_before_after_widget($sidebar_for_replacing))
 							$wp_registered_sidebars[$sb] = $sidebar_for_replacing;
 					}
 				}
-				else{
-					if(isset($replacements[$sb]))
-						unset($replacements[$sb]);
-					$updated = TRUE;
-				}
-			}
-			//otherwise post type sidebars
-			else if(isset($default_replacements[$sb])){
-				if(array_search($default_replacements[$sb], array_keys($wp_registered_sidebars)) !== FALSE)
-					if(sizeof($_wp_sidebars_widgets[$default_replacements[$sb]]) == 0){ //No widgets on custom bar, show nothing
-						$wp_registered_widgets['csemptywidget'] = $this->getEmptyWidget();
-						$_wp_sidebars_widgets[$sb] = array('csemptywidget');
-					}
-					else{
-						$_wp_sidebars_widgets[$sb] = $_wp_sidebars_widgets[$default_replacements[$sb]];
-						//replace before/after widget/title?
-						$sidebar_for_replacing = $_wp_sidebars_widgets[$default_replacements[$sb]];
-						if($this->replace_before_after_widget($sidebar_for_replacing))
-							$wp_registered_sidebars[$sb] = $sidebar_for_replacing;
-					}
-				else{
-					if(isset($default_replacements[$sb]))
-						unset($default_replacements[$sb]);
-					$updated = TRUE;
-				}
-			}
-		}
-		}//endif modifiable
-		
-		//If the replacements were not correct, we will update to fix them
-		if($updated){
-			if(empty($replacements))
-				delete_post_meta($post->ID, $this->postmeta_key);
-			else
-				update_post_meta($post_>ID, $this->postmeta_key);
-			
-			
-			$options = $this->options;//get_option($this->option_modifiable);
-			if(isset($options['defaults'][$post_type])){
-				if(empty($default_replacements))
-					unset($options['defaults'][$post_type]);
 				else
-					$options['defaults'][$post_type] = $default_replacements;
+					echo 'No replacement';
 			}
-			update_option($this->option_modifiable, $options);
 		}
 	}
 	
@@ -233,6 +182,11 @@ class CustomSidebars{
 			}		
 			else if(isset($_POST['update-modifiable']))
 				$this->updateModifiable();
+			else if(isset($_POST['update-defaults-posts']) OR isset($_POST['update-defaults-pages'])){
+				$this->storeDefaults();
+			
+			}
+				
 			else if(isset($_POST['reset-sidebars']))
 				$this->resetSidebars();			
 				
@@ -261,10 +215,14 @@ class CustomSidebars{
 		
 		$deletenonce = wp_create_nonce('custom-sidebars-delete');
 		
+		//var_dump($defaults);
+		
 		//Form
 		if(!empty($_GET['p'])){
-			if($_GET['p']=='defaults')
+			if($_GET['p']=='defaults'){
+				$categories = get_categories(array('hide_empty' => 0));
 				include('view-defaults.php');
+			}
 			else if($_GET['p']=='edit')
 				include('view-edit.php');
 			else
@@ -283,6 +241,7 @@ class CustomSidebars{
 	
 	function addScripts(){
 		wp_enqueue_script('post');
+		echo '<link type="text/css" rel="stylesheet" href="'. plugins_url('/cs_style.css', __FILE__) .'" />';
 	}
 	
 	function addPostMetabox(){
@@ -331,48 +290,148 @@ class CustomSidebars{
 	}
 	
 	function getModifiableSidebars(){
-		if( $modifiable = $this->options ); //get_option($this->option_modifiable) )
+		if( $modifiable = $this->options ) //get_option($this->option_modifiable) )
 			return $modifiable['modifiable'];
 		return array(); 
 	}
 	
 	function getDefaultReplacements(){
-		if( $modifiable = $this->options ); //get_option($this->option_modifiable) )
-			return $modifiable['defaults'];
+		if( $defaults = $this->options ){//get_option($this->option_modifiable) )
+			$defaults['post_type_posts'] = $defaults['defaults'];
+			unset($defaults['modifiable']);
+			unset($defaults['defaults']);
+			return $defaults;
+		}
 		return array(); 
 	}
 	
 	function updateModifiable(){
 		check_admin_referer('custom-sidebars-options', 'options_wpnonce');
-		$options = array();
+		$options = $this->options ? $this->options : array();
 		
 		//Modifiable bars
 		if(isset($_POST['modifiable']) && is_array($_POST['modifiable']))
 			$options['modifiable'] = $_POST['modifiable'];
 
-		/*
-		//Default bars
-		$options['defaults'] = array();
-		foreach($this->getPostTypes() as $pt){
-			$modifiable = $this->getModifiableSidebars();
-			if(!empty($modifiable)){
-				foreach($this->getModifiableSidebars() as $m){
-					if(isset($_POST["ptdefault-$pt-$m"]) && $_POST["ptdefault-$pt-$m"]!=''){
-						if(! isset($options['defaults'][$pt]))
-							$options['defaults'][$pt] = array();
-						
-						$options['defaults'][$pt][$m] = $_POST["ptdefault-$pt-$m"];
-					}
-				}
-			}
-		}
-		*/
+		
 		if($this->options !== FALSE)
 			update_option($this->option_modifiable, $options);
 		else
 			add_option($this->option_modifiable, $options);
 			
 		$this->setMessage(__('The custom sidebars settings has been updated successfully.','custom-sidebars'));
+	}
+	
+	function storeDefaults(){
+		
+		$options = $this->options;
+		$modifiable = $this->getModifiableSidebars();
+		
+		//Post-types posts and lists. Posts data are called default in order to keep backwards compatibility;
+		
+		$options['defaults'] = array();
+		$options['post_type_pages'] = array();
+		
+		foreach($this->getPostTypes() as $pt){
+			if(!empty($modifiable)){
+				foreach($modifiable as $m){
+					if(isset($_POST["type_posts_{$pt}_$m"]) && $_POST["type_posts_{$pt}_$m"]!=''){
+						if(! isset($options['defaults'][$pt]))
+							$options['defaults'][$pt] = array();
+						
+						$options['defaults'][$pt][$m] = $_POST["type_posts_{$pt}_$m"];
+					}
+					
+					if(isset($_POST["type_page_{$pt}_$m"]) && $_POST["type_page_{$pt}_$m"]!=''){
+						if(! isset($options['post_type_pages'][$pt]))
+							$options['post_type_pages'][$pt] = array();
+						
+						$options['post_type_pages'][$pt][$m] = $_POST["type_page_{$pt}_$m"];
+					}
+				}
+			}
+		}
+		
+		
+		//Category posts and post lists.
+		
+		$options['category_posts'] = array();
+		$options['category_pages'] = array();
+		$categories = get_categories(array('hide_empty' => 0));
+		foreach($categories as $c){
+			if(!empty($modifiable)){
+				foreach($modifiable as $m){
+					$catid = $c->cat_ID;
+					if(isset($_POST["category_posts_{$catid}_$m"]) && $_POST["category_posts_{$catid}_$m"]!=''){
+						if(! isset($options['category_posts'][$catid]))
+							$options['category_posts'][$catid] = array();
+						
+						$options['category_posts'][$catid][$m] = $_POST["category_posts_{$catid}_$m"];
+					}
+					
+					if(isset($_POST["category_page_{$catid}_$m"]) && $_POST["category_page_{$catid}_$m"]!=''){
+						if(! isset($options['category_pages'][$catid]))
+							$options['category_pages'][$catid] = array();
+						
+						$options['category_pages'][$catid][$m] = $_POST["category_page_{$catid}_$m"];
+					}
+				}
+			}
+		}
+		
+		// Blog page
+		
+		$options['blog'] = array();
+		if(!empty($modifiable)){
+			foreach($modifiable as $m){
+				if(isset($_POST["blog_page_$m"]) && $_POST["blog_page_$m"]!=''){
+					if(! isset($options['blog']))
+						$options['blog'] = array();
+					
+					$options['blog'][$m] = $_POST["blog_page_$m"];
+				}
+			}
+		}
+		
+		// Tag page
+		
+		$options['tags'] = array();
+		if(!empty($modifiable)){
+			foreach($modifiable as $m){
+				if(isset($_POST["tag_page_$m"]) && $_POST["tag_page_$m"]!=''){
+					if(! isset($options['tags']))
+						$options['tags'] = array();
+					
+					$options['tags'][$m] = $_POST["tag_page_$m"];
+				}
+			}
+		}
+		
+		// Author page
+		
+		$options['authors'] = array();
+		if(!empty($modifiable)){
+			foreach($modifiable as $m){
+				if(isset($_POST["authors_page_$m"]) && $_POST["authors_page_$m"]!=''){
+					if(! isset($options['authors']))
+						$options['authors'] = array();
+					
+					$options['authors'][$m] = $_POST["authors_page_$m"];
+				}
+			}
+		}
+		
+		
+		//Store defaults
+		if($this->options !== FALSE)
+			update_option($this->option_modifiable, $options);
+		else{
+			$options['modifiable'] = array();
+			add_option($this->option_modifiable, $options);
+		}
+			
+		$this->setMessage(__('The default sidebars has been updated successfully.','custom-sidebars'));
+		
 	}
 	
 	function storeReplacements( $post_id ){
@@ -656,6 +715,156 @@ class CustomSidebars{
 		update_option('sidebars_widgets', $widgetized_sidebars);
 		
 		$this->setMessage( __('The Custom Sidebars data has been removed successfully,','custom-sidebars'));	
+	}
+	
+	/**
+	 * 
+	 * @param $defaults The default sidebars array
+	 * @param $sidebar The current sidebar that we will the replacement for.
+	 * @return An array with the replacement and type of replacement or false if no replacement has been found.
+	 */
+	function determineReplacement($defaults, $sidebar){
+		//posts
+		if(is_single()){
+			//print_r("Single");
+			//Post sidebar
+			global $post;
+			$replacements = get_post_meta($post->ID, $this->postmeta_key, TRUE);
+			if(is_array($replacements) && !empty($replacements[$sidebar]))
+				return array($replacements[$sidebar], 'particular');
+				
+			//Category sidebar
+			global $sidebar_category;
+			if(!empty($sidebar_category) && $sidebar_category !== FALSE){
+				if(! empty($defaults['category_posts'][$sidebar_category][$sidebar]))
+					return array($defaults['category_posts'][$sidebar_category][$sidebar], 'category_posts');
+			}
+			else if(empty($sidebar_category)){
+				if($sidebar_category = $this->getSidebarCategory($post->ID, $defaults['category_posts'])){
+					echo "sidebar category: $sidebar_category";
+					//var_dump($defaults['category_posts']);
+					return array($defaults['category_posts'][$sidebar_category][$sidebar], 'category_posts');
+				}
+			}
+			
+			//Post-type sidebar
+			$post_type = get_post_type($post);
+			if(isset($defaults['post_type_posts'][$post_type]) && isset($defaults['post_type_posts'][$post_type][$sidebar]))
+				return array($defaults['post_type_posts'][$post_type][$sidebar], 'post_type_posts');
+			
+			//No custom bar
+			return FALSE;
+		}
+		
+		if(is_category()){
+			//print_r("Category");
+			//Category sidebar
+			global $sidebar_category;
+			if(!empty($sidebar_category) && $sidebar_category !== FALSE){
+				if(! empty($defaults['category_pages'][$sidebar_category][$sidebar]))
+					return array($defaults['category_pages'][$sidebar_category][$sidebar], 'category_pages');
+			}
+			else if(empty($sidebar_category)){
+				if($sidebar_category = $this->getSidebarCategory(-1, $defaults['category_pages']))
+					return array($defaults['category_pages'][$sidebar_category][$sidebar], 'category_pages');
+			}
+		}
+		
+		//post type list
+		if(!is_category() && !is_singular() && get_post_type!='post'){
+			//print_r("Post type list");
+			$post_type = get_post_type();
+			if(isset($defaults['post_type_pages'][$post_type]) && isset($defaults['post_type_pages'][$post_type][$sidebar]))
+				return array($defaults['post_type_pages'][$post_type][$sidebar], 'post_type_pages');
+		}
+		
+		if(is_page()){
+			//print_r("Page");
+			//Page sidebar
+			global $post;
+			$replacements = get_post_meta($post->ID, $this->postmeta_key, TRUE);
+			if(is_array($replacements) && !empty($replacements[$sidebar]))
+				return array($replacements[$sidebar], 'particular');
+			
+			//Page Post-type sidebar
+			$post_type = get_post_type($post);
+			if(isset($defaults['post_type_posts'][$post_type]) && isset($defaults['post_type_posts'][$post_type][$sidebar]))
+				return array($defaults['post_type_posts'][$post_type][$sidebar], 'post_type_posts');
+			
+				
+			//No custom bar
+			return FALSE;
+		}
+		
+		if(is_home()){
+			//print_r("Home");
+			if(empty($defaults['blog'][$sidebar]))
+				return FALSE;
+			else
+				return array($defaults['blog'][$sidebar], 'blog');
+		}
+		
+		if(is_tag()){
+			//print_r("Tag");
+			if(empty($defaults['tags'][$sidebar]))
+				return FALSE;
+			else
+				return array($defaults['tags'][$sidebar], 'tags');
+		}
+		
+		if(is_author()){
+			//print_r("Author");
+			if(empty($defaults['authors'][$sidebar]))
+				return FALSE;
+			else
+				return array($defaults['authors'][$sidebar], 'authors');
+		}
+			//print_r("Esto no es nada!!!");
+		
+		//No custom sidebar
+		return FALSE;
+		
+	}
+	
+	function getSidebarCategory($postid, $defaults_per_categories){
+		$unorderedcats = get_the_category();
+		$cat = FALSE;
+		$catlevel = -1;
+		foreach($unorderedcats as $key => $c){
+			if(isset($defaults_per_categories[$c->cat_ID])){
+				if(! $cat){
+					$cat = $c;
+					$catlevel= $this->getCategoryLevel($c->cat_ID);
+					
+					echo "Cat: $cat->cat_ID Level: $catlevel";
+					
+				}
+				else{
+					$level = $this->getCategoryLevel($c->cat_ID);
+					if($level > $catlevel){
+						$cat = $c;
+						$catlevel= $level;
+						
+					echo "Cat: $c->cat_ID Level: $level";
+					}
+					else if($level == $catlevel && strcmp($cat->name, $c->name) > 0){
+						$cat = $c;
+						$catlevel= $level;
+						
+					echo "Cat: $c->cat_ID Level: $level";
+					}
+				}
+			}
+		}
+		return $cat ? $cat->cat_ID : FALSE;
+	}
+	
+	function getCategoryLevel($catid){
+		if($catid == 0)
+			return 0;
+		
+		$cat = &get_category($catid);
+		return 1 + $this->getCategoryLevel($cat->category_parent);
 	}
 	
 }

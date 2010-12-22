@@ -8,10 +8,10 @@
 
 <?php
 global $wp_registered_sidebars;
-var_dump($wp_registered_sidebars);
+//var_dump($wp_registered_sidebars);
 ?>
 
-<?php var_dump($this->options); ?>
+<?php //var_dump($this->options); ?>
 
 <h2 style="border-bottom:0"><?php echo $sb['id']?></h2>
 
