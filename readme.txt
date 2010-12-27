@@ -3,7 +3,7 @@ Contributors: marquex
 Donate link: http://marquex.posterous.com/pages/custom-sidebars
 Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 3.0
-Tested up to: 3.0.3
+Tested up to: 3.1
 Stable tag: trunk
 
 Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.

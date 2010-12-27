@@ -4,7 +4,7 @@ Plugin Name: Custom sidebars
 Plugin URI: http://marquex.posterous.com/pages/custom-sidebars
 Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
 Version: 0.6
-Author: Javier Marquez (marquex@gmail.com)
+Author: Javier Marquez
 Author URI: http://marquex.mp
 */
 
@@ -226,6 +226,9 @@ class CustomSidebars{
 		if(!empty($_GET['p'])){
 			if($_GET['p']=='defaults'){
 				$categories = get_categories(array('hide_empty' => 0));
+				if(sizeof($categories)==1 && $categories[0]->cat_ID == 1)
+					unset($categories[0]);
+					
 				include('view-defaults.php');
 			}
 			else if($_GET['p']=='edit')

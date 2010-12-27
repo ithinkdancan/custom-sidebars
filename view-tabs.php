@@ -16,7 +16,7 @@ else
 		$tabconfig = 'nav-tab-active';	
 ?>
 <div id="icon-themes" class="icon32"><br /></div>
-<h2>
+<h2 class="nav-tab-wrapper">
 <a class="nav-tab <?php echo $tabconfig; ?>" href="themes.php?page=customsidebars"><?php _e('Custom Sidebars','custom-sidebars'); ?></a>
 <a class="nav-tab <?php echo $tabdefaults; ?>" href="themes.php?page=customsidebars&p=defaults"><?php _e('Default Sidebars','custom-sidebars'); ?></a>
 <?php if($tabedit): ?>
