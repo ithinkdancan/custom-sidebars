@@ -27,7 +27,7 @@ global $wp_registered_sidebars;
 	<h3><label for="sidebar_description"><?php _e('Description','custom-sidebars'); ?></label></h3>
 	<input type="text" name="sidebar_description" value="<?php echo $sb['description']?>" style="width:100%;margin-bottom:20px;" maxlength="200" />
 	
-	
+	<p><?php _e('<b>Caution:</b> Before-after title-widget properties define the html code that will wrap the widgets and their titles in the sidebars, more info about them on the <a href="http://justintadlock.com/archives/2010/11/08/sidebars-in-wordpress?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed %3A+JustinTadlock+%28Justin+Tadlock%29&utm_content=Google+Reader">Justin Tadlock Blog</a>. Do not use these fields if you are not sure what you are doing, it can break the design of your site. Leave these fields blank to use the theme sidebars design.','custom-sidebars') ?></p>
 	<div id="col-right">
 	
 		<h3><label for="cs_after_title"><?php _e('After Title','custom-sidebars'); ?></label></h3>

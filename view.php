@@ -10,7 +10,7 @@
 <div id="col-right">
 
 	<h2 class="title"><?php _e('New Sidebar','custom-sidebars'); ?></h2>
-	<p><?php _e('When a custom sidebar is created, it is shown in the widgets view and you can define what the new sidebar will contain. Once the sidebar is setted up, it is possible to select it for displaying in any post or page.', 'custom-sidebars'); ?></p>
+	<p><?php _e('When a custom sidebar is created, it is shown in the widgets page. There you will be able to configure it.', 'custom-sidebars'); ?></p>
 	<form action="themes.php?page=customsidebars" method="post">
 		<?php wp_nonce_field( 'custom-sidebars-new');?>
 		<div id="namediv" class="stuffbox">
@@ -43,7 +43,7 @@
 		
 		<div id="modifiable-sidebars">
 			<h2><?php _e('Replaceable Sidebars','custom-sidebars'); ?></h2>
-			<p><?php _e('Select here the sidebars available for replacing. They will appear for replace when a post or page is edited or created. They will be also available for the default replacements of post type sidebars. You can select several bars holding the SHIFT key when clicking on them.','custom-sidebars'); ?></p>
+			<p><?php _e('Select here the sidebars available for replacing. They will appear for replace when a post or page is edited or created. They will be also available in the default sidebars page. You can select several bars holding the SHIFT key when clicking on them.','custom-sidebars'); ?></p>
 			<div id="msidebardiv" class="stuffbox">
 				<h3><label for="sidebar_name"><?php _e('Select the boxes available for substitution','custom-sidebars'); ?></label></h3>
 				<div class="inside">

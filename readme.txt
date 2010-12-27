@@ -3,7 +3,7 @@ Contributors: marquex
 Donate link: http://marquex.posterous.com/pages/custom-sidebars
 Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 3.0
-Tested up to: 3.01
+Tested up to: 3.0.3
 Stable tag: trunk
 
 Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
@@ -60,6 +60,17 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 3. screenshot-3.png A new box is added to the post and page edit forms, where you can set your custom sidebars up.
 
 == Changelog ==
+
+= 0.6 =
+
+*	New interface, more user friendly
+*	Added the possibility of customize the blog sidebars
+*	Added the sidebars by category, so now you can personalize all the post that belongs to a category easily in a hierarchycal way
+*	Added the possibility of customize the authors page sidebars
+*	Added the possibility of customize the tags page sidebars
+*	Added, now it is possible to edit the sidebars names, as well as the pre-widget, post-widget, pre-title, post-title for a sidebar.
+*	Added the possibility of customize the sidebars of posts list by category or post-type.
+
 
 = 0.5 =
 

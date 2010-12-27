@@ -44,27 +44,6 @@ class CustomSidebars{
 	}
 	
 	function getThemeSidebars($include_custom_sidebars = FALSE){
-		/*
-		$sidebars = get_option('sidebars_widgets');
-		$themesidebars = array();
-		$customsidebars = array();
-		if($sidebars){
-			foreach(array_keys($sidebars) as $sb){
-				if(array_search($sb, array('wp_inactive_widgets', 'array_version')) === FALSE){
-					if(substr($sb, 0, 3) != $this->sidebar_prefix)
-						$themesidebars[] = $sb;
-					else
-						$customsidebars[] = $sb;
-				}
-			}
-		}
-		
-		if($include_custom_sidebars){
-			sort($customsidebars);
-			return array_merge($customsidebars , $themesidebars);
-		}
-			
-		return $themesidebars;*/
 		
 		global $wp_registered_sidebars;		
 		$allsidebars = $wp_registered_sidebars;
@@ -94,6 +73,8 @@ class CustomSidebars{
 		
 		global $_wp_sidebars_widgets, $post, $wp_registered_sidebars, $wp_registered_widgets;
 		
+		
+		
 		$updated = FALSE;
 		$modifiable = $this->getModifiableSidebars();
 		if(!empty($modifiable)){
@@ -102,25 +83,55 @@ class CustomSidebars{
 			foreach($modifiable as $sb){
 				
 				if($replacement = $this->determineReplacement($default_replacements, $sb)){
-					
 					//var_dump($replacement);
-					list($replacement, $replacement_type) = $replacement;
-					if(sizeof($_wp_sidebars_widgets[$replacement]) == 0){ //No widgets on custom bar, show nothing
-						$wp_registered_widgets['csemptywidget'] = $this->getEmptyWidget();
-						$_wp_sidebars_widgets[$sb] = array('csemptywidget');
-					}
-					else{
-						$_wp_sidebars_widgets[$sb] = $_wp_sidebars_widgets[$replacement];
-						//replace before/after widget/title?
-						$sidebar_for_replacing = $wp_registered_sidebars[$replacement];
-						if($this->replace_before_after_widget($sidebar_for_replacing))
-							$wp_registered_sidebars[$sb] = $sidebar_for_replacing;
+					list($replacement, $replacement_type, $extra_index) = $replacement;
+					if($this->checkAndFixSidebar($sb, $replacement, $replacement_type, $extra_index)){
+						if(sizeof($_wp_sidebars_widgets[$replacement]) == 0){ //No widgets on custom bar, show nothing
+							$wp_registered_widgets['csemptywidget'] = $this->getEmptyWidget();
+							$_wp_sidebars_widgets[$sb] = array('csemptywidget');
+						}
+						else{
+							$_wp_sidebars_widgets[$sb] = $_wp_sidebars_widgets[$replacement];
+							//replace before/after widget/title?
+							$sidebar_for_replacing = $wp_registered_sidebars[$replacement];
+							if($this->replace_before_after_widget($sidebar_for_replacing))
+								$wp_registered_sidebars[$sb] = $sidebar_for_replacing;
+						}
 					}
 				}
-				else
-					echo 'No replacement';
 			}
 		}
+	}
+	
+	function checkAndFixSidebar($sidebar, $replacement, $method, $extra_index){
+		global $wp_registered_sidebars;
+		
+		
+		if(isset($wp_registered_sidebars[$replacement]))
+			return true;
+		
+		if($method == 'particular'){
+			global $post;
+			$sidebars = get_post_meta($post->ID, $this->postmeta_key, TRUE);
+			if($sidebars && isset($sidebars[$sidebar])){
+				unset($sidebars[$sidebar]);
+				update_post_meta($post->ID, $this->postmeta_key, $sidebars);	
+			}
+		}
+		else{
+			if(isset($this->options[$method])){
+				if($extra_index != -1 && isset($this->options[$method][$extra_index]) && isset($this->options[$method][$extra_index][$sidebar])){
+					unset($this->options[$method][$extra_index][$sidebar]);
+					update_option($this->option_modifiable, $this->options);
+				}
+				if($extra_index == 1 && isset($this->options[$method]) && isset($this->options[$method][$sidebar])){
+					unset($this->options[$method][$sidebar]);
+					update_option($this->option_modifiable, $this->options);				
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	function replace_before_after_widget($sidebar){
@@ -150,15 +161,9 @@ class CustomSidebars{
 				$deleted = TRUE;
 		}
 		}//endif custom
+		
 		//update option
 		update_option( $this->option_name, $newsidebars );
-		
-		/*//Let's delete it also in the sidebar-widgets
-		$sidebars2 = get_option('sidebars_widgets');
-		if(array_search($id, array_keys($sidebars2))!==FALSE){
-			unset($sidebars2[$id]);
-			update_option('sidebars_widgets', $sidebars2);			 
-		}*/
 
 		$this->refreshSidebarsWidgets();
 		
@@ -430,7 +435,7 @@ class CustomSidebars{
 			add_option($this->option_modifiable, $options);
 		}
 			
-		$this->setMessage(__('The default sidebars has been updated successfully.','custom-sidebars'));
+		$this->setMessage(__('The default sidebars have been updated successfully.','custom-sidebars'));
 		
 	}
 	
@@ -731,26 +736,25 @@ class CustomSidebars{
 			global $post;
 			$replacements = get_post_meta($post->ID, $this->postmeta_key, TRUE);
 			if(is_array($replacements) && !empty($replacements[$sidebar]))
-				return array($replacements[$sidebar], 'particular');
+				return array($replacements[$sidebar], 'particular', -1);
 				
 			//Category sidebar
 			global $sidebar_category;
 			if(!empty($sidebar_category) && $sidebar_category !== FALSE){
 				if(! empty($defaults['category_posts'][$sidebar_category][$sidebar]))
-					return array($defaults['category_posts'][$sidebar_category][$sidebar], 'category_posts');
+					return array($defaults['category_posts'][$sidebar_category][$sidebar], 'category_posts', $sidebar_category);
 			}
 			else if(empty($sidebar_category)){
 				if($sidebar_category = $this->getSidebarCategory($post->ID, $defaults['category_posts'])){
-					echo "sidebar category: $sidebar_category";
 					//var_dump($defaults['category_posts']);
-					return array($defaults['category_posts'][$sidebar_category][$sidebar], 'category_posts');
+					return array($defaults['category_posts'][$sidebar_category][$sidebar], 'category_posts', $sidebar_category);
 				}
 			}
 			
 			//Post-type sidebar
 			$post_type = get_post_type($post);
 			if(isset($defaults['post_type_posts'][$post_type]) && isset($defaults['post_type_posts'][$post_type][$sidebar]))
-				return array($defaults['post_type_posts'][$post_type][$sidebar], 'post_type_posts');
+				return array($defaults['post_type_posts'][$post_type][$sidebar], 'defaults', $post_type);
 			
 			//No custom bar
 			return FALSE;
@@ -762,11 +766,11 @@ class CustomSidebars{
 			global $sidebar_category;
 			if(!empty($sidebar_category) && $sidebar_category !== FALSE){
 				if(! empty($defaults['category_pages'][$sidebar_category][$sidebar]))
-					return array($defaults['category_pages'][$sidebar_category][$sidebar], 'category_pages');
+					return array($defaults['category_pages'][$sidebar_category][$sidebar], 'category_pages', $sidebar_category);
 			}
 			else if(empty($sidebar_category)){
 				if($sidebar_category = $this->getSidebarCategory(-1, $defaults['category_pages']))
-					return array($defaults['category_pages'][$sidebar_category][$sidebar], 'category_pages');
+					return array($defaults['category_pages'][$sidebar_category][$sidebar], 'category_pages', $sidebar_category);
 			}
 		}
 		
@@ -775,7 +779,7 @@ class CustomSidebars{
 			//print_r("Post type list");
 			$post_type = get_post_type();
 			if(isset($defaults['post_type_pages'][$post_type]) && isset($defaults['post_type_pages'][$post_type][$sidebar]))
-				return array($defaults['post_type_pages'][$post_type][$sidebar], 'post_type_pages');
+				return array($defaults['post_type_pages'][$post_type][$sidebar], 'post_type_pages', $post_type);
 		}
 		
 		if(is_page()){
@@ -784,12 +788,12 @@ class CustomSidebars{
 			global $post;
 			$replacements = get_post_meta($post->ID, $this->postmeta_key, TRUE);
 			if(is_array($replacements) && !empty($replacements[$sidebar]))
-				return array($replacements[$sidebar], 'particular');
+				return array($replacements[$sidebar], 'particular', -1);
 			
 			//Page Post-type sidebar
 			$post_type = get_post_type($post);
 			if(isset($defaults['post_type_posts'][$post_type]) && isset($defaults['post_type_posts'][$post_type][$sidebar]))
-				return array($defaults['post_type_posts'][$post_type][$sidebar], 'post_type_posts');
+				return array($defaults['post_type_posts'][$post_type][$sidebar], 'post_type_posts', $post_type);
 			
 				
 			//No custom bar
@@ -801,7 +805,7 @@ class CustomSidebars{
 			if(empty($defaults['blog'][$sidebar]))
 				return FALSE;
 			else
-				return array($defaults['blog'][$sidebar], 'blog');
+				return array($defaults['blog'][$sidebar], 'blog', -1);
 		}
 		
 		if(is_tag()){
@@ -809,7 +813,7 @@ class CustomSidebars{
 			if(empty($defaults['tags'][$sidebar]))
 				return FALSE;
 			else
-				return array($defaults['tags'][$sidebar], 'tags');
+				return array($defaults['tags'][$sidebar], 'tags', -1);
 		}
 		
 		if(is_author()){
@@ -817,7 +821,7 @@ class CustomSidebars{
 			if(empty($defaults['authors'][$sidebar]))
 				return FALSE;
 			else
-				return array($defaults['authors'][$sidebar], 'authors');
+				return array($defaults['authors'][$sidebar], 'authors', -1);
 		}
 			//print_r("Esto no es nada!!!");
 		
@@ -836,7 +840,6 @@ class CustomSidebars{
 					$cat = $c;
 					$catlevel= $this->getCategoryLevel($c->cat_ID);
 					
-					echo "Cat: $cat->cat_ID Level: $catlevel";
 					
 				}
 				else{
@@ -845,13 +848,11 @@ class CustomSidebars{
 						$cat = $c;
 						$catlevel= $level;
 						
-					echo "Cat: $c->cat_ID Level: $level";
 					}
 					else if($level == $catlevel && strcmp($cat->name, $c->name) > 0){
 						$cat = $c;
 						$catlevel= $level;
 						
-					echo "Cat: $c->cat_ID Level: $level";
 					}
 				}
 			}
