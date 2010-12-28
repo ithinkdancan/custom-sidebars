@@ -3,7 +3,7 @@ Contributors: marquex
 Donate link: http://marquex.posterous.com/pages/custom-sidebars
 Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 3.0
-Tested up to: 3.1
+Tested up to: 3.1 RC1
 Stable tag: trunk
 
 Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
@@ -14,9 +14,16 @@ Sometimes it is necessary to show different elements on the sidebars for some po
 
 Custom Sidebars allows you to create all the widgetized areas you need, your own custom sidebars, configure them adding widgets, and replace the default ones on the posts or pages you want in just few clicks.
 
-You can set also new default sidebars for all the posts of a custom content type easily, keeping the chance of change them individually.
 
-This way your will boost the content manager facet of your Wordpress installation.  
+You can set also new default sidebars for a group of posts or pages easily, keeping the chance of changing them individually.:
+
+*	Sidebars for all the posts that belong to a category.
+*	Sidebars for all the posts that belong to a post-type.
+*	Sidebars for lists of posts (those which belongs to a category, post-type or have some tag).
+*	Sidebars for author pages.
+*	Sidebars for the main blog page.
+
+This way you will boost the content manager facet of your Wordpress installation.  
 
 Translations are welcome to the custom sidebars plugin! I will write your name down here if you donate your translation work. Thanks very much to:
 
@@ -46,7 +53,7 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 
 = Why there are no asked questions in this section? =
 
-Nobody has asked anyting yet. I will fill this section with real questions.
+Nobody has asked anything yet. I will fill this section with real questions.
 
 = Some howtos =
 
@@ -58,13 +65,14 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 1. screenshot-1.png The Custom Sidebars options page. Placed in the appearance menu, you can create or delete sidebars there, set the replaceable sidebars and assign custom sidebars for all the posts of a certain post-type. 
 2. screenshot-2.png The new sidebars created by the plugin, can be customized in the Widgets menu.
 3. screenshot-3.png A new box is added to the post and page edit forms, where you can set your custom sidebars up.
+4. screenshot-4.png Default sidebars page, here you will be able to assign sidebars to all the post that belongs to a category or a post-type. Also author, tags and main blog pages sidebars can be defined here.
 
 == Changelog ==
 
 = 0.6 =
 
 *	New interface, more user friendly
-*	Added the possibility of customize the blog sidebars
+*	Added the possibility of customize the main blog page sidebars
 *	Added the sidebars by category, so now you can personalize all the post that belongs to a category easily in a hierarchycal way
 *	Added the possibility of customize the authors page sidebars
 *	Added the possibility of customize the tags page sidebars
