@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: customsidebars\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-15 18:36+0100\n"
-"PO-Revision-Date: 2010-09-15 18:45+0100\n"
-"Last-Translator: asdasd <dsadas@das.com>\n"
+"POT-Creation-Date: 2010-12-27 10:58+0100\n"
+"PO-Revision-Date: 2010-12-27 10:59+0100\n"
+"Last-Translator: mamona <mamona@moama.es>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13,47 +13,63 @@ msgstr ""
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: customsidebars.php:145
-#: customsidebars.php:513
+#: customsidebars.php:146
+#: customsidebars.php:208
+#: customsidebars.php:691
 msgid "You do not have permission to delete sidebars"
 msgstr "No tiene permiso para borrar barras laterales"
 
-#: customsidebars.php:176
+#: customsidebars.php:171
 #, php-format
 msgid "The sidebar \"%s\" has been deleted."
 msgstr "La barra lateral \"%s\" ha sido borrada."
 
-#: customsidebars.php:178
+#: customsidebars.php:173
 #, php-format
 msgid "There was not any sidebar called \"%s\" and it could not been deleted."
 msgstr "No hay ninguna barra lateral llamada \"%s\" y no ha podido ser borrada."
 
-#: customsidebars.php:213
+#: customsidebars.php:242
 msgid "Custom sidebars"
 msgstr "Barras laterales"
 
-#: customsidebars.php:306
+#: customsidebars.php:327
 msgid "The custom sidebars settings has been updated successfully."
 msgstr "Los cambios realizados han sido guardados correctamente."
 
-#: customsidebars.php:350
+#: customsidebars.php:438
+#, fuzzy
+msgid "The default sidebars have been updated successfully."
+msgstr "Los cambios realizados han sido guardados correctamente."
+
+#: customsidebars.php:482
 msgid "You have to fill all the fields to create a new sidebar."
 msgstr "Debe completar todos los campos para crear una nueva barra lateral."
 
-#: customsidebars.php:384
-#: customsidebars.php:414
+#: customsidebars.php:516
+#: customsidebars.php:546
 msgid "The sidebar has been created successfully."
 msgstr "La barra lateral ha sido creada correctamente."
 
-#: customsidebars.php:389
+#: customsidebars.php:521
 msgid "There is already a sidebar registered with that name, please choose a different one."
 msgstr "Ya existe una barra lateral con ese nombre, por favor, elija un nombre diferente."
 
-#: customsidebars.php:420
+#: customsidebars.php:568
+#: customsidebars.php:571
+msgid "The operation is not secure and it cannot be completed."
+msgstr "La operación no es segura y no ha podido terminar correctamente."
+
+#: customsidebars.php:594
+#, php-format
+msgid "The sidebar \"%s\" has been updated successfully."
+msgstr "La barra \"%s\" ha sido actualizada correctamente."
+
+#: customsidebars.php:598
 msgid "Create a new sidebar"
 msgstr "Crear una nueva barra lateral"
 
-#: customsidebars.php:544
+#: customsidebars.php:722
 msgid "The Custom Sidebars data has been removed successfully,"
 msgstr "La información sobre Custom Sidebars ha sido borrada de la base de datos correctamente."
 
@@ -61,104 +77,202 @@ msgstr "La información sobre Custom Sidebars ha sido borrada de la base de dato
 msgid "You can assign specific sidebars to this post, just select a sidebar and the default one will be replaced, if it is available on your template."
 msgstr "Puede asignar barras laterales específicas para esta entrada, simplemente seleccione una y la barra por defecto sera reemplazada si está disponible en su plantilla."
 
-#: metabox.php:13
+#: metabox.php:14
 msgid "There are not replaceable sidebars selected. You can define what sidebar will be able for replacement in the <a href=\"themes.php?page=customsidebars\">Custom Sidebars config page</a>."
 msgstr "No hay barras laterales reemplazables seleccionadas. Puede definir las barras disponibles para reemplazar en la <a href=\"themes.php?page=customsidebars\">página de configuración de barras laterales</a>."
 
-#: view.php:8
-msgid "Custom Sidebars"
-msgstr "Barras Laterales"
+#: view-defaults.php:13
+msgid "Default sidebars for posts"
+msgstr "Barras laterales por defecto para entradas"
 
-#: view.php:15
-msgid "New Sidebar"
-msgstr "Nueva Barra Lateral"
+#: view-defaults.php:15
+msgid "These replacements will be applied to every single post that matches a certain post type or category."
+msgstr "Aquí puede seleccionar las barras laterales por defecto para las entradas que pertenezcan a un tipo de post o categoría."
 
-#: view.php:16
-msgid "When a custom sidebar is created, it is shown in the widgets view and you can define what the new sidebar will contain. Once the sidebar is setted up, it is possible to select it for displaying in any post or page."
-msgstr "Cuando una barra lateral es creada se mostrará en la vista widgets y allí será posible definir lo que va a contener. Una vez configurada, será seleccionable para reemplazos en cualquier entrada o página."
+#: view-defaults.php:16
+msgid "The sidebars by categories work in a hierarchycal way, if a post belongs to a parent and a child category it will show the child category sidebars if they are defined, otherwise it will show the parent ones. If no category sidebar for post are defined, the post will show the post post-type sidebar. If none of those sidebars are defined, the theme default sidebar is shown."
+msgstr "Las barras laterales por categoría funcionan de manera jerarquica, de modo que si una entrada pertenece a una categoría padre e hija, mostrará la barra lateral definida para la categoría hija. Si la categoría hija no tiene asignada ninguna barra lateral, mostrará la de la categoría padre. Si ninguna de sus categorías tiene barra definida, mostrará la definida para el tipo de post de la entrada y si ésta tampoco lo está, mostrara la barra por defecto del tema."
 
-#: view.php:20
-#: view.php:47
-msgid "Name"
-msgstr "Nombre"
+#: view-defaults.php:25
+msgid "By category"
+msgstr "Por categorías"
 
-#: view.php:23
-msgid "The name has to be unique."
-msgstr "El nombre de la barra tiene que ser único."
-
-#: view.php:29
-#: view.php:48
-msgid "Description"
-msgstr "Descripción"
-
-#: view.php:37
-msgid "Create Sidebar"
-msgstr "Crear una Barra Lateral"
-
-#: view.php:41
-msgid "All the Custom Sidebars"
-msgstr "Todas las barras"
-
-#: view.php:42
-msgid "If a sidebar is deleted and is currently on use, the posts and pages which uses it will show the default sidebar instead."
-msgstr "Si una barra lateral que está siendo usada se borra, las entradas y páginas que la utilizarán pasarán a mostrar la barra definida por defecto en su lugar."
-
-#: view.php:49
-#: view.php:67
-msgid "Delete"
-msgstr "Borrar"
-
-#: view.php:57
-msgid "Are you sure to delete this sidebar?"
-msgstr "Está seguro de borrar esta barra lateral?"
-
-#: view.php:71
-msgid "There are no custom sidebars available. You can create a new one using the left form."
-msgstr "No hay barras laterales disponibles. Puede crear una desde el formulario de arriba."
-
-#: view.php:89
-msgid "Replaceable Sidebars"
-msgstr "Barras Reemplazables"
-
-#: view.php:90
-msgid "Select here the sidebars available for replacing. They will appear for replace when a post or page is edited or created. They will be also available for the default replacements of post type sidebars. You can select several bars holding the SHIFT key when clicking on them."
-msgstr "Seleccione las barras laterales que estarán disponibles para reemplazar. Puede seleccionar un remplazo para ellas cuando edite o cree una página o post, o para todas las entradas de un mismo tipo. Se pueden seleccionar varias barras manteniendo pulsada la tecla MAYUSCULAS cuando haga click en ellas."
-
-#: view.php:92
-msgid "Select the boxes available for substitution"
-msgstr "Seleccione las barras disponibles para sustitución."
-
-#: view.php:104
-#: view.php:140
-msgid "Save Changes"
-msgstr "Guardar cambios"
-
-#: view.php:108
-msgid "Default Sidebars"
-msgstr "Barras laterales por defecto"
-
-#: view.php:109
-msgid "These sidebars replacements will be applied to every entry of the post type, unless the entry was told to display a specific sidebar."
-msgstr "Los reemplazos aplicados a un tipo de entrada serán aplicados a todas las entradas de ese tipo, a menos que se haya especificado una barra lateral particular a alguna de ella."
-
-#: view.php:130
+#: view-defaults.php:44
+#: view-defaults.php:84
+#: view-defaults.php:130
+#: view-defaults.php:160
+#: view-defaults.php:194
+#: view-defaults.php:225
+#: view-defaults.php:250
 msgid "There are no replaceable sidebars selected. You must select some of them in the form above to be able for replacing them in all the post type entries."
 msgstr "No hay barras laterales reemplazables seleccionadas. Debe seleccionar alguna en el formulario superior para que esten disponibles para reemplazo y así poder asignar barras por defecto a los tipos de entradas."
 
-#: view.php:147
-#: view.php:150
-msgid "Reset Sidebars"
-msgstr "Resetear Barras Laterales"
+#: view-defaults.php:51
+#: view-defaults.php:137
+msgid "There are no categories available."
+msgstr "No hay categorías disponibles"
 
-#: view.php:148
-msgid "Click on the button below to delete all the Custom Sidebars data from the database. Keep in mind that once the button is clicked you will have to create new sidebars and customize them to restore your current sidebars configuration.</p><p>If you are going to uninstall the plugin permanently, you should use this button before, so there will be no track about the plugin left in the database."
-msgstr "Al hacer click en el botón de abajo se borrará toda la información sobre el plugin Custom Sidebars de la base de datos. Tenga en cuenta que, una vez borrada la información, tendrá que crear todas las barras y personalizarlas si quiere recuperar la configuración actual.</p><p>Si va a desinstalar el plugin de manera permanente, es recomendado que pulse el boton de resetear las barras laterales antes, así no quedará ningun rastro del plugin en su base de datos."
+#: view-defaults.php:64
+msgid "By post type"
+msgstr "Por tipo de entrada"
 
-#: view.php:150
-msgid "Are you sure to reset the sidebars?"
-msgstr "¿Está seguro de resetear las barras laterales?"
+#: view-defaults.php:95
+#: view-defaults.php:257
+#: view-edit.php:52
+#: view.php:61
+msgid "Save Changes"
+msgstr "Guardar cambios"
 
-#: view.php:157
+#: view-defaults.php:99
+msgid "Default sidebars for pages"
+msgstr "Barras laterales por defecto para páginas"
+
+#: view-defaults.php:101
+msgid "You can define specific sidebars for the different Wordpress pages. Sidebars for lists of posts pages work in the same hierarchycal way than the one for single posts."
+msgstr "Puede definir barras laterales específicas para las distintas páginas de Wordpress. Las barras laterales para las listas de entradas funcionana de la misma manera jerarquica que para las entradas individuales."
+
+#: view-defaults.php:111
+msgid "Category posts list"
+msgstr "Listas de entradas de una categoría"
+
+#: view-defaults.php:147
+msgid "Tag pages"
+msgstr "Lista de entradas con una etiqueta"
+
+#: view-defaults.php:174
+msgid "Post-type posts list"
+msgstr "Lista de entrada de un tipo"
+
+#: view-defaults.php:205
+msgid "Blog page"
+msgstr "Página del blog principal"
+
+#: view-defaults.php:237
+msgid "Author pages"
+msgstr "Página de autor individual"
+
+#: view-edit.php:22
+#: view.php:17
+#: view.php:84
+msgid "Name"
+msgstr "Nombre"
+
+#: view-edit.php:27
+#: view.php:25
+#: view.php:85
+msgid "Description"
+msgstr "Descripción"
+
+#: view-edit.php:30
+msgid "<b>Caution:</b> Before-after title-widget properties define the html code that will wrap the widgets and their titles in the sidebars, more info about them on the <a href=\"http://justintadlock.com/archives/2010/11/08/sidebars-in-wordpress?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed %3A+JustinTadlock+%28Justin+Tadlock%29&utm_content=Google+Reader\">Justin Tadlock Blog</a>. Do not use these fields if you are not sure what you are doing, it can break the design of your site. Leave these fields blank to use the theme sidebars design."
+msgstr "<b>Precaución:</b> Las propiedades Before-after title-widget definen el código HTML que envolverá cada widget de la barra lateral así como su título, hay más información sobre estos campos en <a href=\"http://justintadlock.com/archives/2010/11/08/sidebars-in-wordpress?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed %3A+JustinTadlock+%28Justin+Tadlock%29&utm_content=Google+Reader\">el blog de Justin Tadlock</a>. No modifique estos campos si no está seguro de lo que hace, puede romper el diseño de su sitio. Deje en blanco estos campos para utilizar los estilos de barras por defecto de su tema."
+
+#: view-edit.php:33
+msgid "After Title"
+msgstr "After Title"
+
+#: view-edit.php:36
+msgid "After Widget"
+msgstr "After Widget"
+
+#: view-edit.php:44
+msgid "Before Title"
+msgstr "Before Title"
+
+#: view-edit.php:47
+msgid "Before Widget"
+msgstr "Before Widget"
+
+#: view-footer.php:3
 msgid "Do you like this plugin? Support its development with a donation :)"
 msgstr "¿Le gusta este plugin? Puede ayudar a su desarrollo con una donación :)"
 
+#: view-tabs.php:20
+msgid "Custom Sidebars"
+msgstr "Barras Laterales"
+
+#: view-tabs.php:21
+msgid "Default Sidebars"
+msgstr "Barras laterales por defecto"
+
+#: view-tabs.php:23
+msgid "Edit Sidebar"
+msgstr "Editar barra lateral"
+
+#: view.php:12
+msgid "New Sidebar"
+msgstr "Nueva Barra Lateral"
+
+#: view.php:13
+msgid "When a custom sidebar is created, it is shown in the widgets page. There you will be able to configure it."
+msgstr "Cuando se crea una barra lateral es mostrada en la página de widgets. Allí se puede configurar su contenido."
+
+#: view.php:20
+msgid "The name has to be unique."
+msgstr "El nombre de la barra tiene que ser único."
+
+#: view.php:31
+msgid "Create Sidebar"
+msgstr "Crear una Barra Lateral"
+
+#: view.php:45
+msgid "Replaceable Sidebars"
+msgstr "Barras Reemplazables"
+
+#: view.php:46
+msgid "Select here the sidebars available for replacing. They will appear for replace when a post or page is edited or created. They will be also available in the default sidebars page. You can select several bars holding the SHIFT key when clicking on them."
+msgstr "Seleccione las barras laterales de su tema que estarán disponibles para reemplazar. Estas barras se mostrarán para poder reemplazarlas por una nueva cuando edite o cree una página o post. Se pueden seleccionar varias barras manteniendo pulsada la tecla MAYUSCULAS cuando haga click en ellas."
+
+#: view.php:48
+msgid "Select the boxes available for substitution"
+msgstr "Seleccione las barras disponibles para sustitución."
+
+#: view.php:78
+msgid "All the Custom Sidebars"
+msgstr "Todas las barras"
+
+#: view.php:79
+msgid "If a sidebar is deleted and is currently on use, the posts and pages which uses it will show the default sidebar instead."
+msgstr "Si una barra lateral que está siendo usada se borra, las entradas y páginas que la utilizarán pasarán a mostrar la barra definida por defecto en su lugar."
+
+#: view.php:95
+msgid "Are you sure to delete this sidebar?"
+msgstr "Está seguro de borrar esta barra lateral?"
+
+#: view.php:105
+msgid "Configure Widgets"
+msgstr "Configurar Widgets"
+
+#: view.php:106
+msgid "Edit"
+msgstr "Editar"
+
+#: view.php:107
+msgid "Delete"
+msgstr "Borrar"
+
+#: view.php:111
+msgid "There are no custom sidebars available. You can create a new one using the left form."
+msgstr "No hay barras laterales disponibles. Puede crear una desde el formulario de arriba."
+
+#: view.php:132
+#: view.php:135
+msgid "Reset Sidebars"
+msgstr "Resetear Barras Laterales"
+
+#: view.php:133
+msgid "Click on the button below to delete all the Custom Sidebars data from the database. Keep in mind that once the button is clicked you will have to create new sidebars and customize them to restore your current sidebars configuration.</p><p>If you are going to uninstall the plugin permanently, you should use this button before, so there will be no track about the plugin left in the database."
+msgstr "Al hacer click en el botón de abajo se borrará toda la información sobre el plugin Custom Sidebars de la base de datos. Tenga en cuenta que, una vez borrada la información, tendrá que crear todas las barras y personalizarlas si quiere recuperar la configuración actual.</p><p>Si va a desinstalar el plugin de manera permanente, es recomendado que pulse el boton de resetear las barras laterales antes, así no quedará ningun rastro del plugin en su base de datos."
+
+#: view.php:135
+msgid "Are you sure to reset the sidebars?"
+msgstr "¿Está seguro de resetear las barras laterales?"
+
+#~ msgid ""
+#~ "When a custom sidebar is created, it is shown in the widgets view and you "
+#~ "can define what the new sidebar will contain. Once the sidebar is setted "
+#~ "up, it is possible to select it for displaying in any post or page."
+#~ msgstr ""
+#~ "Cuando una barra lateral es creada se mostrará en la vista widgets y allí "
+#~ "será posible definir lo que va a contener. Una vez configurada, será "
+#~ "seleccionable para reemplazos en cualquier entrada o página."
