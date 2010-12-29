@@ -62,7 +62,7 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 
 == Screenshots ==
 
-1. screenshot-1.png The Custom Sidebars options page. Placed in the appearance menu, you can create or delete sidebars there, set the replaceable sidebars and assign custom sidebars for all the posts of a certain post-type. 
+1. screenshot-1.png The Custom Sidebars options page. Placed in the appearance menu, you can create, edit or delete sidebars there, set the replaceable sidebars and reset the sidebars data. 
 2. screenshot-2.png The new sidebars created by the plugin, can be customized in the Widgets menu.
 3. screenshot-3.png A new box is added to the post and page edit forms, where you can set your custom sidebars up.
 4. screenshot-4.png Default sidebars page, here you will be able to assign sidebars to all the post that belongs to a category or a post-type. Also author, tags and main blog pages sidebars can be defined here.
@@ -105,5 +105,11 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 = 0.1 =
 
 *	Initial release
+
+== Upgrade Notice ==
+
+= 0.6 =
+This version adds several options for customize the sidebars by categories and replace the default blog page sidebars. Now it's possible to edit sidebar properties. Also fixes some minor bugs.
+
 
 
