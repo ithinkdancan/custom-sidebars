@@ -3,7 +3,7 @@
 Plugin Name: Custom sidebars
 Plugin URI: http://marquex.posterous.com/pages/custom-sidebars
 Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
-Version: 0.6
+Version: 0.7
 Author: Javier Marquez
 Author URI: http://marquex.mp
 */
@@ -24,7 +24,7 @@ class CustomSidebars{
 	
 	var $sidebar_prefix = 'cs-';
 	var $postmeta_key = '_cs_replacements';
-	var $cap_required = 'edit_themes';
+	var $cap_required = 'switch_themes';
 	var $ignore_post_types = array('attachment', 'revision', 'nav_menu_item', 'pt-widget');
 	var $options = array();
 	
@@ -242,7 +242,7 @@ class CustomSidebars{
 	}
 	
 	function addSubMenus(){
-		$page = add_submenu_page('themes.php', __('Custom sidebars','custom-sidebars'), __('Custom sidebars','custom-sidebars'), 'edit_themes', 'customsidebars', array($this, 'createPage'));
+		$page = add_submenu_page('themes.php', __('Custom sidebars','custom-sidebars'), __('Custom sidebars','custom-sidebars'), $this->cap_required, 'customsidebars', array($this, 'createPage'));
 		
         add_action('admin_print_scripts-' . $page, array($this, 'addScripts'));
 	}
@@ -253,11 +253,11 @@ class CustomSidebars{
 	}
 	
 	function addPostMetabox(){
-		if(current_user_can('edit_themes'))
+		if(current_user_can($this->cap_required))
 			add_meta_box('customsidebars-mb', 'Sidebars', array($this,'printMetabox'), 'post', 'side');
 	}
 	function addPageMetabox(){
-		if(current_user_can('edit_themes'))
+		if(current_user_can($this->cap_required))
 			add_meta_box('customsidebars-mb', 'Sidebars', array($this,'printMetabox'), 'page', 'side');
 	}
 	
@@ -443,11 +443,18 @@ class CustomSidebars{
 	}
 	
 	function storeReplacements( $post_id ){
-		if(! current_user_can('edit_themes'))
+		if(! current_user_can($this->cap_required))
 			return;
 		// verify if this is an auto save routine. If it is our form has not been submitted, so we dont want
 		// to do anything (Copied and pasted from wordpress add_metabox_tutorial)
 		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
+			return $post_id;
+			
+		global $action;
+		
+		//Get sure we are editing the post normaly, if we are bulk editing or quick editing, 
+		//no sidebars data is recieved and the sidebars would be deleted.
+		if($action != 'editpost')
 			return $post_id;
 			
 		// make sure meta is added to the post, not a revision
