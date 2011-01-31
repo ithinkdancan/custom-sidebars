@@ -3,19 +3,19 @@ Contributors: marquex
 Donate link: http://marquex.posterous.com/pages/custom-sidebars
 Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 3.0
-Tested up to: 3.1 RC1
+Tested up to: 3.1 RC3
 Stable tag: trunk
 
 Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
 
 == Description ==
 
-Sometimes it is necessary to show different elements on the sidebars for some posts or pages. The themes nowadays give you some areas to put the widgets, but those areas are common for all the posts that are using the same template. NOTE: **You need to use a theme that accepts widgets to make this plugin work** 
+Sometimes it is necessary to show different elements on the sidebars for some posts or pages. The themes nowadays give you some areas to put the widgets, but those areas are common for all the posts that are using the same template. NOTE: **You need to use a theme that accepts widgets to make this plugin work.** 
 
-Custom Sidebars allows you to create all the widgetized areas you need, your own custom sidebars, configure them adding widgets, and replace the default ones on the posts or pages you want in just few clicks.
+Custom Sidebars allows you to create all the widgetized areas you need, your own custom sidebars, configure them adding widgets, and replace the default sidebars on the posts or pages you want in just few clicks.
 
 
-You can set also new default sidebars for a group of posts or pages easily, keeping the chance of changing them individually.:
+You can also set new default sidebars for a group of posts or pages easily, keeping the chance of changing them individually.:
 
 *	Sidebars for all the posts that belong to a category.
 *	Sidebars for all the posts that belong to a post-type.
@@ -23,9 +23,9 @@ You can set also new default sidebars for a group of posts or pages easily, keep
 *	Sidebars for author pages.
 *	Sidebars for the main blog page.
 
-This way you will boost the content manager facet of your Wordpress installation.  
+I also recommend the use of [Widget Entries plugin](http://wordpress.org/extend/plugins/widget-entries/) to manage lots of HTML widgets with ease for your new sidebars. This way you will boost the content manager facet of your Wordpress installation.  
 
-Translations are welcome to the custom sidebars plugin! I will write your name down here if you donate your translation work. Thanks very much to:
+Translations are welcome! I will write your name down here if you donate your translation work. Thanks very much to:
 
 *	marquex - English
 *	marquex - Spanish
@@ -62,12 +62,16 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 
 == Screenshots ==
 
-1. screenshot-1.png The Custom Sidebars options page. Placed in the appearance menu, you can create, edit or delete sidebars there, set the replaceable sidebars and reset the sidebars data. 
+1. screenshot-1.png The plugin options page. Placed in the appearance menu, you can create, edit or delete sidebars there, set the replaceable sidebars and reset the sidebars data. 
 2. screenshot-2.png The new sidebars created by the plugin, can be customized in the Widgets menu.
 3. screenshot-3.png A new box is added to the post and page edit forms, where you can set your custom sidebars up.
 4. screenshot-4.png Default sidebars page, here you will be able to assign sidebars to all the post that belongs to a category or a post-type. Also author, tags and main blog pages sidebars can be defined here.
 
 == Changelog ==
+
+= 0.7 =
+*	Fixed: Bulk and Quick editing posts and pages reset their custom sidebars.
+*	Changed capability needed to switch_themes, and improved capability management.
 
 = 0.6 =
 
@@ -107,6 +111,10 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 *	Initial release
 
 == Upgrade Notice ==
+
+= 0.7 =
+This version fix a bug of v0.6 and before that reset the custom sidebars of posts and pages when they are quick edited or bulk edited, so upgrade is recommended.
+This version also changes the capability for managing custom sidebars to 'switch_themes' the one that allows to see the appearance menu in the admin page. I think the plugin is more coherent this way, but anyway it is easy to modify under plugin edit.
 
 = 0.6 =
 This version adds several options for customize the sidebars by categories and replace the default blog page sidebars. Now it's possible to edit sidebar properties. Also fixes some minor bugs.
