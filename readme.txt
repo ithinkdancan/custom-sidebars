@@ -69,6 +69,10 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 
 == Changelog ==
 
+= 0.7.1 =
+* 	Fixed: Now the plugin works with themes like Thesis that don't use the the_header hook. Changed the hook where execute the replacement code to wp_head.
+*	Fixed: When a second sidebar is replaced with the originally first sidebar, it is replaced by the first sidebar replacement instead. 
+
 = 0.7 =
 *	Fixed: Bulk and Quick editing posts and pages reset their custom sidebars.
 *	Changed capability needed to switch_themes, and improved capability management.
@@ -111,6 +115,9 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 *	Initial release
 
 == Upgrade Notice ==
+
+= 0.7.1 =
+Now custom sidebars works with Thesis theme and some minor bugs have been solved.
 
 = 0.7 =
 This version fix a bug of v0.6 and before that reset the custom sidebars of posts and pages when they are quick edited or bulk edited, so upgrade is recommended.

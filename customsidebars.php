@@ -3,7 +3,7 @@
 Plugin Name: Custom sidebars
 Plugin URI: http://marquex.posterous.com/pages/custom-sidebars
 Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
-Version: 0.7
+Version: 0.7.1
 Author: Javier Marquez
 Author URI: http://marquex.mp
 */
@@ -73,7 +73,7 @@ class CustomSidebars{
 		
 		global $_wp_sidebars_widgets, $post, $wp_registered_sidebars, $wp_registered_widgets;
 		
-		
+		$original_widgets = $_wp_sidebars_widgets;
 		
 		$updated = FALSE;
 		$modifiable = $this->getModifiableSidebars();
@@ -86,12 +86,12 @@ class CustomSidebars{
 					//var_dump($replacement);
 					list($replacement, $replacement_type, $extra_index) = $replacement;
 					if($this->checkAndFixSidebar($sb, $replacement, $replacement_type, $extra_index)){
-						if(sizeof($_wp_sidebars_widgets[$replacement]) == 0){ //No widgets on custom bar, show nothing
+						if(sizeof($original_widgets[$replacement]) == 0){ //No widgets on custom bar, show nothing
 							$wp_registered_widgets['csemptywidget'] = $this->getEmptyWidget();
 							$_wp_sidebars_widgets[$sb] = array('csemptywidget');
 						}
 						else{
-							$_wp_sidebars_widgets[$sb] = $_wp_sidebars_widgets[$replacement];
+							$_wp_sidebars_widgets[$sb] = $original_widgets[$replacement];
 							//replace before/after widget/title?
 							$sidebar_for_replacing = $wp_registered_sidebars[$replacement];
 							if($this->replace_before_after_widget($sidebar_for_replacing))
@@ -887,7 +887,7 @@ if(!isset($plugin_sidebars)){
 	add_action( 'widgets_init', array($plugin_sidebars,'registerCustomSidebars') );
 	add_action( 'widgets_admin_page', array($plugin_sidebars,'createCustomSidebar'));
 	add_action( 'admin_menu', array($plugin_sidebars,'addSubMenus'));
-	add_action( 'get_header', array($plugin_sidebars,'replaceSidebars'));
+	add_action( 'wp_head', array($plugin_sidebars,'replaceSidebars'));
 	add_action( 'submitpost_box', array($plugin_sidebars,'addPostMetabox'));
 	add_action( 'submitpage_box', array($plugin_sidebars,'addPageMetabox'));
 	add_action( 'save_post', array($plugin_sidebars,'storeReplacements'));
