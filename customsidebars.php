@@ -87,6 +87,8 @@ class CustomSidebars{
 		$replaceables = $this->replaceable_sidebars;
 		$defaults = $this->getDefaultReplacements();
 		
+		do_action('cs_predetermineReplacements');
+		
 		$this->determineReplacements($defaults);
 		
 		foreach($this->replacements as $sb_name => $replacement_info){
