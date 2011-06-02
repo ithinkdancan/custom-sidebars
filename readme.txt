@@ -1,13 +1,13 @@
 === Plugin Name ===
 Contributors: marquex
-Donate link: http://marquex.posterous.com/pages/custom-sidebars
+Donate link: http://marquex.es/541/custom-sidebars-plugin-v0-8
 Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 3.0
-Tested up to: 3.1 RC3
+Tested up to: 3.2 beta 2
 Stable tag: trunk
 
 Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
-
+ 
 == Description ==
 
 Sometimes it is necessary to show different elements on the sidebars for some posts or pages. The themes nowadays give you some areas to put the widgets, but those areas are common for all the posts that are using the same template. NOTE: **You need to use a theme that accepts widgets to make this plugin work.** 
@@ -66,8 +66,15 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 2. screenshot-2.png The new sidebars created by the plugin, can be customized in the Widgets menu.
 3. screenshot-3.png A new box is added to the post and page edit forms, where you can set your custom sidebars up.
 4. screenshot-4.png Default sidebars page, here you will be able to assign sidebars to all the post that belongs to a category or a post-type. Also author, tags and main blog pages sidebars can be defined here.
+5. screenshot-5.png The sidebar sb1 has replace the sidebar footer 1 in the front-end.
 
 == Changelog ==
+
+= 0.8 =
+*	Fixed: Category hierarchy is now handled properly by the custom sidebars plugin.
+*	Added: Sidebars can be set for every custom post type post individually.
+*	Improved the way it replace the sidebars.
+*	Improved some text and messages in the back-end.
 
 = 0.7.1 =
 * 	Fixed: Now the plugin works with themes like Thesis that don't use the the_header hook. Changed the hook where execute the replacement code to wp_head.
