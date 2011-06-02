@@ -8,7 +8,7 @@
 
 
 <div id="col-right">
-
+ 
 	<h2 class="title"><?php _e('New Sidebar','custom-sidebars'); ?></h2>
 	<p><?php _e('When a custom sidebar is created, it is shown in the widgets page. There you will be able to configure it.', 'custom-sidebars'); ?></p>
 	<form action="themes.php?page=customsidebars" method="post">
@@ -75,6 +75,13 @@
 ?>
 
 <div id="sidebarslistdiv">
+	<script type="text/javascript">
+		jQuery(document).ready( function($){
+			$('.csdeletelink').click(function(){
+				return confirm('<?php _e('Are you sure to delete this sidebar?','custom-sidebars');?>');
+			});
+		});
+	</script>
 	<h2><?php _e('All the Custom Sidebars','custom-sidebars'); ?></h2>
 	<p><?php _e('If a sidebar is deleted and is currently on use, the posts and pages which uses it will show the default sidebar instead.','custom-sidebars'); ?></p>
 	<table class="widefat fixed" cellspacing="0">
@@ -89,13 +96,7 @@
 		</tr>
 	</thead>
 	
-	<script type="text/javascript">
-		jQuery(document).ready( function($){
-			$('.csdeletelink').click(function(){
-				return confirm('<?php _e('Are you sure to delete this sidebar?','custom-sidebars');?>');
-			});
-		});
-	</script>
+	
 	<tbody id="custom-sidebars" class="list:user user-list">
 	
 		<?php if(sizeof($customsidebars)>0): foreach($customsidebars as $cs):?>

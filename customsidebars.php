@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Custom sidebars
-Plugin URI: http://marquex.posterous.com/pages/custom-sidebars
+Plugin URI: http://marquex.es/541/custom-sidebars-plugin-v0-8
 Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
 Version: 0.8
 Author: Javier Marquez

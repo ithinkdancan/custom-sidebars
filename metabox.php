@@ -12,4 +12,4 @@
 	</p>
 <?php endforeach; else: ?>
 	<p id="message" class="updated"><?php _e('There are not replaceable sidebars selected. You can define what sidebar will be able for replacement in the <a href="themes.php?page=customsidebars">Custom Sidebars config page</a>.','custom-sidebars')?></p>
-<?php endif;?>
+<?php endif;?> 
