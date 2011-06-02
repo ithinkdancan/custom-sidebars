@@ -29,8 +29,8 @@ category_posts_{$id_category}_{$id_modifiable} : Posts by category
 		<h3 class='hndle'><span><?php _e($c->name); ?></span></h3>
 		
 		<div class="inside">
-		<?php if(!empty($modifiable)): foreach($modifiable as $m):?>
-			<p><?php echo $m; ?>: 
+		<?php if(!empty($modifiable)): foreach($modifiable as $m): $sb_name = $allsidebars[$m]['name'];?>
+			<p><?php echo $sb_name; ?>: 
 				<select name="category_posts_<?php echo $c->cat_ID; ?>_<?php echo $m;?>">
 					<option value=""></option>
 				<?php foreach($allsidebars as $key => $sb):?>
@@ -57,20 +57,20 @@ category_posts_{$id_category}_{$id_modifiable} : Posts by category
 <div class="cscolleft">
 
 <?php /***************************************
-type_posts_{$id_post_type}_{$id_modifiable} : Posts by category
+type_posts_{$id_post_type}_{$id_modifiable} : Posts by post type
 *********************************************/?>
 
 <div class="defaultsSelector">
 <h3 class="csh3title"><?php _e('By post type','custom-sidebars'); ?></h3>
 <div id="posttypes-default" class="meta-box-sortables">
-	<?php foreach($post_types as $pt):?>
+	<?php foreach($post_types as $pt): $post_type_object = get_post_type_object($pt);?>
 	<div id="pt-<?php echo $pt; ?>" class="postbox closed" >
 		<div class="handlediv" title="Haz clic para cambiar"><br /></div>
-		<h3 class='hndle'><span><?php _e($pt); ?></span></h3>
+		<h3 class='hndle'><span><?php _e($post_type_object->label); ?></span></h3>
 		
 		<div class="inside">
-		<?php if(!empty($modifiable)): foreach($modifiable as $m):?>
-			<p><?php echo $m; ?>: 
+		<?php if(!empty($modifiable)): foreach($modifiable as $m): $sb_name = $allsidebars[$m]['name'];?>
+			<p><?php echo $sb_name; ?>: 
 				<select name="type_posts_<?php echo $pt;?>_<?php echo $m;?>">
 					<option value=""></option>
 				<?php foreach($allsidebars as $key => $sb):?>
@@ -115,8 +115,8 @@ category_page_{$id_category}_{$id_modifiable} : Category list page
 		<h3 class='hndle'><span><?php _e($c->name); ?></span></h3>
 		
 		<div class="inside">
-		<?php if(!empty($modifiable)): foreach($modifiable as $m):?>
-			<p><?php echo $m; ?>: 
+		<?php if(!empty($modifiable)): foreach($modifiable as $m): $sb_name = $allsidebars[$m]['name'];?>
+			<p><?php echo $sb_name; ?>: 
 				<select name="category_page_<?php echo $c->cat_ID; ?>_<?php echo $m;?>">
 					<option value=""></option>
 				<?php foreach($allsidebars as $key => $sb):?>
@@ -145,8 +145,8 @@ tag_page_{$id_modifiable} : Post by tag list page
 <div class="defaultsSelector">
 
 <h3 class="csh3title"><?php _e('Tag pages','custom-sidebars'); ?></h3>
-<?php if(!empty($modifiable)): foreach($modifiable as $m):?>
-			<p><?php echo $m; ?>: 
+<?php if(!empty($modifiable)): foreach($modifiable as $m): $sb_name = $allsidebars[$m]['name'];?>
+			<p><?php echo $sb_name; ?>: 
 				<select name="tag_page_<?php echo $m;?>">
 					<option value=""></option>
 				<?php foreach($allsidebars as $key => $sb):?>
@@ -173,14 +173,14 @@ type_page_{$id_post_type}_{$id_modifiable} : Posts by post type list page
 
 <h3 class="csh3title"><?php _e('Post-type posts list','custom-sidebars'); ?></h3>
 <div id="posttypelist-default" class="meta-box-sortables">
-	<?php foreach($post_types as $pt):?>
+	<?php foreach($post_types as $pt): $post_type_object = get_post_type_object($pt);?>
 	<div id="pt-<?php echo $pt; ?>" class="postbox closed" >
 		<div class="handlediv" title="Haz clic para cambiar"><br /></div>
-		<h3 class='hndle'><span><?php _e($pt); ?></span></h3>
+		<h3 class='hndle'><span><?php _e($post_type_object->label); ?></span></h3>
 		
 		<div class="inside">
-		<?php if(!empty($modifiable)): foreach($modifiable as $m):?>
-			<p><?php echo $m; ?>: 
+		<?php if(!empty($modifiable)): foreach($modifiable as $m): $sb_name = $allsidebars[$m]['name'];?>
+			<p><?php echo $sb_name; ?>: 
 				<select name="type_page_<?php echo $pt;?>_<?php echo $m;?>">
 					<option value=""></option>
 				<?php foreach($allsidebars as $key => $sb):?>
@@ -210,8 +210,8 @@ blog_page_{$id_modifiable} : Main blog page
 
 <div class="defaultsSelector">
 
-<?php if(!empty($modifiable)): foreach($modifiable as $m):?>
-			<p><?php echo $m; ?>: 
+<?php if(!empty($modifiable)): foreach($modifiable as $m): $sb_name = $allsidebars[$m]['name'];?>
+			<p><?php echo $sb_name; ?>: 
 				<select name="blog_page_<?php echo $m;?>">
 					<option value=""></option>
 				<?php foreach($allsidebars as $key => $sb):?>
@@ -235,8 +235,8 @@ authors_page_{$id_modifiable} : Any author page
 <div class="defaultsSelector">
 
 <h3 class="csh3title"><?php _e('Author pages','custom-sidebars'); ?></h3>
-<?php if(!empty($modifiable)): foreach($modifiable as $m):?>
-			<p><?php echo $m; ?>: 
+<?php if(!empty($modifiable)): foreach($modifiable as $m): $sb_name = $allsidebars[$m]['name'];?>
+			<p><?php echo $sb_name; ?>: 
 				<select name="authors_page_<?php echo $m;?>">
 					<option value=""></option>
 				<?php foreach($allsidebars as $key => $sb):?>

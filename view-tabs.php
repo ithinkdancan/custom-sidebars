@@ -19,6 +19,7 @@ else
 <h2 class="nav-tab-wrapper">
 <a class="nav-tab <?php echo $tabconfig; ?>" href="themes.php?page=customsidebars"><?php _e('Custom Sidebars','custom-sidebars'); ?></a>
 <a class="nav-tab <?php echo $tabdefaults; ?>" href="themes.php?page=customsidebars&p=defaults"><?php _e('Default Sidebars','custom-sidebars'); ?></a>
+<?php do_action('cs_additionalTabs'); ?>
 <?php if($tabedit): ?>
 <a class="nav-tab nav-tab-active" href="#"><?php _e('Edit Sidebar','custom-sidebars'); ?></a>
 <?php endif; ?>
