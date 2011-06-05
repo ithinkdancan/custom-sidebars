@@ -155,8 +155,8 @@ class CustomSidebars{
 		}
 		//Category archive
 		if(is_category()){
-			global $sidebar_category;
-			$category_object = get_queried_object();
+			global $sidebar_category, $wp_query;
+			$category_object = $wp_query->get_queried_object();
 			$current_category = $category_object->term_id;
 			while($current_category != 0 && $this->replacements_todo > 0){
 				foreach($this->replaceable_sidebars as $sidebar){
