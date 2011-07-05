@@ -3,7 +3,7 @@ Contributors: marquex
 Donate link: http://marquex.es/541/custom-sidebars-plugin-v0-8
 Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 3.0
-Tested up to: 3.2 beta 2
+Tested up to: 3.2
 Stable tag: trunk
 
 Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
@@ -69,6 +69,8 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 5. screenshot-5.png The sidebar sb1 has replace the sidebar footer 1 in the front-end.
 
 == Changelog ==
+= 0.8.1 =
+*	Fixed: You can assign sidebars to your pages again.
 
 = 0.8 =
 *	Fixed: Category hierarchy is now handled properly by the custom sidebars plugin.
