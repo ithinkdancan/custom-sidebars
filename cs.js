@@ -142,9 +142,9 @@ updateScroll = function() {
     jQuery('.widget-liquid-right').tinyscrollbar_update('relative');
 }
 
-jQuery(function($){
-    //$('#widgets-right').addClass('viewport');
-    //$('#widgets-right .widgets-holder-wrap').wrapAll('<div class="overview" />');
+
+
+scrollSetUp = function($){
     $('#widgets-right').addClass('overview').wrap('<div class="viewport" />');
     $('.viewport').height($(window).height() - 60);
     $('.widget-liquid-right').height($(window).height()).prepend('<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>').tinyscrollbar();
@@ -159,7 +159,15 @@ jQuery(function($){
     
     $('.widget-liquid-right').click(function(){
         setTimeout("updateScroll()",300);
-        //setTimeout(alert('click'),2000);
     });
-    
+}
+
+addCSControls = function($){
+    $('#cs-title-options').detach().prependTo('#widgets-right').show();
+}
+
+
+jQuery(function($){
+    scrollSetUp($);
+    addCSControls($);
 });

@@ -740,9 +740,9 @@ class CustomSidebars{
 		$this->setMessage( sprintf(__('The sidebar "%s" has been updated successfully.','custom-sidebars'), $id ));
 	}
 	
-	function createCustomSidebar(){
-		echo '<div class="widget-liquid-left" style="text-align:right"><a href="themes.php?page=customsidebars" class="button">' . __('Create a new sidebar','custom-sidebars') . '</a></div>';
-	}
+	function widgetSidebarContent(){
+		include 'view-widgets-sidebar.php';
+        }
 	
 	function getSidebar($id, $sidebars){
 		$sidebar = false;
@@ -897,7 +897,7 @@ endif; //exists class
 if(!isset($plugin_sidebars)){
 	$plugin_sidebars = new CustomSidebars();	
 	add_action( 'widgets_init', array($plugin_sidebars,'registerCustomSidebars') );
-	add_action( 'widgets_admin_page', array($plugin_sidebars,'createCustomSidebar'));
+	add_action( 'widgets_admin_page', array($plugin_sidebars,'widgetSidebarContent'));
 	add_action( 'admin_menu', array($plugin_sidebars,'addSubMenus'));
 	add_action( 'wp_head', array($plugin_sidebars,'replaceSidebars'));
 	add_action('add_meta_boxes',  array($plugin_sidebars,'addMetaBox'));
