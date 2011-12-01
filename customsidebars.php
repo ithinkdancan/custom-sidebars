@@ -377,7 +377,14 @@ class CustomSidebars{
 	
 	function addScripts(){
 		wp_enqueue_script('post');
-		echo '<link type="text/css" rel="stylesheet" href="'. plugins_url('/cs_style.css', __FILE__) .'" />';
+	}
+	
+	function addStyles($hook){
+            $dir = basename(dirname(__FILE__));
+            if( 'widgets.php' == $hook )
+	        wp_enqueue_script( 'cs_script', plugins_url('/cs.js', __FILE__) );
+	    wp_enqueue_style('cs_style', "/wp-content/plugins/$dir/cs_style.css" );
+		//echo '<link type="text/css" rel="stylesheet" href="'. plugins_url('/cs_style.css', __FILE__) .'" />';
 	}
 	
 	function addMetaBox(){
@@ -896,9 +903,8 @@ if(!isset($plugin_sidebars)){
 	add_action('add_meta_boxes',  array($plugin_sidebars,'addMetaBox'));
 	add_action( 'save_post', array($plugin_sidebars,'storeReplacements'));
 	add_action( 'init', array($plugin_sidebars,'loadTextDomain'));
-	
+	add_action( 'admin_enqueue_scripts', array($plugin_sidebars,'addStyles'));
 }
-
 if(! class_exists('CustomSidebarsEmptyPlugin')){
 class CustomSidebarsEmptyPlugin extends WP_Widget {
 	function CustomSidebarsEmptyPlugin() {

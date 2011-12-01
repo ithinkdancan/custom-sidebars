@@ -47,3 +47,48 @@ margin-bottom:30px;
 	margin-top:10px;
 	border-bottom:1px solid #ccc;
 }
+
+.widget-liquid-right{
+	position: fixed;
+	background: #ECECEC url('img/menu-shadow.png') left top repeat-y;
+	right:0;
+	top:0;
+	padding: 40px 5px;
+}
+
+.widgets-php #screen-meta-links{
+	margin-right: 340px;
+}
+
+.widgets-php #footer{
+	background: #fff;
+	margin-right: 0px;
+	padding-right: 20px;
+}
+
+
+
+.widget-liquid-right .scrollbar { position: relative; float: right; width: 10px; }
+.widget-liquid-right .track {  height: 100%; width:10px; position: relative; padding: 0 1px; }
+.widget-liquid-right .thumb { height: 20px; width: 10px; cursor: pointer; overflow: hidden; position: absolute; top: 0;  background-color: #666;-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;}
+.widget-liquid-right .thumb .end { overflow: hidden; height: 5px; width: 13px; }
+.widget-liquid-right .viewport { position: relative; margin-right: 20px;}
+.widget-liquid-right .overview { list-style: none; position: absolute; left: 0; top: 0; }
+
+/* For modern browsers */
+.cf:before,
+.cf:after {
+    content:"";
+    display:table;
+}
+
+.cf:after {
+    clear:both;
+}
+
+/* For IE 6/7 (trigger hasLayout) */
+.cf {
+    zoom:1;
+}
