@@ -160,14 +160,34 @@ scrollSetUp = function($){
     $('.widget-liquid-right').click(function(){
         setTimeout("updateScroll()",300);
     });
+    $('.widget-liquid-right').hover(function(){
+        $('.scrollbar').fadeIn();
+    }, function(){
+        $('.scrollbar').fadeOut();
+    });
 }
 
 addCSControls = function($){
     $('#cs-title-options').detach().prependTo('#widgets-right').show();
 }
 
+showCreateSidebar = function($){
+    $('.create-sidebar-button').click(function(){
+       var ajaxdata = {
+           action: 'cs-wpnonce',
+           nonce: 'show-create-sidebar'
+       };
+       if(!$('.new-sidebar-holder').is(':visible')){
+           $('#new-sidebar').append($('#new-sidebar-form'));
+           $('.new-sidebar-holder').hide().detach().insertAfter('#cs-title-options').slideDown().children(".sidebar-name").click(function(){var h=$(this).siblings(".widgets-sortables"),g=$(this).parent();if(!g.hasClass("closed")){h.sortable("disable");g.addClass("closed")}else{g.removeClass("closed");h.sortable("enable").sortable("refresh")}});
+       }
+       return false;
+    });
+}
+
 
 jQuery(function($){
     scrollSetUp($);
     addCSControls($);
+    showCreateSidebar($);
 });

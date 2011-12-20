@@ -3,7 +3,7 @@
 Plugin Name: Custom sidebars
 Plugin URI: http://marquex.es/541/custom-sidebars-plugin-v0-8
 Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
-Version: 0.8
+Version: 1.0
 Author: Javier Marquez
 Author URI: http://marquex.es
 */
@@ -392,7 +392,7 @@ class CustomSidebars{
 		$post_type = get_post_type($post);
 		if($post_type && !(array_search($post_type, $this->ignore_post_types))){
 			$post_type_object = get_post_type_object($post_type);
-			if($post_type_object->publicly_queryable)
+			if($post_type_object->publicly_queryable || $post_type_object->public) 
 				add_meta_box('customsidebars-mb', 'Sidebars', array($this,'printMetabox'), $post_type, 'side');
 		}
 	}
@@ -646,18 +646,8 @@ class CustomSidebars{
 					
 					//update option
 					update_option( $this->option_name, $sidebars );
-					
-					/*
-					//Let's store it also in the sidebar-widgets
-					$sidebars2 = get_option('sidebars_widgets');
-					if(array_search($id, array_keys($sidebars2))===FALSE){
-						$sidebars2[$id] = array(); 
-					}
-					
-					update_option('sidebars_widgets', $sidebars2); */
 						
 					$this->refreshSidebarsWidgets();
-					
 					
 					$this->setMessage( __('The sidebar has been created successfully.','custom-sidebars'));
 					
@@ -679,13 +669,6 @@ class CustomSidebars{
 						) );
 				add_option($this->option_name, $sidebars);
 				
-			/*	//Let's store it also in the sidebar-widgets
-				$sidebars2 = get_option('sidebars_widgets');
-				if(array_search($id, array_keys($sidebars2))===FALSE){
-					$sidebars2[$id] = array(); 
-				}
-				
-				update_option('sidebars_widgets', $sidebars2); */
 				
 				$this->refreshSidebarsWidgets();
 				

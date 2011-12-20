@@ -101,3 +101,16 @@ border-radius: 5px;}
 #cs-title-options h2{
     margin-left: 5px;
 }
+
+#new-sidebar-form{
+    margin: 0 15px;
+}
+#new-sidebar-form .submit{
+    text-align: right;
+    margin: 0;
+    padding: 1em 0;
+}
+#new-sidebar-form .description{
+    margin-top: 5px;
+    text-align: right;
+}
