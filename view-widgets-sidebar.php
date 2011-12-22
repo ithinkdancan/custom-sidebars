@@ -24,18 +24,19 @@
     </div>
     <div id="new-sidebar-form">
         <form action="themes.php?page=customsidebars" method="post">
-		<?php wp_nonce_field( 'custom-sidebars-new');?>
+		<?php wp_nonce_field( 'cs-create-sidebar', '_create_nonce');?>
+		<?php wp_nonce_field( 'cs-wpnonce', '_nonce_nonce');?>
 		<div id="namediv">
 			<label for="sidebar_name"><?php _e('Name','custom-sidebars'); ?></label>
-			<input type="text" name="sidebar_name" size="30" tabindex="1" value="" id="link_name" />
+			<input type="text" name="sidebar_name" size="30" tabindex="1" value="" id="sidebar_name" />
 			<p class="description"><?php _e('The name has to be unique.','custom-sidebars')?></p>
 		</div>
 			
 		<div id="addressdiv">			
 			<label for="sidebar_description"><?php echo _e('Description','custom-sidebars'); ?></label>
-			<input type="text" name="sidebar_description" size="30" class="code" tabindex="1" value="" id="link_url" />
+			<input type="text" name="sidebar_description" size="30" class="code" tabindex="1" value="" id="sidebar_description" />
 		</div>
-		<p class="submit"><input type="submit" class="button-primary" name="create-sidebars" value="<?php _e('Create Sidebar','custom-sidebars'); ?>" /></p>
+		<p class="submit"><input type="submit" class="button-primary" id="cs-create-sidebar" name="cs-create-sidebar" value="<?php _e('Create Sidebar','custom-sidebars'); ?>" /></p>
 	</form>        
     </div>
 </div>

@@ -175,14 +175,36 @@ showCreateSidebar = function($){
     $('.create-sidebar-button').click(function(){
        var ajaxdata = {
            action: 'cs-wpnonce',
-           nonce: 'show-create-sidebar'
+           nonce_action: 'cs-create-sidebar',
+           nonce_nonce: $('#_nonce_nonce').val()
        };
-       if(!$('.new-sidebar-holder').is(':visible')){
-           $('#new-sidebar').append($('#new-sidebar-form'));
-           $('.new-sidebar-holder').hide().detach().insertAfter('#cs-title-options').slideDown().children(".sidebar-name").click(function(){var h=$(this).siblings(".widgets-sortables"),g=$(this).parent();if(!g.hasClass("closed")){h.sortable("disable");g.addClass("closed")}else{g.removeClass("closed");h.sortable("enable").sortable("refresh")}});
-       }
+       $.post(ajaxurl, ajaxdata, function(response){
+           if(!$('.new-sidebar-holder').is(':visible')){
+               $('#_nonce_nonce').val(response.nonce_nonce);
+               $('#_create_nonce').val(response.nonce);
+               $('#new-sidebar').append($('#new-sidebar-form'));
+               $('.new-sidebar-holder').hide().detach().insertAfter('#cs-title-options').slideDown().children(".sidebar-name").click(function(){var h=$(this).siblings(".widgets-sortables"),g=$(this).parent();if(!g.hasClass("closed")){h.sortable("disable");g.addClass("closed")}else{g.removeClass("closed");h.sortable("enable").sortable("refresh")}});
+           }
+       }, 'json');
        return false;
     });
+}
+
+setCreateSidebar = function($){
+   $('#cs-create-sidebar').click(function(){
+      var ajaxdata = {
+           action: 'cs-create-sidebar',
+           nonce: $('#_create_nonce').val(),
+           name: $('#sidebar_name').val(),
+           description: $('#sidebar_description').val()
+       };
+       
+       $.post(ajaxurl, ajaxdata, function(response){
+           
+       }, 'json');
+      
+      return false;
+   });
 }
 
 
@@ -190,4 +212,5 @@ jQuery(function($){
     scrollSetUp($);
     addCSControls($);
     showCreateSidebar($);
+    setCreateSidebar($);
 });

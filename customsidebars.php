@@ -873,6 +873,49 @@ class CustomSidebars{
 		$cat = &get_category($catid);
 		return 1 + $this->getCategoryLevel($cat->category_parent);
 	}
+        
+        function jsonResponse($obj){
+            header('Content-Type: application/json');
+            echo json_encode($obj);
+            die();
+        }
+        
+        function ajaxCreateNonce(){
+            $nonce = $_POST['nonce_nonce'];
+            $action = $_POST['nonce_action'];
+            if(! wp_verify_nonce($nonce, 'cs-wpnonce'))
+                die('malo');
+            
+            $this->jsonResponse(array(
+                nonce_nonce => wp_create_nonce('cs-wpnonce'),
+                nonce => wp_create_nonce($action)
+            ));
+        }
+        
+        function ajaxCreateSidebar(){
+            $nonce = $_POST['nonce'];
+            if(! wp_verify_nonce($nonce, 'cs-create-sidebar'))
+                $this->jsonResponse (array(
+                   success => false,
+                   message => __('The operation is not secure and it cannot be completed.','custom-sidebars')
+                ));
+            
+            $this->storeSidebar();
+            
+            if($this->message_class == 'error')
+                $this->jsonResponse (array(
+                   success => false,
+                   message => $this->message
+                ));
+            
+            $this->jsonResponse (array(
+                success => true,
+                message => __('The sidebar has been created successfully.','custom-sidebars'),
+                name => trim($_POST['sidebar_name']),
+                description => trim($_POST['sidebar_description']),
+                id => $this->sidebar_prefix . sanitize_title_with_dashes($name)
+            ));
+        }
 }
 endif; //exists class
 
@@ -887,6 +930,10 @@ if(!isset($plugin_sidebars)){
 	add_action( 'save_post', array($plugin_sidebars,'storeReplacements'));
 	add_action( 'init', array($plugin_sidebars,'loadTextDomain'));
 	add_action( 'admin_enqueue_scripts', array($plugin_sidebars,'addStyles'));
+        //AJAX actions
+        add_action( 'wp_ajax_cs-wpnonce', array($plugin_sidebars, 'ajaxCreateNonce'));
+        add_action( 'wp_ajax_cs-create-sidebar', array($plugin_sidebars, 'ajaxCreateSidebar'));
+        
 }
 if(! class_exists('CustomSidebarsEmptyPlugin')){
 class CustomSidebarsEmptyPlugin extends WP_Widget {
