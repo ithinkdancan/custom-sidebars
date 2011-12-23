@@ -183,7 +183,13 @@ showCreateSidebar = function($){
                $('#_nonce_nonce').val(response.nonce_nonce);
                $('#_create_nonce').val(response.nonce);
                $('#new-sidebar').append($('#new-sidebar-form'));
-               $('.new-sidebar-holder').hide().detach().insertAfter('#cs-title-options').slideDown().children(".sidebar-name").click(function(){var h=$(this).siblings(".widgets-sortables"),g=$(this).parent();if(!g.hasClass("closed")){h.sortable("disable");g.addClass("closed")}else{g.removeClass("closed");h.sortable("enable").sortable("refresh")}});
+               $('.new-sidebar-holder').attr('id', 'new-sidebar-holder')
+                                    .hide()
+                                    .detach()
+                                    .insertAfter('#cs-title-options')
+                                    .slideDown()
+                                    .children(".sidebar-name")
+                                    .click(function(){var h=$(this).siblings(".widgets-sortables"),g=$(this).parent();if(!g.hasClass("closed")){h.sortable("disable");g.addClass("closed")}else{g.removeClass("closed");h.sortable("enable").sortable("refresh")}});
            }
        }, 'json');
        return false;
@@ -195,16 +201,35 @@ setCreateSidebar = function($){
       var ajaxdata = {
            action: 'cs-create-sidebar',
            nonce: $('#_create_nonce').val(),
-           name: $('#sidebar_name').val(),
-           description: $('#sidebar_description').val()
+           sidebar_name: $('#sidebar_name').val(),
+           sidebar_description: $('#sidebar_description').val()
        };
        
        $.post(ajaxurl, ajaxdata, function(response){
-           
+           if(response.success){
+               var holder = $('#new-sidebar-holder');
+               holder.removeAttr('id')
+                    .find('.sidebar-name h3').text(response.name);
+               holder.find('#new-sidebar').fadeOut(function(){
+                   holder.find('#new-sidebar').html('<p class="sidebar-description description">' + response.description + '</p>')
+                                    .attr('id', response.id)
+                                    .fadeIn();
+               });
+               showMessage(response.message, false);
+                                    
+           }
        }, 'json');
       
       return false;
    });
+}
+
+var showMessage = function(message, error){
+   var msgclass = 'cs-message cs-update';
+   if(error)
+       msgclass = 'cs-message cs-error';
+   var html = '<div class="' + msgclass + '">' + message + '</div>';
+   jQuery(html).prependTo('#widgets-left');
 }
 
 

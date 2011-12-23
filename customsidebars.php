@@ -913,7 +913,7 @@ class CustomSidebars{
                 message => __('The sidebar has been created successfully.','custom-sidebars'),
                 name => trim($_POST['sidebar_name']),
                 description => trim($_POST['sidebar_description']),
-                id => $this->sidebar_prefix . sanitize_title_with_dashes($name)
+                id => $this->sidebar_prefix . sanitize_title_with_dashes($_POST['sidebar_name'])
             ));
         }
 }
