@@ -3,7 +3,7 @@ Contributors: marquex
 Donate link: http://marquex.es/541/custom-sidebars-plugin-v0-8
 Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 3.0
-Tested up to: 3.2
+Tested up to: 3.3
 Stable tag: trunk
 
 Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
@@ -27,8 +27,10 @@ I also recommend the use of [Widget Entries plugin](http://wordpress.org/extend/
 
 Translations are welcome! I will write your name down here if you donate your translation work. Thanks very much to:
 
-*	marquex - English
-*	marquex - Spanish
+*	English - marquex
+*	Spanish - marquex
+*	German - [Markus Vocke, Professionelles Webdesign](http://www.web-funk.de)
+*	Dutch - Herman Boswijk
 
 == Installation ==
 
@@ -69,6 +71,11 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 5. screenshot-5.png The sidebar sb1 has replace the sidebar footer 1 in the front-end.
 
 == Changelog ==
+= 0.8.2 =
+* 	Fixed: Problems with spanish translation
+*	Added: Dutch and German language files
+* 	Fixed: Some css issues with WP3.3
+
 = 0.8.1 =
 *	Fixed: You can assign sidebars to your pages again.
 
