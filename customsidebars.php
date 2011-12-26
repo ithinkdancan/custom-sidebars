@@ -3,7 +3,7 @@
 Plugin Name: Custom sidebars
 Plugin URI: http://marquex.es/541/custom-sidebars-plugin-v0-8
 Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
-Version: 0.8.1
+Version: 0.8.2
 Author: Javier Marquez
 Author URI: http://marquex.es
 */
