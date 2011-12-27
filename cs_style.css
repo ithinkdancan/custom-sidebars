@@ -105,6 +105,9 @@ border-radius: 5px;}
 #new-sidebar-form{
     margin: 0 15px;
 }
+#new-sidebar-form label {
+    display:block;
+}
 #new-sidebar-form .submit{
     text-align: right;
     margin: 0;
@@ -113,4 +116,27 @@ border-radius: 5px;}
 #new-sidebar-form .description{
     margin-top: 5px;
     text-align: right;
+}
+
+#sidebar_name, #sidebar_description{
+    width: 100%;
+}
+
+.cs-message{
+margin: .5em 0;
+padding: 10px;
+font-weight:bolder;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+}
+
+.cs-update{
+background: lightYellow;
+border: 1px solid #E6DB55;
+}
+
+.cs-error{
+background: #FFEBE8;
+border: 1px solid #C00;
 }

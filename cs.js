@@ -178,20 +178,33 @@ showCreateSidebar = function($){
            nonce_action: 'cs-create-sidebar',
            nonce_nonce: $('#_nonce_nonce').val()
        };
-       $.post(ajaxurl, ajaxdata, function(response){
-           if(!$('.new-sidebar-holder').is(':visible')){
+       $('#cs-options').find('.ajax-feedback').css('visibility', 'visible');
+       if($('#new-sidebar-holder').length == 0){ //If there is no form displayed
+          $.post(ajaxurl, ajaxdata, function(response){
                $('#_nonce_nonce').val(response.nonce_nonce);
                $('#_create_nonce').val(response.nonce);
-               $('#new-sidebar').append($('#new-sidebar-form'));
-               $('.new-sidebar-holder').attr('id', 'new-sidebar-holder')
-                                    .hide()
-                                    .detach()
-                                    .insertAfter('#cs-title-options')
-                                    .slideDown()
-                                    .children(".sidebar-name")
-                                    .click(function(){var h=$(this).siblings(".widgets-sortables"),g=$(this).parent();if(!g.hasClass("closed")){h.sortable("disable");g.addClass("closed")}else{g.removeClass("closed");h.sortable("enable").sortable("refresh")}});
-           }
-       }, 'json');
+               var holder = $('#cs-new-sidebar').clone(true, true)
+                    .attr('id', 'new-sidebar-holder')
+                    .hide()
+                    .insertAfter('#cs-title-options');
+               holder.find('.widgets-sortables').attr('id', 'new-sidebar');
+               holder.find('.sidebar-form').attr('id', 'new-sidebar-form');
+               holder.find('.sidebar_name').attr('id', 'sidebar_name');
+               holder.find('.sidebar_description').attr('id', 'sidebar_description');
+               holder.find('.cs-create-sidebar').attr('id', 'cs-create-sidebar');
+               holder.slideDown();
+               var sbname = holder.children(".sidebar-name");
+               sbname.click(function(){
+                   var h=$(this).siblings(".widgets-sortables"),g=$(this).parent();if(!g.hasClass("closed")){h.sortable("disable");g.addClass("closed")}else{g.removeClass("closed");h.sortable("enable").sortable("refresh")}
+               });
+                    
+               setCreateSidebar($);
+               $('#cs-options').find('.ajax-feedback').css('visibility', 'hidden');
+           }, 'json');
+       }
+       else
+        $('#cs-options').find('.ajax-feedback').css('visibility', 'hidden');
+       
        return false;
     });
 }
@@ -204,20 +217,25 @@ setCreateSidebar = function($){
            sidebar_name: $('#sidebar_name').val(),
            sidebar_description: $('#sidebar_description').val()
        };
-       
+       $('#new-sidebar-form').find('.ajax-feedback').css('visibility', 'visible');
        $.post(ajaxurl, ajaxdata, function(response){
            if(response.success){
                var holder = $('#new-sidebar-holder');
                holder.removeAttr('id')
-                    .find('.sidebar-name h3').text(response.name);
+                    .find('.sidebar-name h3').html(response.name + '<span><img src="http://local.wp33/wp-admin/images/wpspin_dark.gif" class="ajax-feedback" title="" alt=""></span>');
                holder.find('#new-sidebar').fadeOut(function(){
                    holder.find('#new-sidebar').html('<p class="sidebar-description description">' + response.description + '</p>')
                                     .attr('id', response.id)
                                     .fadeIn();
                });
-               showMessage(response.message, false);
-                                    
+               holder = $('#' + response.id);
+               reSort(holder, $);
+               //holder.find('.widgets-sortables').droppable().sortable();
+               //$('.widget').draggable('option', 'connectToSortable', 'div.widgets-sortables').draggable("enable");
            }
+               showMessage(response.message, ! response.success);
+               $('#new-sidebar-form').find('.ajax-feedback').css('visibility', 'hidden');
+               
        }, 'json');
       
       return false;
@@ -225,11 +243,21 @@ setCreateSidebar = function($){
 }
 
 var showMessage = function(message, error){
-   var msgclass = 'cs-message cs-update';
+   var msgclass = 'cs-update';
    if(error)
-       msgclass = 'cs-message cs-error';
-   var html = '<div class="' + msgclass + '">' + message + '</div>';
-   jQuery(html).prependTo('#widgets-left');
+       msgclass = 'cs-error';
+   var html = '<div id="cs-message" class="cs-message ' + msgclass + '">' + message + '</div>';
+   jQuery(html).hide().prependTo('#widgets-left').fadeIn().slideDown();
+   setTimeout('hideMessage()', 5000);
+}
+
+var hideMessage = function(){
+    var msg = jQuery('#cs-message');
+    msg.fadeTo('fast', 0.1, function(){
+       msg.slideUp('fast', function(){
+          msg.remove(); 
+       });
+    });
 }
 
 
@@ -237,5 +265,73 @@ jQuery(function($){
     scrollSetUp($);
     addCSControls($);
     showCreateSidebar($);
-    setCreateSidebar($);
 });
+
+function reSort(a, $){
+  a.sortable({
+                placeholder: "widget-placeholder",
+                items: "> .widget",
+                handle: "> .widget-top > .widget-title",
+                cursor: "move",
+                distance: 2,
+                containment: "document",
+                start: function (h, g) {
+                    g.item.children(".widget-inside").hide();
+                    g.item.css({
+                        margin: "",
+                        width: ""
+                    })
+                },
+                stop: function (i, g) {
+                    if (g.item.hasClass("ui-draggable") && g.item.data("draggable")) {
+                        g.item.draggable("destroy")
+                    }
+                    if (g.item.hasClass("deleting")) {
+                        wpWidgets.save(g.item, 1, 0, 1);
+                        g.item.remove();
+                        return
+                    }
+                    var h = g.item.find("input.add_new").val(),
+                        l = g.item.find("input.multi_number").val(),
+                        k = b,
+                        j = a(this).attr("id");
+                    g.item.css({
+                        margin: "",
+                        width: ""
+                    });
+                    b = "";
+                    if (h) {
+                        if ("multi" == h) {
+                            g.item.html(g.item.html().replace(/<[^<>]+>/g, function (n) {
+                                return n.replace(/__i__|%i%/g, l)
+                            }));
+                            g.item.attr("id", k.replace("__i__", l));
+                            l++;
+                            a("div#" + k).find("input.multi_number").val(l)
+                        } else {
+                            if ("single" == h) {
+                                g.item.attr("id", "new-" + k);
+                                f = "div#" + k
+                            }
+                        }
+                        wpWidgets.save(g.item, 0, 0, 1);
+                        g.item.find("input.add_new").val("");
+                        g.item.find("a.widget-action").click();
+                        return
+                    }
+                    wpWidgets.saveOrder(j)
+                },
+                receive: function (i, h) {
+                    var g = a(h.sender);
+                    if (!a(this).is(":visible") || this.id.indexOf("orphaned_widgets") != -1) {
+                        g.sortable("cancel")
+                    }
+                    if (g.attr("id").indexOf("orphaned_widgets") != -1 && !g.children(".widget").length) {
+                        g.parents(".orphan-sidebar").slideUp(400, function () {
+                            a(this).remove()
+                        })
+                    }
+                }
+            }).sortable("option", "connectWith", "div.widgets-sortables").parent();
+            $('.widget').draggable('option', 'connectToSortable', 'div.widgets-sortables').draggable("enable");
+}
