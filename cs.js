@@ -173,16 +173,8 @@ addCSControls = function($){
 
 showCreateSidebar = function($){
     $('.create-sidebar-button').click(function(){
-       var ajaxdata = {
-           action: 'cs-wpnonce',
-           nonce_action: 'cs-create-sidebar',
-           nonce_nonce: $('#_nonce_nonce').val()
-       };
-       $('#cs-options').find('.ajax-feedback').css('visibility', 'visible');
        if($('#new-sidebar-holder').length == 0){ //If there is no form displayed
-          $.post(ajaxurl, ajaxdata, function(response){
-               $('#_nonce_nonce').val(response.nonce_nonce);
-               $('#_create_nonce').val(response.nonce);
+               
                var holder = $('#cs-new-sidebar').clone(true, true)
                     .attr('id', 'new-sidebar-holder')
                     .hide()
@@ -200,8 +192,7 @@ showCreateSidebar = function($){
 
                     
                setCreateSidebar($);
-               $('#cs-options').find('.ajax-feedback').css('visibility', 'hidden');
-           }, 'json');
+               
        }
        else
         $('#cs-options').find('.ajax-feedback').css('visibility', 'hidden');
@@ -213,7 +204,8 @@ showCreateSidebar = function($){
 setCreateSidebar = function($){
    $('#cs-create-sidebar').click(function(){
       var ajaxdata = {
-           action: 'cs-create-sidebar',
+           action: 'cs-ajax',
+           cs_action: 'cs-create-sidebar',
            nonce: $('#_create_nonce').val(),
            sidebar_name: $('#sidebar_name').val(),
            sidebar_description: $('#sidebar_description').val()
@@ -226,14 +218,16 @@ setCreateSidebar = function($){
                     .find('.sidebar-name h3').html(response.name + '<span><img src="images/wpspin_dark.gif" class="ajax-feedback" title="" alt=""></span>');
                holder.find('#new-sidebar').attr('id', response.id) ;
                holder = $('#' + response.id).html('<p class="sidebar-description description">' + response.description + '</p>');
-               //setDroppable(holder, $);
+              
                refreshDrag(holder, $);
-               //holder.find('.widgets-sortables').droppable().sortable();
-               //$('.widget').draggable('option', 'connectToSortable', 'div.widgets-sortables').draggable("enable");
-           }
-               showMessage(response.message, ! response.success);
-               $('#new-sidebar-form').find('.ajax-feedback').css('visibility', 'hidden');
                
+               setEditbar(holder, $);
+           }
+           
+           $('#_create_nonce').val(response.nonce);
+           showMessage(response.message, ! response.success);
+           $('#new-sidebar-form').find('.ajax-feedback').css('visibility', 'hidden');
+           
        }, 'json');
       
       return false;
@@ -263,12 +257,47 @@ var setEditbarsUp = function($){
        if($(this).attr('id').substr(0,3) == 'cs-')
            setEditbar($(this), $);
    });
+   $('#widgets-right').on('click', 'a.delete-sidebar', function(){
+       var sbname = trim($(this).parent().siblings('.sidebar-name').text());
+       if(confirm($('#cs-confirm-delete').text() + ' ' + sbname)){
+           deleteSidebar($(this).parent().siblings('.widgets-sortables').attr('id'), $);
+       }
+       return false;
+   });
+   $('#widgets-right').on('click', 'a.edit-sidebar', function(){
+       editSidebar($(this).parent().attr('id'));
+       return false;
+   });
+   $('#widgets-right').on('click', 'a.where-sidebar', function(){
+       whereSidebar($(this).parent().attr('id'));
+       return false;
+   });
 }
 
 var setEditbar = function($elem, $){
-   var editbar = $('#cs-widgets-extra').find('.cs-edit-sidebar').clone().appendTo('#' + $elem.attr('id'));
+   var editbar = $('#cs-widgets-extra').find('.cs-edit-sidebar').clone();
+   $elem.parent().append(editbar);
    editbar.find('a').each(function(){
        $(this).attr('href', $(this).attr('href') + $elem.attr('id'));
+       return false;
+   });
+}
+
+var deleteSidebar = function(id, $){
+   var ajaxdata = {
+       action:      'cs-ajax',
+       cs_action:   'cs-delete-sidebar',
+       'delete':    id,
+       nonce: $('#_delete_nonce').val()
+   }
+   $.post(ajaxurl, ajaxdata, function(response){
+       if(response.success){
+           $('#' + id).parent().slideUp('fast', function(){
+              $(this).remove();
+           });
+       }
+       $('#_delete_nonce').val(response.nonce);
+       showMessage(response.message, ! response.success);
    });
 }
 
@@ -383,4 +412,18 @@ var refreshDrag = function(holder, $){
                     $('#removing-widget').hide().children('span').html('');
             }
     });
+}
+
+/*
+ * http://blog.stevenlevithan.com/archives/faster-trim-javascript
+ */
+function trim (str) {
+	str = str.replace(/^\s+/, '');
+	for (var i = str.length - 1; i >= 0; i--) {
+		if (/\S/.test(str.charAt(i))) {
+			str = str.substring(0, i + 1);
+			break;
+		}
+	}
+	return str;
 }

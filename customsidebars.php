@@ -283,7 +283,7 @@ class CustomSidebars{
 		if(!empty($custom)){
 		
 		foreach($custom as $sb){
-			if($sb['id']!=$_GET['delete'])
+			if($sb['id']!=$_REQUEST['delete'])
 				$newsidebars[] = $sb;
 			else
 				$deleted = TRUE;
@@ -880,41 +880,65 @@ class CustomSidebars{
             die();
         }
         
-        function ajaxCreateNonce(){
-            $nonce = $_POST['nonce_nonce'];
-            $action = $_POST['nonce_action'];
-            if(! wp_verify_nonce($nonce, 'cs-wpnonce'))
-                die('malo');
+        function ajaxHandler(){
+            $nonce = $_POST['nonce'];
+            $action = $_POST['cs_action'];
+            if(! wp_verify_nonce($nonce, $action)){
+                $response = array(
+                   success => false,
+                   message => __('The operation is not secure and it cannot be completed.','custom-sidebars'),
+                   nonce => wp_create_nonce($action)
+                );
+                $this->jsonResponse( $response );
+            }
             
-            $this->jsonResponse(array(
-                nonce_nonce => wp_create_nonce('cs-wpnonce'),
-                nonce => wp_create_nonce($action)
-            ));
+            $response = array();
+            if($action == 'cs-create-sidebar'){
+                $response = $this->ajaxCreateSidebar();
+            }
+            else if($action == 'cs-edit-sidebar'){
+                $response = array();
+            }
+            else if($action == 'cs-where-sidebar'){
+                $response = array();
+            }
+            else if($action == 'cs-delete-sidebar'){
+                $response = $this->ajaxDeleteSidebar();
+            }
+            
+            $response['nonce'] = wp_create_nonce($action);
+            $this->jsonResponse($response);
         }
         
         function ajaxCreateSidebar(){
-            $nonce = $_POST['nonce'];
-            if(! wp_verify_nonce($nonce, 'cs-create-sidebar'))
-                $this->jsonResponse (array(
-                   success => false,
-                   message => __('The operation is not secure and it cannot be completed.','custom-sidebars')
-                ));
-            
             $this->storeSidebar();
             
             if($this->message_class == 'error')
-                $this->jsonResponse (array(
+                return array(
                    success => false,
                    message => $this->message
-                ));
+                );
             
-            $this->jsonResponse (array(
+            return array(
                 success => true,
                 message => __('The sidebar has been created successfully.','custom-sidebars'),
                 name => trim($_POST['sidebar_name']),
                 description => trim($_POST['sidebar_description']),
                 id => $this->sidebar_prefix . sanitize_html_class(sanitize_title_with_dashes($_POST['sidebar_name']))
-            ));
+            );
+        }
+        
+        function ajaxDeleteSidebar(){
+            $this->deleteSidebar();
+            
+            $response = array( message => $this->message);
+            
+            if($this->message_class == 'error')
+                $response['success'] = false;
+            else
+                $response = true;
+            
+            return $response;
         }
 }
 endif; //exists class
@@ -931,8 +955,7 @@ if(!isset($plugin_sidebars)){
 	add_action( 'init', array($plugin_sidebars,'loadTextDomain'));
 	add_action( 'admin_enqueue_scripts', array($plugin_sidebars,'addStyles'));
         //AJAX actions
-        add_action( 'wp_ajax_cs-wpnonce', array($plugin_sidebars, 'ajaxCreateNonce'));
-        add_action( 'wp_ajax_cs-create-sidebar', array($plugin_sidebars, 'ajaxCreateSidebar'));
+        add_action( 'wp_ajax_cs-ajax', array($plugin_sidebars, 'ajaxHandler'));
         
 }
 if(! class_exists('CustomSidebarsEmptyPlugin')){
