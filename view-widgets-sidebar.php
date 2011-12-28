@@ -18,8 +18,8 @@
             <div class="sidebar-name-arrow"><br></div>
             <h3><?php _e('New Sidebar','custom-sidebars') ?><span><img src="http://local.wp33/wp-admin/images/wpspin_dark.gif" class="ajax-feedback" title="" alt=""></span></h3>
         </div>
-        <div id="new-sidebar" class="widgets-sortables" style="min-height: 50px; ">
-            <div id="new-sidebar-form" class="sidebar-form">
+        <div class="_widgets-sortables" style="min-height: 50px; ">
+            <div class="sidebar-form">
                 <form action="themes.php?page=customsidebars" method="post">
                     <?php wp_nonce_field( 'cs-create-sidebar', '_create_nonce');?>
                     <?php wp_nonce_field( 'cs-wpnonce', '_nonce_nonce');?>
@@ -41,4 +41,5 @@
             </div>
         </div>
     </div>
+    <div class="cs-edit-sidebar"><a class="edit-sidebar" href="themes.php?page=customsidebars&p=edit&id="><?php _e('Edit','custom-sidebars')?></a><span class="cs-edit-separator"> | </span><a class="delete-sidebar" href="themes.php?page=customsidebars&p=delete&id="><?php _e('Delete','custom-sidebars')?></a></div>
 </div>

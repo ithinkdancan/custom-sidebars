@@ -627,7 +627,7 @@ class CustomSidebars{
 		if(empty($name) OR empty($description))
 			$this->setError(__('You have to fill all the fields to create a new sidebar.','custom-sidebars'));
 		else{
-			$id = $this->sidebar_prefix . sanitize_title_with_dashes($name);
+			$id = $this->sidebar_prefix . sanitize_html_class(sanitize_title_with_dashes($name));
 			$sidebars = get_option($this->option_name, FALSE);
 			if($sidebars !== FALSE){
 				$sidebars = $sidebars;
@@ -657,7 +657,7 @@ class CustomSidebars{
 					$this->setError(__('There is already a sidebar registered with that name, please choose a different one.','custom-sidebars'));
 			}
 			else{
-				$id = $this->sidebar_prefix . sanitize_title_with_dashes($name);
+				$id = $this->sidebar_prefix . sanitize_html_class(sanitize_title_with_dashes($name));
 				$sidebars= array(array(
 						'name' => __( $name ,'custom-sidebars'),
 						'id' => $id,
@@ -913,7 +913,7 @@ class CustomSidebars{
                 message => __('The sidebar has been created successfully.','custom-sidebars'),
                 name => trim($_POST['sidebar_name']),
                 description => trim($_POST['sidebar_description']),
-                id => $this->sidebar_prefix . sanitize_title_with_dashes($_POST['sidebar_name'])
+                id => $this->sidebar_prefix . sanitize_html_class(sanitize_title_with_dashes($_POST['sidebar_name']))
             ));
         }
 }

@@ -187,7 +187,7 @@ showCreateSidebar = function($){
                     .attr('id', 'new-sidebar-holder')
                     .hide()
                     .insertAfter('#cs-title-options');
-               holder.find('.widgets-sortables').attr('id', 'new-sidebar');
+               holder.find('._widgets-sortables').addClass('widgets-sortables').removeClass('_widgets-sortables').attr('id', 'new-sidebar');
                holder.find('.sidebar-form').attr('id', 'new-sidebar-form');
                holder.find('.sidebar_name').attr('id', 'sidebar_name');
                holder.find('.sidebar_description').attr('id', 'sidebar_description');
@@ -197,6 +197,7 @@ showCreateSidebar = function($){
                sbname.click(function(){
                    var h=$(this).siblings(".widgets-sortables"),g=$(this).parent();if(!g.hasClass("closed")){h.sortable("disable");g.addClass("closed")}else{g.removeClass("closed");h.sortable("enable").sortable("refresh")}
                });
+
                     
                setCreateSidebar($);
                $('#cs-options').find('.ajax-feedback').css('visibility', 'hidden');
@@ -222,14 +223,11 @@ setCreateSidebar = function($){
            if(response.success){
                var holder = $('#new-sidebar-holder');
                holder.removeAttr('id')
-                    .find('.sidebar-name h3').html(response.name + '<span><img src="http://local.wp33/wp-admin/images/wpspin_dark.gif" class="ajax-feedback" title="" alt=""></span>');
-               holder.find('#new-sidebar').fadeOut(function(){
-                   holder.find('#new-sidebar').html('<p class="sidebar-description description">' + response.description + '</p>')
-                                    .attr('id', response.id)
-                                    .fadeIn();
-               });
-               holder = $('#' + response.id);
-               reSort(holder, $);
+                    .find('.sidebar-name h3').html(response.name + '<span><img src="images/wpspin_dark.gif" class="ajax-feedback" title="" alt=""></span>');
+               holder.find('#new-sidebar').attr('id', response.id) ;
+               holder = $('#' + response.id).html('<p class="sidebar-description description">' + response.description + '</p>');
+               //setDroppable(holder, $);
+               refreshDrag(holder, $);
                //holder.find('.widgets-sortables').droppable().sortable();
                //$('.widget').draggable('option', 'connectToSortable', 'div.widgets-sortables').draggable("enable");
            }
@@ -260,78 +258,129 @@ var hideMessage = function(){
     });
 }
 
+var setEditbarsUp = function($){
+   $('#widgets-right').find('.widgets-sortables').each(function(){
+       if($(this).attr('id').substr(0,3) == 'cs-')
+           setEditbar($(this), $);
+   });
+}
+
+var setEditbar = function($elem, $){
+   var editbar = $('#cs-widgets-extra').find('.cs-edit-sidebar').clone().appendTo('#' + $elem.attr('id'));
+   editbar.find('a').each(function(){
+       $(this).attr('href', $(this).attr('href') + $elem.attr('id'));
+   });
+}
+
 
 jQuery(function($){
     scrollSetUp($);
     addCSControls($);
     showCreateSidebar($);
+    setEditbarsUp($);
 });
 
-function reSort(a, $){
-  a.sortable({
-                placeholder: "widget-placeholder",
-                items: "> .widget",
-                handle: "> .widget-top > .widget-title",
-                cursor: "move",
-                distance: 2,
-                containment: "document",
-                start: function (h, g) {
-                    g.item.children(".widget-inside").hide();
-                    g.item.css({
-                        margin: "",
-                        width: ""
-                    })
-                },
-                stop: function (i, g) {
-                    if (g.item.hasClass("ui-draggable") && g.item.data("draggable")) {
-                        g.item.draggable("destroy")
-                    }
-                    if (g.item.hasClass("deleting")) {
-                        wpWidgets.save(g.item, 1, 0, 1);
-                        g.item.remove();
-                        return
-                    }
-                    var h = g.item.find("input.add_new").val(),
-                        l = g.item.find("input.multi_number").val(),
-                        k = b,
-                        j = a(this).attr("id");
-                    g.item.css({
-                        margin: "",
-                        width: ""
-                    });
-                    b = "";
-                    if (h) {
-                        if ("multi" == h) {
-                            g.item.html(g.item.html().replace(/<[^<>]+>/g, function (n) {
-                                return n.replace(/__i__|%i%/g, l)
-                            }));
-                            g.item.attr("id", k.replace("__i__", l));
-                            l++;
-                            a("div#" + k).find("input.multi_number").val(l)
-                        } else {
-                            if ("single" == h) {
-                                g.item.attr("id", "new-" + k);
-                                f = "div#" + k
-                            }
-                        }
-                        wpWidgets.save(g.item, 0, 0, 1);
-                        g.item.find("input.add_new").val("");
-                        g.item.find("a.widget-action").click();
-                        return
-                    }
-                    wpWidgets.saveOrder(j)
-                },
-                receive: function (i, h) {
-                    var g = a(h.sender);
-                    if (!a(this).is(":visible") || this.id.indexOf("orphaned_widgets") != -1) {
-                        g.sortable("cancel")
-                    }
-                    if (g.attr("id").indexOf("orphaned_widgets") != -1 && !g.children(".widget").length) {
-                        g.parents(".orphan-sidebar").slideUp(400, function () {
-                            a(this).remove()
-                        })
-                    }
+var refreshDrag = function(holder, $){
+    var rem, the_id;
+    $('#widget-list').children('.widget').draggable('destroy').draggable({
+            connectToSortable: 'div.widgets-sortables',
+            handle: '> .widget-top > .widget-title',
+            distance: 2,
+            helper: 'clone',
+            zIndex: 5,
+            containment: 'document',
+            start: function(e,ui) {
+                    ui.helper.find('div.widget-description').hide();
+                    the_id = this.id;
+            },
+            stop: function(e,ui) {
+                    if ( rem )
+                            $(rem).hide();
+
+                    rem = '';
+            }
+    });
+    
+    holder.sortable({
+        placeholder: 'widget-placeholder',
+        items: '> .widget',
+        handle: '> .widget-top > .widget-title',
+        cursor: 'move',
+        distance: 2,
+        containment: 'document',
+        start: function(e,ui) {
+                ui.item.children('.widget-inside').hide();
+                ui.item.css({margin:'', 'width':''});
+        },
+        stop: function(e,ui) {
+                if ( ui.item.hasClass('ui-draggable') && ui.item.data('draggable') )
+                        ui.item.draggable('destroy');
+
+                if ( ui.item.hasClass('deleting') ) {
+                        wpWidgets.save( ui.item, 1, 0, 1 ); // delete widget
+                        ui.item.remove();
+                        return;
                 }
-            }).sortable("option", "connectWith", "div.widgets-sortables").parent();
-            $('.widget').draggable('option', 'connectToSortable', 'div.widgets-sortables').draggable("enable");
+
+                var add = ui.item.find('input.add_new').val(),
+                        n = ui.item.find('input.multi_number').val(),
+                        id = the_id,
+                        sb = $(this).attr('id');
+
+                ui.item.css({margin:'', 'width':''});
+                the_id = '';
+
+                if ( add ) {
+                        if ( 'multi' == add ) {
+                                ui.item.html( ui.item.html().replace(/<[^<>]+>/g, function(m){ return m.replace(/__i__|%i%/g, n); }) );
+                                ui.item.attr( 'id', id.replace('__i__', n) );
+                                n++;
+                                $('div#' + id).find('input.multi_number').val(n);
+                        } else if ( 'single' == add ) {
+                                ui.item.attr( 'id', 'new-' + id );
+                                rem = 'div#' + id;
+                        }
+                        wpWidgets.save( ui.item, 0, 0, 1 );
+                        ui.item.find('input.add_new').val('');
+                        ui.item.find('a.widget-action').click();
+                        return;
+                }
+                wpWidgets.saveOrder(sb);
+        },
+        receive: function(e, ui) {
+                var sender = $(ui.sender);
+
+                if ( !$(this).is(':visible') || this.id.indexOf('orphaned_widgets') != -1 )
+                        sender.sortable('cancel');
+
+                if ( sender.attr('id').indexOf('orphaned_widgets') != -1 && !sender.children('.widget').length ) {
+                        sender.parents('.orphan-sidebar').slideUp(400, function(){ $(this).remove(); });
+                }
+        }
+    });
+    $('div.widgets-sortables').sortable('option', 'connectWith', 'div.widgets-sortables').parent().filter('.closed').children('.widgets-sortables').sortable('disable');
+    
+    $('#available-widgets').droppable('destroy').droppable({
+            tolerance: 'pointer',
+            accept: function(o){
+                    return $(o).parent().attr('id') != 'widget-list';
+            },
+            drop: function(e,ui) {
+                    ui.draggable.addClass('deleting');
+                    $('#removing-widget').hide().children('span').html('');
+            },
+            over: function(e,ui) {
+                    ui.draggable.addClass('deleting');
+                    $('div.widget-placeholder').hide();
+
+                    if ( ui.draggable.hasClass('ui-sortable-helper') )
+                            $('#removing-widget').show().children('span')
+                            .html( ui.draggable.find('div.widget-title').children('h4').html() );
+            },
+            out: function(e,ui) {
+                    ui.draggable.removeClass('deleting');
+                    $('div.widget-placeholder').show();
+                    $('#removing-widget').hide().children('span').html('');
+            }
+    });
 }
