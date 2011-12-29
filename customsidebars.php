@@ -272,8 +272,9 @@ class CustomSidebars{
 	function deleteSidebar(){
 		if(! current_user_can($this->cap_required) )
 			return new WP_Error('cscantdelete', __('You do not have permission to delete sidebars','custom-sidebars'));
-			
-		if (! wp_verify_nonce($_REQUEST['_n'], 'custom-sidebars-delete') ) die('Security check stop your request.'); 
+		
+                if(! DOING_AJAX && ! wp_verify_nonce($_REQUEST['_n'], 'custom-sidebars-delete') ) 
+                        die('Security check stop your request.'); 
 		
 		$newsidebars = array();
 		$deleted = FALSE;
@@ -296,7 +297,7 @@ class CustomSidebars{
 		$this->refreshSidebarsWidgets();
 		
 		if($deleted)
-			$this->setMessage(sprintf(__('The sidebar "%s" has been deleted.','custom-sidebars'), $_GET['delete']));
+			$this->setMessage(sprintf(__('The sidebar "%s" has been deleted.','custom-sidebars'), $_REQUEST['delete']));
 		else
 			$this->setError(sprintf(__('There was not any sidebar called "%s" and it could not been deleted.','custom-sidebars'), $_GET['delete']));
 	}
@@ -931,14 +932,10 @@ class CustomSidebars{
         function ajaxDeleteSidebar(){
             $this->deleteSidebar();
             
-            $response = array( message => $this->message);
-            
-            if($this->message_class == 'error')
-                $response['success'] = false;
-            else
-                $response = true;
-            
-            return $response;
+            return array( 
+                message => $this->message,
+                success => $this->message_class != 'error'
+            );
         }
 }
 endif; //exists class

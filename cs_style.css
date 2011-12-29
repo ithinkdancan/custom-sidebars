@@ -66,6 +66,10 @@ margin-bottom:30px;
 	padding-right: 20px;
 }
 
+.widgets-php #screen-meta{
+    margin-right: 325px;
+}
+
 
 
 .widget-liquid-right .scrollbar { position: relative; float: right; width: 10px; }

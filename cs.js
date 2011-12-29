@@ -234,13 +234,22 @@ setCreateSidebar = function($){
    });
 }
 
+var msgTimer;
 var showMessage = function(message, error){
    var msgclass = 'cs-update';
    if(error)
        msgclass = 'cs-error';
-   var html = '<div id="cs-message" class="cs-message ' + msgclass + '">' + message + '</div>';
-   jQuery(html).hide().prependTo('#widgets-left').fadeIn().slideDown();
-   setTimeout('hideMessage()', 5000);
+   var msgdiv = jQuery('#cs-message');
+   if(msgdiv.length != 0){
+       clearTimeout(msgTimer);
+       msgdiv.removeClass('cs-error cs-update').addClass(msgclass);
+       msgdiv.text(message);
+   }
+   else{
+       var html = '<div id="cs-message" class="cs-message ' + msgclass + '">' + message + '</div>';
+       jQuery(html).hide().prependTo('#widgets-left').fadeIn().slideDown();
+   }
+   msgTimer = setTimeout('hideMessage()', 5000);
 }
 
 var hideMessage = function(){
