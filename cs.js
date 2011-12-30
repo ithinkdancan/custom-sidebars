@@ -136,292 +136,336 @@
 	};
 })(jQuery);
 
-/* Start cs code */
-
-updateScroll = function() {
-    jQuery('.widget-liquid-right').tinyscrollbar_update('relative');
-}
 
 
 
-scrollSetUp = function($){
-    $('#widgets-right').addClass('overview').wrap('<div class="viewport" />');
-    $('.viewport').height($(window).height() - 60);
-    $('.widget-liquid-right').height($(window).height()).prepend('<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>').tinyscrollbar();
-    $(window).resize(function() {
-      $('.widget-liquid-right').height($(window).height());
-      $('.viewport').height($(window).height() - 60);
-      $('.widget-liquid-right').tinyscrollbar_update('relative');
-    });
-    $('#widgets-right').resize(function(){
-        $('.widget-liquid-right').tinyscrollbar_update('relative');
-    });
+
+//CsSidebar class
+    function CsSidebar(id){
+        this.id = id;
+        this.widgets = '';
+        
+        // Add editbar
+        var editbar = jQuery('#cs-widgets-extra').find('.cs-edit-sidebar').clone();
+        jQuery('#' + id).parent().append(editbar);
+        editbar.find('a').each(function(){
+           jQuery(this).attr('href', jQuery(this).attr('href') + id);
+           return false;
+        });
+    }
     
-    $('.widget-liquid-right').click(function(){
-        setTimeout("updateScroll()",300);
-    });
-    $('.widget-liquid-right').hover(function(){
-        $('.scrollbar').fadeIn();
-    }, function(){
-        $('.scrollbar').fadeOut();
-    });
-}
+    CsSidebar.prototype.initDrag = function($){
+        var rem, the_id;
+        $('#widget-list').children('.widget').draggable('destroy').draggable({
+                connectToSortable: 'div.widgets-sortables',
+                handle: '> .widget-top > .widget-title',
+                distance: 2,
+                helper: 'clone',
+                zIndex: 5,
+                containment: 'document',
+                start: function(e,ui) {
+                        ui.helper.find('div.widget-description').hide();
+                        the_id = this.id;
+                },
+                stop: function(e,ui) {
+                        if ( rem )
+                                $(rem).hide();
 
-addCSControls = function($){
-    $('#cs-title-options').detach().prependTo('#widgets-right').show();
-}
+                        rem = '';
+                }
+        });
 
-showCreateSidebar = function($){
-    $('.create-sidebar-button').click(function(){
-       if($('#new-sidebar-holder').length == 0){ //If there is no form displayed
-               
-               var holder = $('#cs-new-sidebar').clone(true, true)
-                    .attr('id', 'new-sidebar-holder')
-                    .hide()
-                    .insertAfter('#cs-title-options');
-               holder.find('._widgets-sortables').addClass('widgets-sortables').removeClass('_widgets-sortables').attr('id', 'new-sidebar');
-               holder.find('.sidebar-form').attr('id', 'new-sidebar-form');
-               holder.find('.sidebar_name').attr('id', 'sidebar_name');
-               holder.find('.sidebar_description').attr('id', 'sidebar_description');
-               holder.find('.cs-create-sidebar').attr('id', 'cs-create-sidebar');
-               holder.slideDown();
-               var sbname = holder.children(".sidebar-name");
-               sbname.click(function(){
-                   var h=$(this).siblings(".widgets-sortables"),g=$(this).parent();if(!g.hasClass("closed")){h.sortable("disable");g.addClass("closed")}else{g.removeClass("closed");h.sortable("enable").sortable("refresh")}
-               });
-
-                    
-               setCreateSidebar($);
-               
-       }
-       else
-        $('#cs-options').find('.ajax-feedback').css('visibility', 'hidden');
-       
-       return false;
-    });
-}
-
-setCreateSidebar = function($){
-   $('#cs-create-sidebar').click(function(){
-      var ajaxdata = {
-           action: 'cs-ajax',
-           cs_action: 'cs-create-sidebar',
-           nonce: $('#_create_nonce').val(),
-           sidebar_name: $('#sidebar_name').val(),
-           sidebar_description: $('#sidebar_description').val()
-       };
-       $('#new-sidebar-form').find('.ajax-feedback').css('visibility', 'visible');
-       $.post(ajaxurl, ajaxdata, function(response){
-           if(response.success){
-               var holder = $('#new-sidebar-holder');
-               holder.removeAttr('id')
-                    .find('.sidebar-name h3').html(response.name + '<span><img src="images/wpspin_dark.gif" class="ajax-feedback" title="" alt=""></span>');
-               holder.find('#new-sidebar').attr('id', response.id) ;
-               holder = $('#' + response.id).html('<p class="sidebar-description description">' + response.description + '</p>');
-              
-               refreshDrag(holder, $);
-               
-               setEditbar(holder, $);
-           }
-           
-           $('#_create_nonce').val(response.nonce);
-           showMessage(response.message, ! response.success);
-           $('#new-sidebar-form').find('.ajax-feedback').css('visibility', 'hidden');
-           
-       }, 'json');
-      
-      return false;
-   });
-}
-
-var msgTimer;
-var showMessage = function(message, error){
-   var msgclass = 'cs-update';
-   if(error)
-       msgclass = 'cs-error';
-   var msgdiv = jQuery('#cs-message');
-   if(msgdiv.length != 0){
-       clearTimeout(msgTimer);
-       msgdiv.removeClass('cs-error cs-update').addClass(msgclass);
-       msgdiv.text(message);
-   }
-   else{
-       var html = '<div id="cs-message" class="cs-message ' + msgclass + '">' + message + '</div>';
-       jQuery(html).hide().prependTo('#widgets-left').fadeIn().slideDown();
-   }
-   msgTimer = setTimeout('hideMessage()', 5000);
-}
-
-var hideMessage = function(){
-    var msg = jQuery('#cs-message');
-    msg.fadeTo('fast', 0.1, function(){
-       msg.slideUp('fast', function(){
-          msg.remove(); 
-       });
-    });
-}
-
-var setEditbarsUp = function($){
-   $('#widgets-right').find('.widgets-sortables').each(function(){
-       if($(this).attr('id').substr(0,3) == 'cs-')
-           setEditbar($(this), $);
-   });
-   $('#widgets-right').on('click', 'a.delete-sidebar', function(){
-       var sbname = trim($(this).parent().siblings('.sidebar-name').text());
-       if(confirm($('#cs-confirm-delete').text() + ' ' + sbname)){
-           deleteSidebar($(this).parent().siblings('.widgets-sortables').attr('id'), $);
-       }
-       return false;
-   });
-   $('#widgets-right').on('click', 'a.edit-sidebar', function(){
-       editSidebar($(this).parent().attr('id'));
-       return false;
-   });
-   $('#widgets-right').on('click', 'a.where-sidebar', function(){
-       whereSidebar($(this).parent().attr('id'));
-       return false;
-   });
-}
-
-var setEditbar = function($elem, $){
-   var editbar = $('#cs-widgets-extra').find('.cs-edit-sidebar').clone();
-   $elem.parent().append(editbar);
-   editbar.find('a').each(function(){
-       $(this).attr('href', $(this).attr('href') + $elem.attr('id'));
-       return false;
-   });
-}
-
-var deleteSidebar = function(id, $){
-   var ajaxdata = {
-       action:      'cs-ajax',
-       cs_action:   'cs-delete-sidebar',
-       'delete':    id,
-       nonce: $('#_delete_nonce').val()
-   }
-   $.post(ajaxurl, ajaxdata, function(response){
-       if(response.success){
-           $('#' + id).parent().slideUp('fast', function(){
-              $(this).remove();
-           });
-       }
-       $('#_delete_nonce').val(response.nonce);
-       showMessage(response.message, ! response.success);
-   });
-}
-
-
-jQuery(function($){
-    scrollSetUp($);
-    addCSControls($);
-    showCreateSidebar($);
-    setEditbarsUp($);
-});
-
-var refreshDrag = function(holder, $){
-    var rem, the_id;
-    $('#widget-list').children('.widget').draggable('destroy').draggable({
-            connectToSortable: 'div.widgets-sortables',
+        $('#' + this.id).sortable({
+            placeholder: 'widget-placeholder',
+            items: '> .widget',
             handle: '> .widget-top > .widget-title',
+            cursor: 'move',
             distance: 2,
-            helper: 'clone',
-            zIndex: 5,
             containment: 'document',
             start: function(e,ui) {
-                    ui.helper.find('div.widget-description').hide();
-                    the_id = this.id;
+                    ui.item.children('.widget-inside').hide();
+                    ui.item.css({margin:'', 'width':''});
             },
             stop: function(e,ui) {
-                    if ( rem )
-                            $(rem).hide();
+                    if ( ui.item.hasClass('ui-draggable') && ui.item.data('draggable') )
+                            ui.item.draggable('destroy');
 
-                    rem = '';
+                    if ( ui.item.hasClass('deleting') ) {
+                            wpWidgets.save( ui.item, 1, 0, 1 ); // delete widget
+                            ui.item.remove();
+                            return;
+                    }
+
+                    var add = ui.item.find('input.add_new').val(),
+                            n = ui.item.find('input.multi_number').val(),
+                            id = the_id,
+                            sb = $(this).attr('id');
+
+                    ui.item.css({margin:'', 'width':''});
+                    the_id = '';
+
+                    if ( add ) {
+                            if ( 'multi' == add ) {
+                                    ui.item.html( ui.item.html().replace(/<[^<>]+>/g, function(m){ return m.replace(/__i__|%i%/g, n); }) );
+                                    ui.item.attr( 'id', id.replace('__i__', n) );
+                                    n++;
+                                    $('div#' + id).find('input.multi_number').val(n);
+                            } else if ( 'single' == add ) {
+                                    ui.item.attr( 'id', 'new-' + id );
+                                    rem = 'div#' + id;
+                            }
+                            wpWidgets.save( ui.item, 0, 0, 1 );
+                            ui.item.find('input.add_new').val('');
+                            ui.item.find('a.widget-action').click();
+                            return;
+                    }
+                    wpWidgets.saveOrder(sb);
+            },
+            receive: function(e, ui) {
+                    var sender = $(ui.sender);
+
+                    if ( !$(this).is(':visible') || this.id.indexOf('orphaned_widgets') != -1 )
+                            sender.sortable('cancel');
+
+                    if ( sender.attr('id').indexOf('orphaned_widgets') != -1 && !sender.children('.widget').length ) {
+                            sender.parents('.orphan-sidebar').slideUp(400, function(){ $(this).remove(); });
+                    }
             }
-    });
+        });
+        $('div.widgets-sortables').sortable('option', 'connectWith', 'div.widgets-sortables').parent().filter('.closed').children('.widgets-sortables').sortable('disable');
+
+        $('#available-widgets').droppable('destroy').droppable({
+                tolerance: 'pointer',
+                accept: function(o){
+                        return $(o).parent().attr('id') != 'widget-list';
+                },
+                drop: function(e,ui) {
+                        ui.draggable.addClass('deleting');
+                        $('#removing-widget').hide().children('span').html('');
+                },
+                over: function(e,ui) {
+                        ui.draggable.addClass('deleting');
+                        $('div.widget-placeholder').hide();
+
+                        if ( ui.draggable.hasClass('ui-sortable-helper') )
+                                $('#removing-widget').show().children('span')
+                                .html( ui.draggable.find('div.widget-title').children('h4').html() );
+                },
+                out: function(e,ui) {
+                        ui.draggable.removeClass('deleting');
+                        $('div.widget-placeholder').show();
+                        $('#removing-widget').hide().children('span').html('');
+                }
+        });
+    }
     
-    holder.sortable({
-        placeholder: 'widget-placeholder',
-        items: '> .widget',
-        handle: '> .widget-top > .widget-title',
-        cursor: 'move',
-        distance: 2,
-        containment: 'document',
-        start: function(e,ui) {
-                ui.item.children('.widget-inside').hide();
-                ui.item.css({margin:'', 'width':''});
-        },
-        stop: function(e,ui) {
-                if ( ui.item.hasClass('ui-draggable') && ui.item.data('draggable') )
-                        ui.item.draggable('destroy');
-
-                if ( ui.item.hasClass('deleting') ) {
-                        wpWidgets.save( ui.item, 1, 0, 1 ); // delete widget
-                        ui.item.remove();
-                        return;
-                }
-
-                var add = ui.item.find('input.add_new').val(),
-                        n = ui.item.find('input.multi_number').val(),
-                        id = the_id,
-                        sb = $(this).attr('id');
-
-                ui.item.css({margin:'', 'width':''});
-                the_id = '';
-
-                if ( add ) {
-                        if ( 'multi' == add ) {
-                                ui.item.html( ui.item.html().replace(/<[^<>]+>/g, function(m){ return m.replace(/__i__|%i%/g, n); }) );
-                                ui.item.attr( 'id', id.replace('__i__', n) );
-                                n++;
-                                $('div#' + id).find('input.multi_number').val(n);
-                        } else if ( 'single' == add ) {
-                                ui.item.attr( 'id', 'new-' + id );
-                                rem = 'div#' + id;
-                        }
-                        wpWidgets.save( ui.item, 0, 0, 1 );
-                        ui.item.find('input.add_new').val('');
-                        ui.item.find('a.widget-action').click();
-                        return;
-                }
-                wpWidgets.saveOrder(sb);
-        },
-        receive: function(e, ui) {
-                var sender = $(ui.sender);
-
-                if ( !$(this).is(':visible') || this.id.indexOf('orphaned_widgets') != -1 )
-                        sender.sortable('cancel');
-
-                if ( sender.attr('id').indexOf('orphaned_widgets') != -1 && !sender.children('.widget').length ) {
-                        sender.parents('.orphan-sidebar').slideUp(400, function(){ $(this).remove(); });
-                }
-        }
-    });
-    $('div.widgets-sortables').sortable('option', 'connectWith', 'div.widgets-sortables').parent().filter('.closed').children('.widgets-sortables').sortable('disable');
     
-    $('#available-widgets').droppable('destroy').droppable({
-            tolerance: 'pointer',
-            accept: function(o){
-                    return $(o).parent().attr('id') != 'widget-list';
-            },
-            drop: function(e,ui) {
-                    ui.draggable.addClass('deleting');
-                    $('#removing-widget').hide().children('span').html('');
-            },
-            over: function(e,ui) {
-                    ui.draggable.addClass('deleting');
-                    $('div.widget-placeholder').hide();
+    CsSidebar.prototype.remove = function($){
+       var ajaxdata = {
+           action:      'cs-ajax',
+           cs_action:   'cs-delete-sidebar',
+           'delete':    this.id,
+           nonce: $('#_delete_nonce').val()
+       }
+       var id = this.id;
+       $.post(ajaxurl, ajaxdata, function(response){
+           if(response.success){
+               $('#' + id).parent().slideUp('fast', function(){
+                  $(this).remove();
+               });
+           }
+           $('#_delete_nonce').val(response.nonce);
+           csSidebars.showMessage(response.message, ! response.success);
+       });
+    };
+    
+    CsSidebar.protoype.showEdit = function(){
+        this.widgets = $('#' + this.id).detach();
+    };
+    
+    CsSidebar.prototype.edit = function(){
+        
+    }
+    
+    CsSidebar.prototype.showWhere = function(){
+        
+    }
+    
+    CsSidebar.protoype.where = function(){
+        
+    }
 
-                    if ( ui.draggable.hasClass('ui-sortable-helper') )
-                            $('#removing-widget').show().children('span')
-                            .html( ui.draggable.find('div.widget-title').children('h4').html() );
-            },
-            out: function(e,ui) {
-                    ui.draggable.removeClass('deleting');
-                    $('div.widget-placeholder').show();
-                    $('#removing-widget').hide().children('span').html('');
-            }
-    });
+
+//csSidebars object
+var csSidebars, msgTimer;
+(function($){
+csSidebars = {
+    sidebars: [],
+    
+    init: function(){
+        csSidebars.scrollSetUp()
+            .addCSControls()
+            .showCreateSidebar()
+            .createCsSidebars()
+            .setEditbarsUp();
+    },
+    
+    scrollSetUp : function(){
+        $('#widgets-right').addClass('overview').wrap('<div class="viewport" />');
+        $('.viewport').height($(window).height() - 60);
+        $('.widget-liquid-right').height($(window).height()).prepend('<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>').tinyscrollbar();
+        $(window).resize(function() {
+          $('.widget-liquid-right').height($(window).height());
+          $('.viewport').height($(window).height() - 60);
+          $('.widget-liquid-right').tinyscrollbar_update('relative');
+        });
+        $('#widgets-right').resize(function(){
+            $('.widget-liquid-right').tinyscrollbar_update('relative');
+        });
+
+        $('.widget-liquid-right').click(function(){
+            setTimeout("csSidebars.updateScroll()",300);
+        });
+        $('.widget-liquid-right').hover(function(){
+            $('.scrollbar').fadeIn();
+        }, function(){
+            $('.scrollbar').fadeOut();
+        });
+        return csSidebars;
+    },
+    
+    addCSControls: function(){
+        $('#cs-title-options').detach().prependTo('#widgets-right').show();
+        return csSidebars;
+    },
+    
+    showCreateSidebar: function(){
+        $('.create-sidebar-button').click(function(){
+           if($('#new-sidebar-holder').length == 0){ //If there is no form displayed
+
+                   var holder = $('#cs-new-sidebar').clone(true, true)
+                        .attr('id', 'new-sidebar-holder')
+                        .hide()
+                        .insertAfter('#cs-title-options');
+                   holder.find('._widgets-sortables').addClass('widgets-sortables').removeClass('_widgets-sortables').attr('id', 'new-sidebar');
+                   holder.find('.sidebar-form').attr('id', 'new-sidebar-form');
+                   holder.find('.sidebar_name').attr('id', 'sidebar_name');
+                   holder.find('.sidebar_description').attr('id', 'sidebar_description');
+                   holder.find('.cs-create-sidebar').attr('id', 'cs-create-sidebar');
+                   holder.slideDown();
+                   var sbname = holder.children(".sidebar-name");
+                   sbname.click(function(){
+                       var h=$(this).siblings(".widgets-sortables"),g=$(this).parent();if(!g.hasClass("closed")){h.sortable("disable");g.addClass("closed")}else{g.removeClass("closed");h.sortable("enable").sortable("refresh")}
+                   });
+
+
+                   csSidebars.setCreateSidebar();
+
+           }
+           else
+            $('#cs-options').find('.ajax-feedback').css('visibility', 'hidden');
+
+           return false;
+        });
+        return csSidebars;
+    },
+
+    setCreateSidebar: function(){
+       $('#cs-create-sidebar').click(function(){
+          var ajaxdata = {
+               action: 'cs-ajax',
+               cs_action: 'cs-create-sidebar',
+               nonce: $('#_create_nonce').val(),
+               sidebar_name: $('#sidebar_name').val(),
+               sidebar_description: $('#sidebar_description').val()
+           };
+           $('#new-sidebar-form').find('.ajax-feedback').css('visibility', 'visible');
+           $.post(ajaxurl, ajaxdata, function(response){
+               if(response.success){
+                   var holder = $('#new-sidebar-holder');
+                   holder.removeAttr('id')
+                        .find('.sidebar-name h3').html(response.name + '<span><img src="images/wpspin_dark.gif" class="ajax-feedback" title="" alt=""></span>');
+                   holder.find('#new-sidebar').attr('id', response.id) ;
+                   holder = $('#' + response.id).html('<p class="sidebar-description description">' + response.description + '</p>');
+
+                   csSidebars.add(holder.attr('id')).initDrag($);
+
+                   setEditbar(holder, $);
+               }
+
+               $('#_create_nonce').val(response.nonce);
+               showMessage(response.message, ! response.success);
+               $('#new-sidebar-form').find('.ajax-feedback').css('visibility', 'hidden');
+
+           }, 'json');
+
+          return false;
+       });
+       return csSidebars;
+    },
+    
+    updateScroll: function(){
+        $('.widget-liquid-right').tinyscrollbar_update('relative');
+    },
+    
+    createCsSidebars: function(){
+        $('#widgets-right').find('.widgets-sortables').each(function(){
+           if($(this).attr('id').substr(0,3) == 'cs-')
+               csSidebars.sidebars[$(this).attr('id')] = new CsSidebar($(this).attr('id'));
+       });
+       return csSidebars;
+    },
+    
+    setEditbarsUp: function(){
+       $('#widgets-right').on('click', 'a.delete-sidebar', function(){
+           var sbname = trim($(this).parent().siblings('.sidebar-name').text());
+           if(confirm($('#cs-confirm-delete').text() + ' ' + sbname)){
+               var sb = csSidebars.find($(this).parent().siblings('.widgets-sortables').attr('id')).remove($);
+           }
+           return false;
+       });
+       $('#widgets-right').on('click', 'a.edit-sidebar', function(){
+           editSidebar($(this).parent().attr('id'));
+           return false;
+       });
+       $('#widgets-right').on('click', 'a.where-sidebar', function(){
+           whereSidebar($(this).parent().attr('id'));
+           return false;
+       });
+       return csSidebars;
+    },
+    
+    showMessage: function(message, error){
+       var msgclass = 'cs-update';
+       if(error)
+           msgclass = 'cs-error';
+       var msgdiv = jQuery('#cs-message');
+       if(msgdiv.length != 0){
+           clearTimeout(msgTimer);
+           msgdiv.removeClass('cs-error cs-update').addClass(msgclass);
+           msgdiv.text(message);
+       }
+       else{
+           var html = '<div id="cs-message" class="cs-message ' + msgclass + '">' + message + '</div>';
+           jQuery(html).hide().prependTo('#widgets-left').fadeIn().slideDown();
+       }
+       msgTimer = setTimeout('hideMessage()', 5000);
+    },
+    
+    find: function(id){
+        return csSidebars.sidebars[id];
+    },
+    
+    add: function(id){
+        csSidebars.sidebars[id] = new CsSidebar(id);
+        return csSidebars.sidebars[id];
+    }
 }
+$(function(){csSidebars.init();});
+})(jQuery);
+
+
+
 
 /*
  * http://blog.stevenlevithan.com/archives/faster-trim-javascript
