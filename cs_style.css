@@ -106,18 +106,18 @@ border-radius: 5px;}
     margin-left: 5px;
 }
 
-#new-sidebar-form{
+.sidebar-form{
     margin: 0 15px;
 }
-#new-sidebar-form label {
+.sidebar-form label {
     display:block;
 }
-#new-sidebar-form .submit{
+.sidebar-form .submit{
     text-align: right;
     margin: 0;
     padding: 1em 0;
 }
-#new-sidebar-form .description{
+.sidebar-form .description{
     margin-top: 5px;
     text-align: right;
 }

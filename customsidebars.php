@@ -691,15 +691,15 @@ class CustomSidebars{
 		
 		//Check the id		
 		$url = parse_url($_POST['_wp_http_referer']);
-		
-		if(isset($url['query'])){
-			parse_str($url['query'], $args);
-			if($args['id'] != $id)
-				return new WP_Error(__('The operation is not secure and it cannot be completed.','custom-sidebars'));
-		}
-		else
-			return new WP_Error(__('The operation is not secure and it cannot be completed.','custom-sidebars'));
-		
+		if(! DOING_AJAX){
+                    if(isset($url['query'])){
+                            parse_str($url['query'], $args);
+                            if($args['id'] != $id)
+                                    return new WP_Error(__('The operation is not secure and it cannot be completed.','custom-sidebars'));
+                    }
+                    else
+                            return new WP_Error(__('The operation is not secure and it cannot be completed.','custom-sidebars'));
+                }
 		
 		$newsidebars = array();
 		foreach($sidebars as $sb){
@@ -898,7 +898,7 @@ class CustomSidebars{
                 $response = $this->ajaxCreateSidebar();
             }
             else if($action == 'cs-edit-sidebar'){
-                $response = array();
+                $response = $this->ajaxEditSidebar();
             }
             else if($action == 'cs-where-sidebar'){
                 $response = array();
@@ -935,6 +935,24 @@ class CustomSidebars{
             return array( 
                 message => $this->message,
                 success => $this->message_class != 'error'
+            );
+        }
+        
+        function ajaxEditSidebar(){
+            $id = trim($_POST['cs_id']);
+            $sidebar = $this->getSidebar($id, $this->getCustomSidebars());
+            $_POST['cs_before_widget'] = $sidebar['cs_before_widget'];
+            $_POST['cs_after_widget'] = $sidebar['cs_after_widget'];
+            $_POST['cs_before_title'] = $sidebar['cs_before_title'];
+            $_POST['cs_after_title'] = $sidebar['cs_after_title'];
+            $this->updateSidebar();
+            
+            $sidebar = $this->getSidebar($id, $this->getCustomSidebars());
+            return array(
+                message => $this->message,
+                success => $this->message_class != 'error',
+                name => $sidebar['name'],
+                description => $sidebar['description']
             );
         }
 }

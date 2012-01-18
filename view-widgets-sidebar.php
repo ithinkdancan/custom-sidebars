@@ -41,6 +41,8 @@
         </div>
     </div>
     <div class="cs-edit-sidebar"><a class="where-sidebar" href="themes.php?page=customsidebars&p=defaults"><?php _e('Where?','custom-sidebars')?></a><span class="cs-edit-separator"> | </span><a class="edit-sidebar" href="themes.php?page=customsidebars&p=edit&id="><?php _e('Edit','custom-sidebars')?></a><span class="cs-edit-separator"> | </span><a class="delete-sidebar" href="themes.php?page=customsidebars&p=delete&id="><?php _e('Delete','custom-sidebars')?></a></div>
+    <div class="cs-cancel-edit-bar"><a href="themes.php?page=customsidebars&p=edit&id="><?php _e('Advanced Edit', 'custom-sidebars') ?></a><span class="cs-edit-separator"> | </span><a class="cs-cancel-edit" href="#"><?php _e('Cancel', 'custom-sidebars') ?></a></div>
+    <div id="cs-save"><?php echo _e('Save','custom-sidebars'); ?></div>
     <span id="cs-confirm-delete"><?php _e('Are you sure that you want to delete the sidebar', 'custom-sidebars') ?></span>
     <form id="cs-wpnonces">
         <?php wp_nonce_field( 'cs-delete-sidebar', '_delete_nonce', false);?>

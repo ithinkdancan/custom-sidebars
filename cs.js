@@ -27,21 +27,21 @@
 	
 	$.fn.tinyscrollbar = function(options) { 
 		var options = $.extend({}, $.tiny.scrollbar.options, options); 		
-		this.each(function(){ $(this).data('tsb', new Scrollbar($(this), options)); });
+		this.each(function(){$(this).data('tsb', new Scrollbar($(this), options));});
 		return this;
 	};
-	$.fn.tinyscrollbar_update = function(sScroll) { return $(this).data('tsb').update(sScroll); };
+	$.fn.tinyscrollbar_update = function(sScroll) {return $(this).data('tsb').update(sScroll);};
 	
 	function Scrollbar(root, options){
 		var oSelf = this;
 		var oWrapper = root;
-		var oViewport = { obj: $('.viewport', root) };
-		var oContent = { obj: $('.overview', root) };
-		var oScrollbar = { obj: $('.scrollbar', root) };
-		var oTrack = { obj: $('.track', oScrollbar.obj) };
-		var oThumb = { obj: $('.thumb', oScrollbar.obj) };
+		var oViewport = {obj: $('.viewport', root)};
+		var oContent = {obj: $('.overview', root)};
+		var oScrollbar = {obj: $('.scrollbar', root)};
+		var oTrack = {obj: $('.track', oScrollbar.obj)};
+		var oThumb = {obj: $('.thumb', oScrollbar.obj)};
 		var sAxis = options.axis == 'x', sDirection = sAxis ? 'left' : 'top', sSize = sAxis ? 'Width' : 'Height';
-		var iScroll, iPosition = { start: 0, now: 0 }, iMouse = {};
+		var iScroll, iPosition = {start: 0, now: 0}, iMouse = {};
 
 		function initialize() {	
 			oSelf.update();
@@ -144,13 +144,15 @@
     function CsSidebar(id){
         this.id = id;
         this.widgets = '';
+        this.name = trim(jQuery('#' + id).siblings('.sidebar-name').text());
+        this.description = trim(jQuery('#' + id).find('.sidebar-description').text());
         
         // Add editbar
         var editbar = jQuery('#cs-widgets-extra').find('.cs-edit-sidebar').clone();
         jQuery('#' + id).parent().append(editbar);
         editbar.find('a').each(function(){
-           jQuery(this).attr('href', jQuery(this).attr('href') + id);
-           return false;
+           if(!jQuery(this).hasClass('where-sidebar'))
+            addIdToA(jQuery(this), id);//.attr('href', jQuery(this).attr('href') + id);
         });
     }
     
@@ -206,7 +208,7 @@
 
                     if ( add ) {
                             if ( 'multi' == add ) {
-                                    ui.item.html( ui.item.html().replace(/<[^<>]+>/g, function(m){ return m.replace(/__i__|%i%/g, n); }) );
+                                    ui.item.html( ui.item.html().replace(/<[^<>]+>/g, function(m){return m.replace(/__i__|%i%/g, n);}) );
                                     ui.item.attr( 'id', id.replace('__i__', n) );
                                     n++;
                                     $('div#' + id).find('input.multi_number').val(n);
@@ -228,7 +230,7 @@
                             sender.sortable('cancel');
 
                     if ( sender.attr('id').indexOf('orphaned_widgets') != -1 && !sender.children('.widget').length ) {
-                            sender.parents('.orphan-sidebar').slideUp(400, function(){ $(this).remove(); });
+                            sender.parents('.orphan-sidebar').slideUp(400, function(){$(this).remove();});
                     }
             }
         });
@@ -279,19 +281,69 @@
        });
     };
     
-    CsSidebar.protoype.showEdit = function(){
+    CsSidebar.prototype.showEdit = function($){
+        editbar = $('#' + this.id).siblings('.cs-edit-sidebar');
+        this.editbar = editbar.html();
+        editbar.html($('#cs-widgets-extra').find('.cs-cancel-edit-bar').html());
         this.widgets = $('#' + this.id).detach();
+        editbar.before('<div id="' + this.id + '" class="widgets-sortables"></div>');
+        form = $('#cs-widgets-extra').find('.sidebar-form').clone();
+        form.find('form').addClass('cs-edit-form');
+        form.find('.sidebar_name').val(this.name).attr('id', 'edit_sidebar_name');
+        form.find('.sidebar_description').val(this.description).attr('id', 'edit_sidebar_description');
+        thiscs = this;
+        form.find('.cs-create-sidebar')
+            .removeClass('cs-create-sidebar')
+            .addClass('cs-edit-sidebar')
+            .val($('#cs-save').text())
+            .attr('id', 'edit_sidebar_submit')
+            .on('click', function(){
+               thiscs.edit($);
+               return false;
+           });
+        editbar.siblings('#' + id).prepend(form);
+        return false;
     };
     
-    CsSidebar.prototype.edit = function(){
+    CsSidebar.prototype.cancelEdit = function($){
+        editbar = $('#' + this.id).siblings('.cs-edit-sidebar');
+        editbar.html(this.editbar);
+        editbar.siblings('#' + this.id).remove();
+        editbar.before(this.widgets);
         
+    }
+    
+    CsSidebar.prototype.edit = function($){
+        var ajaxdata = {
+           action:      'cs-ajax',
+           cs_action:   'cs-edit-sidebar',
+           'sidebar_name':    $('#' + this.id).find('#edit_sidebar_name').val(),
+           'sidebar_description': $('#' + this.id).find('#edit_sidebar_description').val(),
+           'cs_id':    this.id,
+           nonce: $('#_edit_nonce').val()
+       }
+       var $id = '#' + this.id;
+       var id = this.id
+       $.post(ajaxurl, ajaxdata, function(response){
+           if(response.success){
+                sidebar = csSidebars.find(id);
+                editbar = $($id).siblings('.cs-edit-sidebar');
+                $($id).remove();
+                editbar.before(sidebar.widgets);
+                editbar.html(sidebar.editbar);
+                $($id).find('.description').text(response.description)
+                $($id).siblings('.sidebar-name').find('h3').html(getSidebarTitle(response.name));
+           }
+           $('#_edit_nonce').val(response.nonce);
+           csSidebars.showMessage(response.message, ! response.success);
+       });
     }
     
     CsSidebar.prototype.showWhere = function(){
         
     }
     
-    CsSidebar.protoype.where = function(){
+    CsSidebar.prototype.where = function(){
         
     }
 
@@ -384,7 +436,7 @@ csSidebars = {
                if(response.success){
                    var holder = $('#new-sidebar-holder');
                    holder.removeAttr('id')
-                        .find('.sidebar-name h3').html(response.name + '<span><img src="images/wpspin_dark.gif" class="ajax-feedback" title="" alt=""></span>');
+                        .find('.sidebar-name h3').html(getSidebarTitle(response.name));
                    holder.find('#new-sidebar').attr('id', response.id) ;
                    holder = $('#' + response.id).html('<p class="sidebar-description description">' + response.description + '</p>');
 
@@ -411,7 +463,7 @@ csSidebars = {
     createCsSidebars: function(){
         $('#widgets-right').find('.widgets-sortables').each(function(){
            if($(this).attr('id').substr(0,3) == 'cs-')
-               csSidebars.sidebars[$(this).attr('id')] = new CsSidebar($(this).attr('id'));
+               csSidebars.add($(this).attr('id'));// = new CsSidebar($(this).attr('id'));
        });
        return csSidebars;
     },
@@ -425,13 +477,23 @@ csSidebars = {
            return false;
        });
        $('#widgets-right').on('click', 'a.edit-sidebar', function(){
-           editSidebar($(this).parent().attr('id'));
+           id = getIdFromEditbar($(this));//.parent().siblings('.widgets-sortables').attr('id');
+           csSidebars.find(id).showEdit($);
            return false;
        });
        $('#widgets-right').on('click', 'a.where-sidebar', function(){
            whereSidebar($(this).parent().attr('id'));
            return false;
        });
+       $('#widgets-right').on('click', 'a.cs-cancel-edit', function(){
+           id = getIdFromEditbar($(this));
+           csSidebars.find(id).cancelEdit($);
+           $(this).parent().html(this.editbar);
+           this.editbar ='';
+           return false;
+       });
+       
+       
        return csSidebars;
     },
     
@@ -449,7 +511,11 @@ csSidebars = {
            var html = '<div id="cs-message" class="cs-message ' + msgclass + '">' + message + '</div>';
            jQuery(html).hide().prependTo('#widgets-left').fadeIn().slideDown();
        }
-       msgTimer = setTimeout('hideMessage()', 5000);
+       msgTimer = setTimeout('csSidebars.hideMessage()', 5000);
+    },
+    
+    hideMessage: function(){
+        jQuery('#cs-message').slideUp().remove();
     },
     
     find: function(id){
@@ -479,4 +545,16 @@ function trim (str) {
 		}
 	}
 	return str;
+}
+
+function getIdFromEditbar($ob){
+    return $ob.parent().siblings('.widgets-sortables').attr('id');
+}
+
+function addIdToA($ob, id){
+    $ob.attr('href', $ob.attr('href') + id);
+}
+
+function getSidebarTitle(title){
+    return title + '<span><img src="images/wpspin_dark.gif" class="ajax-feedback" title="" alt=""></span>';
 }
