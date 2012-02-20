@@ -40,13 +40,18 @@ margin-bottom:30px;
 	margin-bottom:15px;
 	margin-top:20px;
 	padding:0 0 3px;
-	background:none;
+        background:none;
 	font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
 	font-style: italic;
 	font-weight: normal;
 	margin-top:10px;
 	border-bottom:1px solid #ccc;
 }
+
+#poststuff h3.csh3title:hover{
+    background: url('/wp-admin/images/arrows.png') no-repeat top right;
+}
+
 
 .widget-liquid-right{
 	position: fixed;
@@ -68,6 +73,10 @@ margin-bottom:30px;
 
 .widgets-php #screen-meta{
     margin-right: 325px;
+}
+
+.widgets-php .wrap{
+    margin: 15px 0;
 }
 
 
@@ -165,4 +174,8 @@ border: 1px solid #C00;
 }
 .cs-edit-sidebar a{
     text-decoration: none;
+}
+
+#defaultsidebarspage .hndle, #defaultsidebarspage .csh3title {
+    cursor: pointer;
 }

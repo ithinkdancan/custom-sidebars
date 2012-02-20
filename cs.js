@@ -285,6 +285,7 @@
         editbar = $('#' + this.id).siblings('.cs-edit-sidebar');
         this.editbar = editbar.html();
         editbar.html($('#cs-widgets-extra').find('.cs-cancel-edit-bar').html());
+        addIdToA(editbar.find('.cs-advanced-edit'), this.id);
         this.widgets = $('#' + this.id).detach();
         editbar.before('<div id="' + this.id + '" class="widgets-sortables"></div>');
         form = $('#cs-widgets-extra').find('.sidebar-form').clone();
@@ -482,8 +483,8 @@ csSidebars = {
            return false;
        });
        $('#widgets-right').on('click', 'a.where-sidebar', function(){
-           whereSidebar($(this).parent().attr('id'));
-           return false;
+           //whereSidebar($(this).parent().attr('id'));
+           //return false;
        });
        $('#widgets-right').on('click', 'a.cs-cancel-edit', function(){
            id = getIdFromEditbar($(this));
@@ -527,7 +528,10 @@ csSidebars = {
         return csSidebars.sidebars[id];
     }
 }
-$(function(){csSidebars.init();});
+$(function(){
+    if($('#widgets-right').length > 0)
+        csSidebars.init();
+});
 })(jQuery);
 
 
@@ -558,3 +562,11 @@ function addIdToA($ob, id){
 function getSidebarTitle(title){
     return title + '<span><img src="images/wpspin_dark.gif" class="ajax-feedback" title="" alt=""></span>';
 }
+
+
+jQuery(function($){
+    $('.defaultsContainer').hide();
+    $('#defaultsidebarspage').on('click', '.csh3title', function(){
+        $(this).siblings('.defaultsContainer').toggle();
+    })
+});

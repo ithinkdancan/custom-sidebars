@@ -358,7 +358,7 @@ class CustomSidebars{
 				if(sizeof($categories)==1 && $categories[0]->cat_ID == 1)
 					unset($categories[0]);
 					
-				include('view-defaults.php');
+				include('views/ajax.php');
 			}
 			else if($_GET['p']=='edit')
 				include('view-edit.php');
@@ -382,10 +382,13 @@ class CustomSidebars{
 	
 	function addStyles($hook){
             $dir = basename(dirname(__FILE__));
-            if( 'widgets.php' == $hook )
+            if( 'widgets.php' == $hook || 'appearance_page_customsidebars' == $hook){
 	        wp_enqueue_script( 'cs_script', plugins_url('/cs.js', __FILE__) );
+                wp_enqueue_script('thickbox',null,array('jquery'));
+                wp_enqueue_style('thickbox.css', '/'.WPINC.'/js/thickbox/thickbox.css', null, '1.0');
+            }
 	    wp_enqueue_style('cs_style', "/wp-content/plugins/$dir/cs_style.css" );
-		//echo '<link type="text/css" rel="stylesheet" href="'. plugins_url('/cs_style.css', __FILE__) .'" />';
+		
 	}
 	
 	function addMetaBox(){
@@ -882,6 +885,10 @@ class CustomSidebars{
         }
         
         function ajaxHandler(){
+            if($_REQUEST['cs_action'] == 'where'){
+                return $this->ajaxShowWhere();
+            }
+            
             $nonce = $_POST['nonce'];
             $action = $_POST['cs_action'];
             if(! wp_verify_nonce($nonce, $action)){
@@ -906,6 +913,7 @@ class CustomSidebars{
             else if($action == 'cs-delete-sidebar'){
                 $response = $this->ajaxDeleteSidebar();
             }
+            
             
             $response['nonce'] = wp_create_nonce($action);
             $this->jsonResponse($response);
@@ -954,6 +962,19 @@ class CustomSidebars{
                 name => $sidebar['name'],
                 description => $sidebar['description']
             );
+        }
+        
+        function ajaxShowWhere(){
+            $customsidebars = $this->getCustomSidebars();
+            $themesidebars = $this->getThemeSidebars();
+            $allsidebars = $this->getThemeSidebars(TRUE);
+            $defaults = $this->getDefaultReplacements();
+            $modifiable = $this->replaceable_sidebars;
+            $post_types = $this->getPostTypes();
+            $categories = get_categories(array('hide_empty' => 0));
+            if(sizeof($categories)==1 && $categories[0]->cat_ID == 1)
+                    unset($categories[0]);
+            include 'views/ajax.php';
         }
 }
 endif; //exists class
