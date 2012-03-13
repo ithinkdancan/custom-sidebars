@@ -76,7 +76,11 @@ margin-bottom:30px;
 }
 
 .widgets-php .wrap{
-    margin: 15px 0;
+    margin: 0;
+}
+
+.widgets-php .wrap h2{
+    margin-bottom: 10px;
 }
 
 
@@ -178,4 +182,20 @@ border: 1px solid #C00;
 
 #defaultsidebarspage .hndle, #defaultsidebarspage .csh3title {
     cursor: pointer;
+}
+
+#submitwhere{
+    position:absolute;
+    bottom:0;
+    right: 35px;
+    display: none;
+    padding:0;
+}
+
+#customsidebarspage #col-right{
+    width: 62%;
+}
+
+.widgets_access .widget-liquid-right{
+    position: static;
 }

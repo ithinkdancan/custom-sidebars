@@ -17,7 +17,7 @@
 					</option>
 				<?php endforeach;?>
 				</select>
-                    <a href="#" class="selectSidebar"><?php _e('<- Here' )?></a>
+                    <a href="#" class="selectSidebar"><?php printf(__('<- Set %s here.'), $current_sidebar['name']); ?></a>
 			</p>
 		<?php endforeach;else:?>
 			<p><?php _e('There are no replaceable sidebars selected. You must select some of them in the form above to be able for replacing them in all the post type entries.','custom-sidebars'); ?></p>

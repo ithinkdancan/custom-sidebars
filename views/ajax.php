@@ -1,7 +1,7 @@
 <div class="themes-php">
 <div class="wrap">
 
-
+<h2><?php echo $current_sidebar['name'] ?></h2>
 <div id="defaultsidebarspage">
     
     <form action="themes.php?page=customsidebars&p=defaults" method="post">
@@ -24,7 +24,7 @@
 
         <?php include 'defaults/single_posttype.php' ?>
 
-<p class="submit"><input type="submit" class="button-primary" name="update-defaults-posts" value="<?php _e('Save Changes','custom-sidebars'); ?>" /></p>
+
 </div></div>
 
 
@@ -41,11 +41,15 @@
 <?php include 'defaults/archive_blog.php' ?>
 <?php include 'defaults/archive_author.php' ?>
 
-<p class="submit"><input type="submit" class="button-primary" name="update-defaults-pages" value="<?php _e('Save Changes','custom-sidebars'); ?>" /></p>
-</div>
 
 </div>
 
+</div>
+        <?php wp_nonce_field( 'cs-set-defaults', '_where_nonce');?>
+<div id="submitwhere" class="submit">
+    <img src="http://local.wp33/wp-admin/images/wpspin_light.gif" class="ajax-feedback" title="" alt="">
+    <input type="submit" class="button-primary" name="update-defaults-pages" value="<?php _e('Save Changes','custom-sidebars'); ?>" />
+</div>
 </form>
 
 </div>
@@ -58,9 +62,38 @@
     jQuery('.defaultsContainer').hide();
     jQuery('#defaultsidebarspage').on('click', '.csh3title', function(){
         jQuery(this).siblings('.defaultsContainer').toggle();
-    });
-    jQuery('#defaultsidebarspage').on('click', '.hndle', function(){
+    }).on('click', '.hndle', function(){
         jQuery(this).siblings('.inside').toggle();
+    }).on('click', '.handlediv', function(){
+        jQuery(this).siblings('.inside').toggle();
+    }).on('click', '.selectSidebar', function(){
+        jQuery(this).siblings('select').find('option[value=<?php echo $current_sidebar['id'] ?>]').attr('selected', 'selected');
+        showsavebutton();
+        return false;
+    }).on('change', 'select', function(){
+        showsavebutton();
+        return false;
+    }).find('form').on('submit', function(){
+        jQuery('#submitwhere .ajax-feedback').css('visibility', 'visible');
+        var ajaxdata = {
+            action: 'cs-ajax',
+            cs_action: 'cs-set-defaults',
+            nonce: jQuery('#_where_nonce').val()
+        };
+        for(i=0; i<this.elements.length; i++){
+            ajaxdata[this.elements[i].name] = this.elements[i].value;
+        };
+        jQuery.post(ajaxurl, ajaxdata, function(res){
+            //alert(res.message);
+        jQuery('#submitwhere .ajax-feedback').css('visibility', 'hidden');
+            jQuery('#submitwhere').slideUp();
+        });
+        return false;
     })
+    
+    showsavebutton = function(){
+        if(!jQuery('#submitwhere').is(':visible'))
+            jQuery('#submitwhere').slideDown();
+    }
     
 </script>

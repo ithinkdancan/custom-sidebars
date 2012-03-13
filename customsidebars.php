@@ -314,8 +314,11 @@ class CustomSidebars{
 				check_admin_referer('custom-sidebars-update');
 				$this->updateSidebar();
 			}		
-			else if(isset($_POST['update-modifiable']))
+			else if(isset($_POST['update-modifiable'])){
 				$this->updateModifiable();
+                                $this->retrieveOptions();
+                                $this->replaceable_sidebars =  $this->getModifiableSidebars();
+                        }
 			else if(isset($_POST['update-defaults-posts']) OR isset($_POST['update-defaults-pages'])){
 				$this->storeDefaults();
 			
@@ -335,7 +338,7 @@ class CustomSidebars{
 				$customsidebars = $this->getCustomSidebars();
 				if(! $sb = $this->getSidebar($_GET['id'], $customsidebars))
 					return new WP_Error('cscantdelete', __('You do not have permission to delete sidebars','custom-sidebars'));
-				include('view-edit.php');
+				include('views/edit.php');
 				return;	
 			}
 		}
@@ -358,16 +361,16 @@ class CustomSidebars{
 				if(sizeof($categories)==1 && $categories[0]->cat_ID == 1)
 					unset($categories[0]);
 					
-				include('views/ajax.php');
+				include('views/defaults.php');
 			}
 			else if($_GET['p']=='edit')
-				include('view-edit.php');
+				include('views/edit.php');
 			else
-				include('view.php');	
+				include('views/settings.php');	
 				
 		}
 		else		
-			include('view.php');		
+                    include('views/settings.php');		
 	}
 	
 	function addSubMenus(){
@@ -728,7 +731,7 @@ class CustomSidebars{
 	}
 	
 	function widgetSidebarContent(){
-		include 'view-widgets-sidebar.php';
+		include 'views/widgets.php';
         }
 	
 	function getSidebar($id, $sidebars){
@@ -886,7 +889,8 @@ class CustomSidebars{
         
         function ajaxHandler(){
             if($_REQUEST['cs_action'] == 'where'){
-                return $this->ajaxShowWhere();
+                $this->ajaxShowWhere();
+                die;
             }
             
             $nonce = $_POST['nonce'];
@@ -907,8 +911,8 @@ class CustomSidebars{
             else if($action == 'cs-edit-sidebar'){
                 $response = $this->ajaxEditSidebar();
             }
-            else if($action == 'cs-where-sidebar'){
-                $response = array();
+            else if($action == 'cs-set-defaults'){
+                $response = $this->ajaxSetDefaults();
             }
             else if($action == 'cs-delete-sidebar'){
                 $response = $this->ajaxDeleteSidebar();
@@ -917,6 +921,22 @@ class CustomSidebars{
             
             $response['nonce'] = wp_create_nonce($action);
             $this->jsonResponse($response);
+        }
+        
+        
+        function ajaxSetDefaults(){
+            try{
+                $this->storeDefaults();
+            } catch(Exception $e) {
+                return array(
+                    success => false,
+                    message => __('There has been an error storing the sidebars. Please, try again.', 'custom-sidebars')
+                );
+            }
+            return array(
+                success => true,
+                message => $this->message
+            );
         }
         
         function ajaxCreateSidebar(){
@@ -968,6 +988,14 @@ class CustomSidebars{
             $customsidebars = $this->getCustomSidebars();
             $themesidebars = $this->getThemeSidebars();
             $allsidebars = $this->getThemeSidebars(TRUE);
+            if(!isset($allsidebars[$_GET['id']])){
+                die(__('Unknown sidebar.', 'custom-sidebar'));
+            }
+            foreach($allsidebars as $key => $sb){
+                if(strlen($sb['name']) > 30)
+                    $allsidebars[$key]['name'] = substr($sb['name'], 0, 27) . '...';
+            }
+            $current_sidebar = $allsidebars[$_GET['id']];
             $defaults = $this->getDefaultReplacements();
             $modifiable = $this->replaceable_sidebars;
             $post_types = $this->getPostTypes();

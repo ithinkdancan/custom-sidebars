@@ -1,7 +1,7 @@
 <div class="themes-php">
 <div class="wrap">
 
-<?php include('view-tabs.php'); ?>
+<?php include('tabs.php'); ?>
 
 <?php //var_dump($categories);?>
 
@@ -263,7 +263,7 @@ authors_page_{$id_modifiable} : Any author page
 
 </div>
 
-<?php include('view-footer.php'); ?>
+<?php include('footer.php'); ?>
 
 </div>
 </div>

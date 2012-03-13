@@ -151,7 +151,6 @@
         var editbar = jQuery('#cs-widgets-extra').find('.cs-edit-sidebar').clone();
         jQuery('#' + id).parent().append(editbar);
         editbar.find('a').each(function(){
-           if(!jQuery(this).hasClass('where-sidebar'))
             addIdToA(jQuery(this), id);//.attr('href', jQuery(this).attr('href') + id);
         });
     }
