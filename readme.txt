@@ -2,8 +2,8 @@
 Contributors: marquex
 Donate link: http://marquex.es/541/custom-sidebars-plugin-v0-8
 Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
-Requires at least: 3.0
-Tested up to: 3.2 beta 2
+Requires at least: 3.3
+Tested up to: 3.4 beta 4
 Stable tag: trunk
 
 Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
@@ -27,8 +27,11 @@ I also recommend the use of [Widget Entries plugin](http://wordpress.org/extend/
 
 Translations are welcome! I will write your name down here if you donate your translation work. Thanks very much to:
 
-*	marquex - English
-*	marquex - Spanish
+*	English - marquex
+*	Spanish - marquex
+*	German - [Markus Vocke, Professionelles Webdesign](http://www.web-funk.de)
+*	Dutch - Herman Boswijk
+*       Italian - [David Pesarin](http://davidpesarin.wordpress.com) 
 
 == Installation ==
 
@@ -47,17 +50,45 @@ There are two ways of installing the plugin:
 
 Once, you have the plugin activated, you will find a new option called 'Custom Sidebars' in your Appearance menu. There you will be able to create and manage your own sidebars.
 
-You can find some simple tutorials on the [Custom sidebars plugin web page](http://marquex.posterous.com/pages/custom-sidebars)
+You can find some simple tutorials on the [Custom sidebars plugin web page](http://marquex.es/541/custom-sidebars-plugin-v0-8)
 
 == Frequently Asked Questions ==
 
-= Why there are no asked questions in this section? =
+= How do begin to work with the plugin? =
 
-Nobody has asked anything yet. I will fill this section with real questions.
+Here there is an old [video tutorial](http://vimeo.com/18746218) about how to set up your first sidebars.
+
+= Where do I set my sidebars up? =
+
+You have a sidebar box when editing a entry. Also you can define default sidebars for different posts and archives.
+
+= Why do I get a message 'There are no replaceable sidebars selected'?  =
+
+You can create all the sidebars you want, but you need some sidebars of your theme to be replaced by the ones that you have created. You have to select which sidebars from your theme are suitable to be replaced in the Custom Sidebars settings page and you will have them available to switch.
+
+= Everything is working properly on Admin area, but the site is not displayin the sidebars. Why? =
+
+ You probably are using a theme that don’t load dynamic sidebars properly or don’t use the wp_head() function in its header. The plugin replace the sidebars inside that function, and many others plugins hook there, so it is [more than recommended to use it](http://josephscott.org/archives/2009/04/wordpress-theme-authors-dont-forget-the-wp_head-function/).
+
+= It appears that only an Admin can choose to add a sidebar. How can Editors (or any other role) edit customs sidebars? =
+
+Any user that can switch themes, can create sidebars. Switch_themes is the capability needed to manage widgets, so if you can’t edit widgets you can’t create custom sidebars. There are some plugins to give capabilities to the roles, so you can make your author be able to create the sidebars. Try [User role editor](http://wordpress.org/extend/plugins/user-role-editor/)
+
+= Does it have custom taxonomies support?=
+
+Sidebars for custom taxonomies are not working by the moment, it’s hard to build an interface.
+
+= Can I use the plugin in commercial projects? =
+
+Custom Sidebars has the same license as Wordpress, so you can use it wherever you want for free. Nevertheless, donations are welcome.
+
+= How can I remove the donation banner? =
+
+The banner it is not hard to remove for any programmer, but the easiest way to remove the banner is making a donation to the plugin, 1 cent and you get rid of it. [Donate](http://marquex.es/donate).
 
 = Some howtos =
 
-You can find some simple tutorials on the [Custom sidebars plugin web page](http://marquex.posterous.com/pages/custom-sidebars)
+You can find some simple tutorials on the [Custom sidebars plugin web page](http://marquex.es/541/custom-sidebars-plugin-v0-8)
 
 
 == Screenshots ==
@@ -69,6 +100,21 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 5. screenshot-5.png The sidebar sb1 has replace the sidebar footer 1 in the front-end.
 
 == Changelog ==
+
+= 1.0 = 
+*       Fixed: Special characters make sidebars undeletable
+*       Added: Child/parent pages support
+*       Improved interface to handle hundreds of sidebars easily
+*       Added: Ajax support for creating an editing sidebars from the widget page
+*       Added: Italian translation
+
+= 0.8.2 =
+* 	Fixed: Problems with spanish translation
+*	Added: Dutch and German language files
+* 	Fixed: Some css issues with WP3.3
+
+= 0.8.1 =
+*	Fixed: You can assign sidebars to your pages again.
 
 = 0.8 =
 *	Fixed: Category hierarchy is now handled properly by the custom sidebars plugin.
@@ -122,6 +168,9 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 *	Initial release
 
 == Upgrade Notice ==
+
+= 1.0 =
+*Caution:* Version 1.0 needs Wordpress 3.3 to work. If you are running an earlier version *do not upgrade*.
 
 = 0.7.1 =
 Now custom sidebars works with Thesis theme and some minor bugs have been solved.

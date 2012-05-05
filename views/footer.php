@@ -1,4 +1,20 @@
-<div style="text-align:center;overflow:hidden; width:350px; margin: 10px auto;padding:5px; background:#fff;" class="stuffbox">
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="float:right;"> <input type="hidden" value="_s-xclick" name="cmd"> <input type="hidden" value="-----BEGIN PKCS7-----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-----END PKCS7-----" name="encrypted"> <input type="image" alt="PayPal - The safer, easier way to pay online!" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" name="submit"> <img width="1" height="1" border="0" alt="" src="https://www.paypal.com/es_ES/i/scr/pixel.gif"> </form>
-<p style="margin:0;"><?php _e('Do you like this plugin? Support its development with a donation :)','custom-sidebars'); ?></p>
+<?php
+global $workingcode;
+?>
+<div id="csfooter">
+<div style="max-width: 400px;text-align:center;overflow:hidden; margin: 10px auto;padding:5px; background:#fff; border-radius: 3px; border:1px solid #DFDFDF" id="<?php echo $workingcode; ?>">
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+    <script type="text/javascript">
+        pp = {
+            wc: "#<?php echo $workingcode ?>",
+            dc: "<?php echo $this->getCode() ?>"
+        }
+    </script>
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="3TUE42ZMC9JJJ">
+<input type="image" src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal. La forma rápida y segura de pagar en Internet.">
+<img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1">
+</form>
+<p style="margin:0;"><?php _e('Do you like this free plugin? Support its development with a donation and <b>get rid of this banner</b> :)','custom-sidebars'); ?></p>
+</div>
 </div>

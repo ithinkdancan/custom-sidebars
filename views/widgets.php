@@ -7,6 +7,7 @@
  */
 ?>
 <div id="cs-widgets-extra">
+    <div id="oldbrowsererror" class="message error"><?php _e('You are using an old browser that doesn\'t support draggin widgets to a recently created sidebar. Refresh the page to add widgets to this sidebar and think about to update your browser.', 'custom-sidebars'); ?></div>
     <div id="cs-title-options">
         <h2><?php _e('Sidebars','custom-sidebars') ?></h2>
         <div id="cs-options" class="cs-options" style="text-align:right">
@@ -40,7 +41,7 @@
             </div>
         </div>
     </div>
-    <div class="cs-edit-sidebar"><a class="where-sidebar thickbox" href="/wp-admin/admin-ajax.php?action=cs-ajax&cs_action=where&id=" title="<?php _e('Where do you want the sidebar?','custom-sidebar') ?>"><?php _e('Where?','custom-sidebars')?></a><span class="cs-edit-separator"> | </span><a class="edit-sidebar" href="themes.php?page=customsidebars&p=edit&id="><?php _e('Edit','custom-sidebars')?></a><span class="cs-edit-separator"> | </span><a class="delete-sidebar" href="themes.php?page=customsidebars&p=delete&id="><?php _e('Delete','custom-sidebars')?></a></div>
+    <div class="cs-edit-sidebar"><a class="where-sidebar thickbox" href="/wp-admin/admin-ajax.php?action=cs-ajax&cs_action=where&id=" title="<?php _e('Where do you want the sidebar?','custom-sidebars') ?>"><?php _e('Where?','custom-sidebars')?></a><span class="cs-edit-separator"> | </span><a class="edit-sidebar" href="themes.php?page=customsidebars&p=edit&id="><?php _e('Edit','custom-sidebars')?></a><span class="cs-edit-separator"> | </span><a class="delete-sidebar" href="themes.php?page=customsidebars&p=delete&id="><?php _e('Delete','custom-sidebars')?></a></div>
     <div class="cs-cancel-edit-bar"><a class="cs-advanced-edit" href="themes.php?page=customsidebars&p=edit&id="><?php _e('Advanced Edit', 'custom-sidebars') ?></a><span class="cs-edit-separator"> | </span><a class="cs-cancel-edit" href="#"><?php _e('Cancel', 'custom-sidebars') ?></a></div>
     <div id="cs-save"><?php echo _e('Save','custom-sidebars'); ?></div>
     <span id="cs-confirm-delete"><?php _e('Are you sure that you want to delete the sidebar', 'custom-sidebars') ?></span>
@@ -48,4 +49,13 @@
         <?php wp_nonce_field( 'cs-delete-sidebar', '_delete_nonce', false);?>
         <?php wp_nonce_field( 'cs-edit-sidebar', '_edit_nonce', false);?>
     </form>
-</div>
+    <?php include('footer.php'); ?>
+ </div>
+
+<!--[if lt IE 8]>
+<script type="text/javascript">
+jQuery(function(){
+    csSidebars.showMessage('<?php _e('You are using an old browser and some features of custom sidebars are not available. You will be notified when you try to use them but, have you ever think about update your browser?', 'custom-sidebars') ?>');
+});
+</script>
+<![endif]-->

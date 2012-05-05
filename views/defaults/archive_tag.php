@@ -1,6 +1,6 @@
 <div class="defaultsSelector">
 
-<h3 class="csh3title"><?php _e('Tag pages','custom-sidebars'); ?></h3>
+<h3 class="csh3title" title="<?php _e('Click to toogle', 'custom-sidebars'); ?>"><?php _e('Tag archives','custom-sidebars'); ?></h3>
 <div class="defaultsContainer"><?php if(!empty($modifiable)): foreach($modifiable as $m): $sb_name = $allsidebars[$m]['name'];?>
                 <p><?php echo $sb_name; ?>: 
                     <select name="tag_page_<?php echo $m;?>">
@@ -11,7 +11,9 @@
                         </option>
                     <?php endforeach;?>
                     </select>
-                    <a href="#" class="selectSidebar"><?php printf(__('<- Set %s here.'), $current_sidebar['name']); ?></a>
+                    <?php if(!isset($cs_is_defaults)): ?>
+                        <a href="#" class="selectSidebar"><?php printf(__('<- Set %s here.', 'custom-sidebars'), $current_sidebar['name']); ?></a>
+                    <?php endif; ?>
                 </p>
             <?php endforeach;else:?>
                 <p><?php _e('There are no replaceable sidebars selected. You must select some of them in the form above to be able for replacing them in all the post type entries.','custom-sidebars'); ?></p>

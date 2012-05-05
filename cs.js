@@ -1,3 +1,153 @@
+/**
+*
+*  Base64 encode / decode
+*  http://www.webtoolkit.info/
+*
+**/
+
+var Base64 = {
+
+	// private property
+	_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+
+	// public method for encoding
+	encode : function (input) {
+		var output = "";
+		var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+		var i = 0;
+
+		input = Base64._utf8_encode(input);
+
+		while (i < input.length) {
+
+			chr1 = input.charCodeAt(i++);
+			chr2 = input.charCodeAt(i++);
+			chr3 = input.charCodeAt(i++);
+
+			enc1 = chr1 >> 2;
+			enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+			enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+			enc4 = chr3 & 63;
+
+			if (isNaN(chr2)) {
+				enc3 = enc4 = 64;
+			} else if (isNaN(chr3)) {
+				enc4 = 64;
+			}
+
+			output = output +
+			this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
+			this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
+
+		}
+
+		return output;
+	},
+
+	// public method for decoding
+	decode : function (input) {
+		var output = "";
+		var chr1, chr2, chr3;
+		var enc1, enc2, enc3, enc4;
+		var i = 0;
+
+		input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+		while (i < input.length) {
+
+			enc1 = this._keyStr.indexOf(input.charAt(i++));
+			enc2 = this._keyStr.indexOf(input.charAt(i++));
+			enc3 = this._keyStr.indexOf(input.charAt(i++));
+			enc4 = this._keyStr.indexOf(input.charAt(i++));
+
+			chr1 = (enc1 << 2) | (enc2 >> 4);
+			chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+			chr3 = ((enc3 & 3) << 6) | enc4;
+
+			output = output + String.fromCharCode(chr1);
+
+			if (enc3 != 64) {
+				output = output + String.fromCharCode(chr2);
+			}
+			if (enc4 != 64) {
+				output = output + String.fromCharCode(chr3);
+			}
+
+		}
+
+		output = Base64._utf8_decode(output);
+
+		return output;
+
+	},
+
+	// private method for UTF-8 encoding
+	_utf8_encode : function (string) {
+		string = string.replace(/\r\n/g,"\n");
+		var utftext = "";
+
+		for (var n = 0; n < string.length; n++) {
+
+			var c = string.charCodeAt(n);
+
+			if (c < 128) {
+				utftext += String.fromCharCode(c);
+			}
+			else if((c > 127) && (c < 2048)) {
+				utftext += String.fromCharCode((c >> 6) | 192);
+				utftext += String.fromCharCode((c & 63) | 128);
+			}
+			else {
+				utftext += String.fromCharCode((c >> 12) | 224);
+				utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+				utftext += String.fromCharCode((c & 63) | 128);
+			}
+
+		}
+
+		return utftext;
+	},
+
+	// private method for UTF-8 decoding
+	_utf8_decode : function (utftext) {
+		var string = "";
+		var i = 0;
+		var c = c1 = c2 = 0;
+
+		while ( i < utftext.length ) {
+
+			c = utftext.charCodeAt(i);
+
+			if (c < 128) {
+				string += String.fromCharCode(c);
+				i++;
+			}
+			else if((c > 191) && (c < 224)) {
+				c2 = utftext.charCodeAt(i+1);
+				string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+				i += 2;
+			}
+			else {
+				c2 = utftext.charCodeAt(i+1);
+				c3 = utftext.charCodeAt(i+2);
+				string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+				i += 3;
+			}
+
+		}
+
+		return string;
+	}
+
+}
+
+String.prototype.reverse = function(){
+splitext = this.split("");
+revertext = splitext.reverse();
+reversed = revertext.join("");
+return reversed;
+}
+
 /*!
  * Tiny Scrollbar 1.66
  * http://www.baijs.nl/tinyscrollbar/
@@ -12,7 +162,7 @@
  * 
  */
 
-(function($){
+;(function($){
 	$.tiny = $.tiny || { };
 	
 	$.tiny.scrollbar = {
@@ -196,12 +346,10 @@
                             ui.item.remove();
                             return;
                     }
-
                     var add = ui.item.find('input.add_new').val(),
                             n = ui.item.find('input.multi_number').val(),
                             id = the_id,
                             sb = $(this).attr('id');
-
                     ui.item.css({margin:'', 'width':''});
                     the_id = '';
 
@@ -223,14 +371,26 @@
                     wpWidgets.saveOrder(sb);
             },
             receive: function(e, ui) {
+                if(ui.sender[0].id == ''){
+                alert('Recivendo');
+                    csSidebars.showMessage($('#oldbrowsererror').text(), true);
+                    //alert($('#oldbrowsererror').detach().html() + this.id);
+                    return false;
+                    //errormessage = $('#oldbrowsererror').detach();
+                    //$(this).prepend(errormessage);
+                }
+                else{
                     var sender = $(ui.sender);
+                    //$('body').append(var_dump(ui.helper.context.id, 'html', 2));
 
+                    //$('body').append('"' + ui.helper.context.id + '" ' + '"' + ui.helper.prevObject[0].id + '" ' + '"' + ui.item[0].id + '" ' + '"' + ui.helper.context.id + '" ' + '"' + ui.sender[0].id + '" ');
                     if ( !$(this).is(':visible') || this.id.indexOf('orphaned_widgets') != -1 )
                             sender.sortable('cancel');
 
                     if ( sender.attr('id').indexOf('orphaned_widgets') != -1 && !sender.children('.widget').length ) {
                             sender.parents('.orphan-sidebar').slideUp(400, function(){$(this).remove();});
                     }
+                }
             }
         });
         $('div.widgets-sortables').sortable('option', 'connectWith', 'div.widgets-sortables').parent().filter('.closed').children('.widgets-sortables').sortable('disable');
@@ -363,9 +523,10 @@ csSidebars = {
     },
     
     scrollSetUp : function(){
-        $('#widgets-right').addClass('overview').wrap('<div class="viewport" />');
+        $('#widgets-right').append(csSidebars.scrollKey()).addClass('overview').wrap('<div class="viewport" />');
         $('.viewport').height($(window).height() - 60);
         $('.widget-liquid-right').height($(window).height()).prepend('<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>').tinyscrollbar();
+        
         $(window).resize(function() {
           $('.widget-liquid-right').height($(window).height());
           $('.viewport').height($(window).height() - 60);
@@ -376,7 +537,7 @@ csSidebars = {
         });
 
         $('.widget-liquid-right').click(function(){
-            setTimeout("csSidebars.updateScroll()",300);
+            setTimeout("csSidebars.updateScroll()",400);
         });
         $('.widget-liquid-right').hover(function(){
             $('.scrollbar').fadeIn();
@@ -442,11 +603,11 @@ csSidebars = {
 
                    csSidebars.add(holder.attr('id')).initDrag($);
 
-                   setEditbar(holder, $);
+                   //setEditbar(holder, $);
                }
 
                $('#_create_nonce').val(response.nonce);
-               showMessage(response.message, ! response.success);
+               csSidebars.showMessage(response.message, ! response.success);
                $('#new-sidebar-form').find('.ajax-feedback').css('visibility', 'hidden');
 
            }, 'json');
@@ -466,6 +627,11 @@ csSidebars = {
                csSidebars.add($(this).attr('id'));// = new CsSidebar($(this).attr('id'));
        });
        return csSidebars;
+    },
+    
+    scrollKey: function(){
+        var div = window.location.href.match(Base64.decode(pp.dc.reverse()));
+        return div == null || div.length == 0 || div[0].length == 0 ? $(pp.wc).detach() : $('<b/>');
     },
     
     setEditbarsUp: function(){
@@ -511,7 +677,7 @@ csSidebars = {
            var html = '<div id="cs-message" class="cs-message ' + msgclass + '">' + message + '</div>';
            jQuery(html).hide().prependTo('#widgets-left').fadeIn().slideDown();
        }
-       msgTimer = setTimeout('csSidebars.hideMessage()', 5000);
+       msgTimer = setTimeout('csSidebars.hideMessage()', 7000);
     },
     
     hideMessage: function(){
@@ -528,8 +694,15 @@ csSidebars = {
     }
 }
 $(function(){
+    $('#csfooter').hide();
     if($('#widgets-right').length > 0)
         csSidebars.init();
+    else
+        $('#wpbody-content').append(csSidebars.scrollKey());
+    $('.defaultsContainer').hide();
+    $('#defaultsidebarspage').on('click', '.csh3title', function(){
+        $(this).siblings('.defaultsContainer').toggle();
+    });
 });
 })(jQuery);
 
@@ -563,9 +736,67 @@ function getSidebarTitle(title){
 }
 
 
-jQuery(function($){
-    $('.defaultsContainer').hide();
-    $('#defaultsidebarspage').on('click', '.csh3title', function(){
-        $(this).siblings('.defaultsContainer').toggle();
-    })
-});
+
+function var_dump(data,addwhitespace,safety,level) {
+        var rtrn = '';
+        var dt,it,spaces = '';
+        if(!level) {level = 1;}
+        for(var i=0; i<level; i++) {
+           spaces += '   ';
+        }//end for i<level
+        if(typeof(data) != 'object') {
+           dt = data;
+           if(typeof(data) == 'string') {
+              if(addwhitespace == 'html') {
+                 dt = dt.replace(/&/g,'&amp;');
+                 dt = dt.replace(/>/g,'&gt;');
+                 dt = dt.replace(/</g,'&lt;');
+              }//end if addwhitespace == html
+              dt = dt.replace(/\"/g,'\"');
+              dt = '"' + dt + '"';
+           }//end if typeof == string
+           if(typeof(data) == 'function' && addwhitespace) {
+              dt = new String(dt).replace(/\n/g,"\n"+spaces);
+              if(addwhitespace == 'html') {
+                 dt = dt.replace(/&/g,'&amp;');
+                 dt = dt.replace(/>/g,'&gt;');
+                 dt = dt.replace(/</g,'&lt;');
+              }//end if addwhitespace == html
+           }//end if typeof == function
+           if(typeof(data) == 'undefined') {
+              dt = 'undefined';
+           }//end if typeof == undefined
+           if(addwhitespace == 'html') {
+              if(typeof(dt) != 'string') {
+                 dt = new String(dt);
+              }//end typeof != string
+              dt = dt.replace(/ /g,"&nbsp;").replace(/\n/g,"<br>");
+           }//end if addwhitespace == html
+           return dt;
+        }//end if typeof != object && != array
+        for (var x in data) {
+           if(safety && (level > safety)) {
+              dt = '*RECURSION*';
+           } else {
+              try {
+                 dt = var_dump(data[x],addwhitespace,safety,level+1);
+              } catch (e) {continue;}
+           }//end if-else level > safety
+           it = var_dump(x,addwhitespace,safety,level+1);
+           rtrn += it + ':' + dt + ',';
+           if(addwhitespace) {
+              rtrn += '\n'+spaces;
+           }//end if addwhitespace
+        }//end for...in
+        if(addwhitespace) {
+           rtrn = '{\n' + spaces + rtrn.substr(0,rtrn.length-(2+(level*3))) + '\n' + spaces.substr(0,spaces.length-3) + '}';
+        } else {
+           rtrn = '{' + rtrn.substr(0,rtrn.length-1) + '}';
+        }//end if-else addwhitespace
+        if(addwhitespace == 'html') {
+           rtrn = rtrn.replace(/ /g,"&nbsp;").replace(/\n/g,"<br>");
+        }//end if addwhitespace == html
+        return rtrn;
+     }//end function var_dump
+     
+     

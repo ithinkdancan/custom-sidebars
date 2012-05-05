@@ -6,6 +6,7 @@ Description: Allows to create your own widgetized areas and custom sidebars, and
 Version: 1.0
 Author: Javier Marquez
 Author URI: http://marquex.es
+License: GPL2
 */
 
 if(!class_exists('CustomSidebars')):
@@ -106,6 +107,7 @@ class CustomSidebars{
 						if($this->replace_before_after_widget($sidebar_for_replacing))
 							$wp_registered_sidebars[$sb_name] = $sidebar_for_replacing;
 					}
+                                        $wp_registered_sidebars[$sb_name]['class'] = $replacement;
 				}
 			}
 		}
@@ -124,7 +126,16 @@ class CustomSidebars{
 					$this->replacements_todo--;
 				}
 			}
-				
+                        //Parent sidebar
+                        if($post->post_parent != 0 && $this->replacements_todo > 0){
+                            $replacements = get_post_meta($post->post_parent, $this->postmeta_key, TRUE);
+                            foreach($this->replaceable_sidebars as $sidebar){
+                                    if(!$this->replacements[$sidebar] && is_array($replacements) && !empty($replacements[$sidebar])){
+                                            $this->replacements[$sidebar] = array($replacements[$sidebar], 'particular', -1);
+                                            $this->replacements_todo--;
+                                    }
+                            }
+                        }
 			//Category sidebar
 			global $sidebar_category;
 			if($this->replacements_todo > 0){
@@ -193,6 +204,17 @@ class CustomSidebars{
 					$this->replacements_todo--;
 				}
 			}
+                        
+                        //Parent sidebar
+                        if($post->post_parent != 0 && $this->replacements_todo > 0){
+                            $replacements = get_post_meta($post->post_parent, $this->postmeta_key, TRUE);
+                            foreach($this->replaceable_sidebars as $sidebar){
+                                    if(!$this->replacements[$sidebar] && is_array($replacements) && !empty($replacements[$sidebar])){
+                                            $this->replacements[$sidebar] = array($replacements[$sidebar], 'particular', -1);
+                                            $this->replacements_todo--;
+                                    }
+                            }
+                        }
 						
 			//Page Post-type sidebar
 			if($this->replacements_todo > 0){
@@ -365,6 +387,8 @@ class CustomSidebars{
 			}
 			else if($_GET['p']=='edit')
 				include('views/edit.php');
+                        else if($_GET['p']=='removebanner')
+                            return $this->removeBanner();
 			else
 				include('views/settings.php');	
 				
@@ -376,7 +400,10 @@ class CustomSidebars{
 	function addSubMenus(){
 		$page = add_submenu_page('themes.php', __('Custom sidebars','custom-sidebars'), __('Custom sidebars','custom-sidebars'), $this->cap_required, 'customsidebars', array($this, 'createPage'));
 		
-        add_action('admin_print_scripts-' . $page, array($this, 'addScripts'));
+                add_action('admin_print_scripts-' . $page, array($this, 'addScripts'));
+                
+                global $workingcode;
+                $workingcode = $this->getWorkingCode();
 	}
 	
 	function addScripts(){
@@ -881,6 +908,40 @@ class CustomSidebars{
 		return 1 + $this->getCategoryLevel($cat->category_parent);
 	}
         
+        protected function removeBanner(){
+            if(isset($_GET['code']) && strpos(strtolower(base64_decode(strrev(urldecode($_GET['code'])))), strtolower($_SERVER['HTTP_HOST'])) !== FALSE)
+                    $this->registerCode(urldecode($_GET['code']));
+            else if(isset($_GET['code']) && $_GET['code']=='unregistercode'){
+                    unset($this->options['code']);
+                    update_option($this->option_modifiable, $this->options);
+            }
+            
+            include 'views/removeBanner.php';
+        }
+        
+        protected function registerCode($code){
+            if($this->options !== FALSE){
+                    $this->options['code'] = $code;
+                    update_option($this->option_modifiable, $this->options);
+            }else{
+                    $this->options = array(
+                        'modifiable' => array(),
+                        'code' => $code
+                    );
+                    add_option($this->option_modifiable, $this->options);
+            }
+        }
+        
+        protected function getCode(){
+            if($this->options && isset($this->options['code']))
+                return $this->options['code'];
+            return false;
+        }
+        
+        protected function getWorkingCode(){
+            return substr(md5(mt_rand(10000, 900000)), 0, 10);
+        }
+        
         function jsonResponse($obj){
             header('Content-Type: application/json');
             echo json_encode($obj);
@@ -989,7 +1050,7 @@ class CustomSidebars{
             $themesidebars = $this->getThemeSidebars();
             $allsidebars = $this->getThemeSidebars(TRUE);
             if(!isset($allsidebars[$_GET['id']])){
-                die(__('Unknown sidebar.', 'custom-sidebar'));
+                die(__('Unknown sidebar.', 'custom-sidebars'));
             }
             foreach($allsidebars as $key => $sb){
                 if(strlen($sb['name']) > 30)

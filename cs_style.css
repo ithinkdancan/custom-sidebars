@@ -199,3 +199,16 @@ border: 1px solid #C00;
 .widgets_access .widget-liquid-right{
     position: static;
 }
+
+
+#oldbrowsererror{
+    display:none;
+}
+
+#defaultsidebarspage .postbox{
+    position:static;
+}
+
+#defaultsidebarspage .inside{
+    position:static;
+}
