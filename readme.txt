@@ -100,10 +100,6 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 5. screenshot-5.png The sidebar sb1 has replace the sidebar footer 1 in the front-end.
 
 == Changelog ==
-= 0.8.2 =
-* 	Fixed: Problems with spanish translation
-*	Added: Dutch and German language files
-* 	Fixed: Some css issues with WP3.3
 
 = 1.0 = 
 *       Fixed: Special characters make sidebars undeletable
