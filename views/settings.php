@@ -1,7 +1,7 @@
 <div class="themes-php">
 <div class="wrap">
 
-<?php include('view-tabs.php'); ?>
+<?php include('tabs.php'); ?>
 
 <div id="customsidebarspage">
 <div id="poststuff">
@@ -138,7 +138,7 @@
 	</form>
 </div>
 
-<?php include('view-footer.php'); ?>
+<?php include('footer.php'); ?>
 
 
 </div>

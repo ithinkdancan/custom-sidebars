@@ -1,7 +1,7 @@
 <div class="themes-php">
 <div class="wrap">
 
-<?php include('view-tabs.php'); ?>
+<?php include('tabs.php'); ?>
 
 <div id="editsidebarpage">
 <div id="poststuff">
@@ -57,7 +57,7 @@ global $wp_registered_sidebars;
 </div>
 
 
-<?php include('view-footer.php'); ?>
+<?php include('footer.php'); ?>
 
 </div>
 </div>
