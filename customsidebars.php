@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Custom sidebars
-Plugin URI: http://marquex.es/541/custom-sidebars-plugin-v0-8
+Plugin URI: http://marquex.es/698/custom-sidebars-1-0
 Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
 Version: 1.0
 Author: Javier Marquez
@@ -887,7 +887,7 @@ class CustomSidebars{
 	
 	function getSortedCategories(){
 		$unorderedcats = get_the_category();
-		usort($unorderedcats, array($this, 'cmpCatLevel'));
+		@usort($unorderedcats, array($this, 'cmpCatLevel'));
 		return $unorderedcats;
 	}
 	

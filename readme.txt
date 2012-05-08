@@ -74,7 +74,7 @@ You can create all the sidebars you want, but you need some sidebars of your the
 
 Any user that can switch themes, can create sidebars. Switch_themes is the capability needed to manage widgets, so if you can’t edit widgets you can’t create custom sidebars. There are some plugins to give capabilities to the roles, so you can make your author be able to create the sidebars. Try [User role editor](http://wordpress.org/extend/plugins/user-role-editor/)
 
-= Does it have custom taxonomies support?=
+= Does it have custom taxonomies support? =
 
 Sidebars for custom taxonomies are not working by the moment, it’s hard to build an interface.
 
