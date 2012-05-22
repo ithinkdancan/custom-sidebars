@@ -35,10 +35,12 @@
 
 <p><?php _e('You can define specific sidebars for the different Wordpress pages. Sidebars for lists of posts pages work in the same hierarchycal way than the one for single posts.','custom-sidebars'); ?></p>
 
+<?php include 'defaults/archive_blog.php' ?>
+<?php include 'defaults/archive_posttype.php' ?>
 <?php include 'defaults/archive_category.php' ?>
 <?php include 'defaults/archive_tag.php' ?>
-<?php include 'defaults/archive_posttype.php' ?>
-<?php include 'defaults/archive_blog.php' ?>
+<?php include 'defaults/archive_search.php' ?>
+<?php include 'defaults/archive_date.php' ?>
 <?php include 'defaults/archive_author.php' ?>
 
 

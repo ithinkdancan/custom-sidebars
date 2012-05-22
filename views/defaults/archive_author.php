@@ -1,6 +1,6 @@
 <div class="defaultsSelector">
 
-    <h3 class="csh3title" title="<?php _e('Click to toogle', 'custom-sidebars'); ?>"><?php _e('Authors archive','custom-sidebars'); ?></h3>
+    <h3 class="csh3title" title="<?php _e('Click to toogle', 'custom-sidebars'); ?>"><?php _e('Author archives','custom-sidebars'); ?></h3>
 <div class="defaultsContainer"><?php if(!empty($modifiable)): foreach($modifiable as $m): $sb_name = $allsidebars[$m]['name'];?>
                 <p><?php echo $sb_name; ?>: 
                     <select name="authors_page_<?php echo $m;?>">

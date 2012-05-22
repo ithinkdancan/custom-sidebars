@@ -1,12 +1,12 @@
 <div class="defaultsSelector">
-<h3 class="csh3title" title="<?php _e('Click to toogle', 'custom-sidebars'); ?>"><?php _e('Main blog page','custom-sidebars'); ?></h3>
+<h3 class="csh3title" title="<?php _e('Click to toogle', 'custom-sidebars'); ?>"><?php _e('Search results page','custom-sidebars'); ?></h3>
 
 <div class="defaultsContainer"><?php if(!empty($modifiable)): foreach($modifiable as $m): $sb_name = $allsidebars[$m]['name'];?>
                 <p><?php echo $sb_name; ?>: 
-                    <select name="blog_page_<?php echo $m;?>">
+                    <select name="search_page_<?php echo $m;?>">
                         <option value=""></option>
                     <?php foreach($allsidebars as $key => $sb):?>
-                        <option value="<?php echo $key; ?>" <?php echo (isset($defaults['blog'][$m]) && $defaults['blog'][$m]==$key) ? 'selected="selected"' : ''; ?>>
+                        <option value="<?php echo $key; ?>" <?php echo (isset($defaults['search'][$m]) && $defaults['search'][$m]==$key) ? 'selected="selected"' : ''; ?>>
                             <?php echo $sb['name']; ?>
                         </option>
                     <?php endforeach;?>

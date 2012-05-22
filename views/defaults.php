@@ -44,19 +44,15 @@ category_posts_{$id_category}_{$id_modifiable} : Posts by category
 
 <?php include 'defaults/archive_category.php' ?>
 <?php include 'defaults/archive_tag.php' ?>
+<?php include 'defaults/archive_search.php' ?>
 
 </div>
 
 <div class="cscolleft">
 
-
-<?php include 'defaults/archive_posttype.php' ?>
-
-
 <?php include 'defaults/archive_blog.php' ?>
-
-
-
+<?php include 'defaults/archive_posttype.php' ?>
+<?php include 'defaults/archive_date.php' ?>
 <?php include 'defaults/archive_author.php' ?>
 
 </div>

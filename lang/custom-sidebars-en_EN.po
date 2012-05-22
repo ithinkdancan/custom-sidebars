@@ -19,65 +19,65 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Textdomain-Support: yes"
 
-#: customsidebars.php:294
-#: customsidebars.php:360
-#: customsidebars.php:852
+#: customsidebars.php:312
+#: customsidebars.php:378
+#: customsidebars.php:896
 #@ custom-sidebars
 msgid "You do not have permission to delete sidebars"
 msgstr "You do not have permission to delete sidebars"
 
-#: customsidebars.php:320
+#: customsidebars.php:338
 #, php-format
 #@ custom-sidebars
 msgid "The sidebar \"%s\" has been deleted."
 msgstr "The sidebar \"%s\" has been deleted."
 
-#: customsidebars.php:322
+#: customsidebars.php:340
 #, php-format
 #@ custom-sidebars
 msgid "There was not any sidebar called \"%s\" and it could not been deleted."
 msgstr "There was not any sidebar called \"%s\" and it could not been deleted."
 
-#: customsidebars.php:399
+#: customsidebars.php:417
 #@ custom-sidebars
 msgid "Custom sidebars"
 msgstr "Custom sidebars"
 
-#: customsidebars.php:498
+#: customsidebars.php:516
 #@ custom-sidebars
 msgid "The custom sidebars settings has been updated successfully."
 msgstr "The custom sidebars settings has been updated successfully."
 
-#: customsidebars.php:609
+#: customsidebars.php:653
 #@ custom-sidebars
 msgid "The default sidebars have been updated successfully."
 msgstr "The default sidebars have been updated successfully."
 
-#: customsidebars.php:660
+#: customsidebars.php:704
 #@ custom-sidebars
 msgid "You have to fill all the fields to create a new sidebar."
 msgstr "You have to fill all the fields to create a new sidebar."
 
-#: customsidebars.php:684
-#: customsidebars.php:707
-#: customsidebars.php:1012
+#: customsidebars.php:728
+#: customsidebars.php:751
+#: customsidebars.php:1056
 #@ custom-sidebars
 msgid "The sidebar has been created successfully."
 msgstr "The sidebar has been created successfully."
 
-#: customsidebars.php:689
+#: customsidebars.php:733
 #@ custom-sidebars
 msgid "There is already a sidebar registered with that name, please choose a different one."
 msgstr "There is already a sidebar registered with that name, please choose a different one."
 
-#: customsidebars.php:729
-#: customsidebars.php:732
-#: customsidebars.php:960
+#: customsidebars.php:773
+#: customsidebars.php:776
+#: customsidebars.php:1004
 #@ custom-sidebars
 msgid "The operation is not secure and it cannot be completed."
 msgstr "The operation is not secure and it cannot be completed."
 
-#: customsidebars.php:755
+#: customsidebars.php:799
 #, php-format
 #@ custom-sidebars
 msgid "The sidebar \"%s\" has been updated successfully."
@@ -88,7 +88,7 @@ msgstr "The sidebar \"%s\" has been updated successfully."
 msgid "Create a new sidebar"
 msgstr "Create a new sidebar"
 
-#: customsidebars.php:883
+#: customsidebars.php:927
 #@ custom-sidebars
 msgid "The Custom Sidebars data has been removed successfully,"
 msgstr "The Custom Sidebars data has been removed successfully."
@@ -122,7 +122,9 @@ msgstr "By category"
 #: views/defaults/archive_author.php:20
 #: views/defaults/archive_blog.php:19
 #: views/defaults/archive_category.php:25
+#: views/defaults/archive_date.php:19
 #: views/defaults/archive_posttype.php:27
+#: views/defaults/archive_search.php:19
 #: views/defaults/archive_tag.php:19
 #: views/defaults/single_category.php:25
 #: views/defaults/single_posttype.php:25
@@ -141,9 +143,9 @@ msgstr "There are no categories available."
 msgid "By post type"
 msgstr "By post type"
 
-#: views/ajax.php:51
+#: views/ajax.php:53
 #: views/defaults.php:34
-#: views/defaults.php:64
+#: views/defaults.php:60
 #: views/edit.php:52
 #: views/settings.php:61
 #@ custom-sidebars
@@ -303,12 +305,12 @@ msgstr "Click on the button below to delete all the Custom Sidebars data from th
 msgid "Are you sure to reset the sidebars?"
 msgstr "Are you sure to reset this sidebars?"
 
-#: customsidebars.php:992
+#: customsidebars.php:1036
 #@ custom-sidebars
 msgid "There has been an error storing the sidebars. Please, try again."
 msgstr "There has been an error storing the sidebars. Please, try again."
 
-#: customsidebars.php:1051
+#: customsidebars.php:1095
 #@ custom-sidebars
 msgid "Unknown sidebar."
 msgstr "Unknown sidebar."
@@ -336,7 +338,9 @@ msgstr "As the default sidebars for archives"
 #: views/defaults/archive_author.php:3
 #: views/defaults/archive_blog.php:2
 #: views/defaults/archive_category.php:3
+#: views/defaults/archive_date.php:2
 #: views/defaults/archive_posttype.php:4
+#: views/defaults/archive_search.php:2
 #: views/defaults/archive_tag.php:3
 #: views/defaults/single_category.php:2
 #: views/defaults/single_posttype.php:2
@@ -347,14 +351,16 @@ msgstr "Click to toogle"
 #: views/defaults/archive_author.php:16
 #: views/defaults/archive_blog.php:15
 #: views/defaults/archive_category.php:21
+#: views/defaults/archive_date.php:15
 #: views/defaults/archive_posttype.php:23
+#: views/defaults/archive_search.php:15
 #: views/defaults/archive_tag.php:15
 #: views/defaults/single_category.php:21
 #: views/defaults/single_posttype.php:21
 #, php-format
 #@ custom-sidebars
 msgid "<- Set %s here."
-msgstr ""
+msgstr "<- Set %s here."
 
 #: views/defaults.php:13
 #@ custom-sidebars
@@ -456,20 +462,15 @@ msgstr "Are you sure that you want to delete the sidebar"
 msgid "You are using an old browser and some features of custom sidebars are not available. You will be notified when you try to use them but, have you ever think about update your browser?"
 msgstr "You are using an old browser and some features of custom sidebars are not available. You will be notified when you try to use them but, have you ever think about update your browser?"
 
-#: views/defaults/archive_author.php:3
-#@ custom-sidebars
-msgid "Authors archive"
-msgstr "Authors archive"
-
 #: views/defaults/archive_blog.php:2
 #@ custom-sidebars
 msgid "Main blog page"
-msgstr ""
+msgstr "Main blog page"
 
 #: views/defaults/archive_category.php:3
 #@ custom-sidebars
 msgid "Category archives"
-msgstr ""
+msgstr "Category archives"
 
 #: views/defaults/archive_posttype.php:4
 #@ custom-sidebars
@@ -480,4 +481,19 @@ msgstr "Post-type archives"
 #@ custom-sidebars
 msgid "Tag archives"
 msgstr "Tag archives"
+
+#: views/defaults/archive_author.php:3
+#@ custom-sidebars
+msgid "Author archives"
+msgstr "Author archives"
+
+#: views/defaults/archive_date.php:2
+#@ custom-sidebars
+msgid "Date archives"
+msgstr "Date archives"
+
+#: views/defaults/archive_search.php:2
+#@ custom-sidebars
+msgid "Search results page"
+msgstr "Search results page"
 

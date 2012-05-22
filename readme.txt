@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: marquex
-Donate link: http://marquex.es/541/custom-sidebars-plugin-v0-8
+Donate link: http://marquex.es/donate
 Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 3.3
 Tested up to: 3.4 beta 4
@@ -19,9 +19,9 @@ You can also set new default sidebars for a group of posts or pages easily, keep
 
 *	Sidebars for all the posts that belong to a category.
 *	Sidebars for all the posts that belong to a post-type.
-*	Sidebars for lists of posts (those which belongs to a category, post-type or have some tag).
-*	Sidebars for author pages.
+*	Sidebars for archives (by category, post-type, author, tag).
 *	Sidebars for the main blog page.
+*	Sidebars for search results.
 
 I also recommend the use of [Widget Entries plugin](http://wordpress.org/extend/plugins/widget-entries/) to manage lots of HTML widgets with ease for your new sidebars. This way you will boost the content manager facet of your Wordpress installation.  
 
@@ -100,6 +100,12 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 5. screenshot-5.png The sidebar sb1 has replace the sidebar footer 1 in the front-end.
 
 == Changelog ==
+
+= 1.1 =
+*       Fixed: Where lightbox not showing for everybody (Thanks to Robert Utnehmer)
+*       Added: Default sidebar for search results pages
+*       Added: Default sidebar for date archives
+*	Added: Default sidebar for Uncategorized posts
 
 = 1.0 = 
 *       Fixed: Special characters make sidebars undeletable

@@ -1,6 +1,6 @@
 <div class="defaultsSelector">
 <h3 class="csh3title" title="<?php _e('Click to toogle', 'custom-sidebars'); ?>"><?php _e('By category','custom-sidebars'); ?></h3>
-<div class="defaultsContainer"><?php if(!empty($categories)): foreach($categories as $c): if($c->cat_ID != 1):?>
+<div class="defaultsContainer"><?php if(!empty($categories)): foreach($categories as $c):?>
         
         <div id="category-page-<?php echo $c->id; ?>" class="postbox closed" >
             <div class="handlediv" title="Haz clic para cambiar"><br /></div>
@@ -28,7 +28,7 @@
             
         </div>
         
-        <?php endif;endforeach;else: ?>
+        <?php endforeach;else: ?>
             <p><?php _e('There are no categories available.','custom-sidebars'); ?></p>
         <?php endif;?></div>
 </div>

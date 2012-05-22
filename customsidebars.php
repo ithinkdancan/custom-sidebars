@@ -3,7 +3,7 @@
 Plugin Name: Custom sidebars
 Plugin URI: http://marquex.es/698/custom-sidebars-1-0
 Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
-Version: 1.0
+Version: 1.1
 Author: Javier Marquez
 Author URI: http://marquex.es
 License: GPL2
@@ -251,6 +251,22 @@ class CustomSidebars{
 			}
 			return;
 		}
+                
+                if(is_search()){
+                    foreach($this->replaceable_sidebars as $sidebar){
+                            if(! empty($defaults['search'][$sidebar]))
+                                    $this->replacements[$sidebar] = array($defaults['search'][$sidebar], 'search', -1);
+                    }
+                    return;
+                }
+                
+                if(is_date()){
+                    foreach($this->replaceable_sidebars as $sidebar){
+                            if(! empty($defaults['date'][$sidebar]))
+                                    $this->replacements[$sidebar] = array($defaults['date'][$sidebar], 'date', -1);
+                    }
+                    return;
+                }
 	}
 	
 	function checkAndFixSidebar($sidebar, $replacement, $method, $extra_index){
@@ -595,6 +611,32 @@ class CustomSidebars{
 						$options['authors'] = array();
 					
 					$options['authors'][$m] = $_POST["authors_page_$m"];
+				}
+			}
+		}
+                
+                // Search page
+                $options['search'] = array();
+		if(!empty($modifiable)){
+			foreach($modifiable as $m){
+				if(isset($_POST["search_page_$m"]) && $_POST["search_page_$m"]!=''){
+					if(! isset($options['search']))
+						$options['search'] = array();
+					
+					$options['search'][$m] = $_POST["search_page_$m"];
+				}
+			}
+		}
+                
+                // Date archive
+                $options['date'] = array();
+		if(!empty($modifiable)){
+			foreach($modifiable as $m){
+				if(isset($_POST["date_page_$m"]) && $_POST["date_page_$m"]!=''){
+					if(! isset($options['date']))
+						$options['date'] = array();
+					
+					$options['date'][$m] = $_POST["date_page_$m"];
 				}
 			}
 		}

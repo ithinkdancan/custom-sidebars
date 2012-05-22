@@ -19,81 +19,81 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Textdomain-Support: yes"
 
-#: customsidebars.php:294
-#: customsidebars.php:360
-#: customsidebars.php:852
+#: customsidebars.php:312
+#: customsidebars.php:378
+#: customsidebars.php:896
 #@ custom-sidebars
 msgid "You do not have permission to delete sidebars"
 msgstr "No tiene permisos para borrar la barra lateral"
 
-#: customsidebars.php:320
+#: customsidebars.php:338
 #, php-format
 #@ custom-sidebars
 msgid "The sidebar \"%s\" has been deleted."
 msgstr "La barra \"%s\" ha sido borrada."
 
-#: customsidebars.php:322
+#: customsidebars.php:340
 #, php-format
 #@ custom-sidebars
 msgid "There was not any sidebar called \"%s\" and it could not been deleted."
 msgstr "No hay ninguna barra llamada \"%s\", no se ha eliminado nada."
 
-#: customsidebars.php:399
+#: customsidebars.php:417
 #@ custom-sidebars
 msgid "Custom sidebars"
 msgstr "Barras laterales"
 
-#: customsidebars.php:498
+#: customsidebars.php:516
 #@ custom-sidebars
 msgid "The custom sidebars settings has been updated successfully."
 msgstr "Las opciones de las barras laterales han sido actualizadas con éxito."
 
-#: customsidebars.php:609
+#: customsidebars.php:653
 #@ custom-sidebars
 msgid "The default sidebars have been updated successfully."
 msgstr "Las barras laterales por defecto han sido actualizadas con éxito."
 
-#: customsidebars.php:660
+#: customsidebars.php:704
 #@ custom-sidebars
 msgid "You have to fill all the fields to create a new sidebar."
 msgstr "Tiene que rellenar todos los campos para crear una nueva barra lateral."
 
-#: customsidebars.php:684
-#: customsidebars.php:707
-#: customsidebars.php:1012
+#: customsidebars.php:728
+#: customsidebars.php:751
+#: customsidebars.php:1056
 #@ custom-sidebars
 msgid "The sidebar has been created successfully."
 msgstr "La barra ha sido creada correctamente."
 
-#: customsidebars.php:689
+#: customsidebars.php:733
 #@ custom-sidebars
 msgid "There is already a sidebar registered with that name, please choose a different one."
 msgstr "Ya existe una barra registrada con ese nombre, utilice otro."
 
-#: customsidebars.php:729
-#: customsidebars.php:732
-#: customsidebars.php:960
+#: customsidebars.php:773
+#: customsidebars.php:776
+#: customsidebars.php:1004
 #@ custom-sidebars
 msgid "The operation is not secure and it cannot be completed."
 msgstr "La operación no es segura y no puede ser completada."
 
-#: customsidebars.php:755
+#: customsidebars.php:799
 #, php-format
 #@ custom-sidebars
 msgid "The sidebar \"%s\" has been updated successfully."
 msgstr "La barra \"%s\" ha sido actualizada correctamente."
 
-#: customsidebars.php:883
+#: customsidebars.php:927
 #@ custom-sidebars
 msgid "The Custom Sidebars data has been removed successfully,"
 msgstr "Los datos del plugin han sido eliminados correctamente."
 
-#: customsidebars.php:992
+#: customsidebars.php:1036
 #@ custom-sidebars
 msgid "There has been an error storing the sidebars. Please, try again."
 msgstr "Ha ocurrido un error guardando las barras. Por favor, inténtelo de nuevo."
 
-#: customsidebars.php:1051
+#: customsidebars.php:1095
 #@ custom-sidebars
 msgid "Unknown sidebar."
 msgstr "Barra desconocida."
@@ -144,9 +144,9 @@ msgstr "Como barra para archivos de entradas"
 msgid "You can define specific sidebars for the different Wordpress pages. Sidebars for lists of posts pages work in the same hierarchycal way than the one for single posts."
 msgstr "Puede asignar barras laterales para los archivos de entradas de Wordpress. El funcionamiento por categorías es el mismo que en las entradas individuales."
 
-#: views/ajax.php:51
+#: views/ajax.php:53
 #: views/defaults.php:34
-#: views/defaults.php:64
+#: views/defaults.php:60
 #: views/edit.php:52
 #: views/settings.php:61
 #@ custom-sidebars
@@ -156,7 +156,9 @@ msgstr "Guardar Cambios"
 #: views/defaults/archive_author.php:3
 #: views/defaults/archive_blog.php:2
 #: views/defaults/archive_category.php:3
+#: views/defaults/archive_date.php:2
 #: views/defaults/archive_posttype.php:4
+#: views/defaults/archive_search.php:2
 #: views/defaults/archive_tag.php:3
 #: views/defaults/single_category.php:2
 #: views/defaults/single_posttype.php:2
@@ -167,7 +169,9 @@ msgstr "Click para mostrar u ocultar"
 #: views/defaults/archive_author.php:16
 #: views/defaults/archive_blog.php:15
 #: views/defaults/archive_category.php:21
+#: views/defaults/archive_date.php:15
 #: views/defaults/archive_posttype.php:23
+#: views/defaults/archive_search.php:15
 #: views/defaults/archive_tag.php:15
 #: views/defaults/single_category.php:21
 #: views/defaults/single_posttype.php:21
@@ -179,7 +183,9 @@ msgstr "<- Mostrar %s aquí"
 #: views/defaults/archive_author.php:20
 #: views/defaults/archive_blog.php:19
 #: views/defaults/archive_category.php:25
+#: views/defaults/archive_date.php:19
 #: views/defaults/archive_posttype.php:27
+#: views/defaults/archive_search.php:19
 #: views/defaults/archive_tag.php:19
 #: views/defaults/single_category.php:25
 #: views/defaults/single_posttype.php:25
@@ -456,11 +462,6 @@ msgstr "¿Está seguro que quiere borral la barra lateral?"
 msgid "You are using an old browser and some features of custom sidebars are not available. You will be notified when you try to use them but, have you ever think about update your browser?"
 msgstr "Está utilizando un navegador muy antiguo y algunas de las características de Custom Sidebars no están disponibles. Se le notificará cuando intente utilizarlas pero, ¿ha pensado en actualizar su navegador?"
 
-#: views/defaults/archive_author.php:3
-#@ custom-sidebars
-msgid "Authors archive"
-msgstr "Archivos de autores"
-
 #: views/defaults/archive_blog.php:2
 #@ custom-sidebars
 msgid "Main blog page"
@@ -480,4 +481,19 @@ msgstr "Archivos de etiquetas"
 #@ custom-sidebars
 msgid "Post-type archives"
 msgstr "Archivos de tipos de entrada"
+
+#: views/defaults/archive_author.php:3
+#@ custom-sidebars
+msgid "Author archives"
+msgstr "Archivos de autores"
+
+#: views/defaults/archive_date.php:2
+#@ custom-sidebars
+msgid "Date archives"
+msgstr "Archivos por fecha"
+
+#: views/defaults/archive_search.php:2
+#@ custom-sidebars
+msgid "Search results page"
+msgstr "Página de resultados de búsqueda"
 
