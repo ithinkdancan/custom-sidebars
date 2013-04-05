@@ -148,160 +148,235 @@ reversed = revertext.join("");
 return reversed;
 }
 
-/*!
- * Tiny Scrollbar 1.66
+/*
+ * Tiny Scrollbar 1.8
  * http://www.baijs.nl/tinyscrollbar/
  *
- * Copyright 2010, Maarten Baijs
+ * Copyright 2012, Maarten Baijs
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.opensource.org/licenses/gpl-2.0.php
  *
- * Date: 13 / 11 / 2011
+ * Date: 26 / 07 / 2012
  * Depends on library: jQuery
- * 
+ *
  */
+;( function( $ ) 
+{
+    $.tiny = $.tiny || { };
 
-;(function($){
-	$.tiny = $.tiny || { };
-	
-	$.tiny.scrollbar = {
-		options: {	
-			axis: 'y', // vertical or horizontal scrollbar? ( x || y ).
-			wheel: 40,  //how many pixels must the mouswheel scroll at a time.
-			scroll: true, //enable or disable the mousewheel;
-			size: 'auto', //set the size of the scrollbar to auto or a fixed number.
-			sizethumb: 'auto' //set the size of the thumb to auto or a fixed number.
-		}
-	};	
-	
-	$.fn.tinyscrollbar = function(options) { 
-		var options = $.extend({}, $.tiny.scrollbar.options, options); 		
-		this.each(function(){$(this).data('tsb', new Scrollbar($(this), options));});
-		return this;
-	};
-	$.fn.tinyscrollbar_update = function(sScroll) {return $(this).data('tsb').update(sScroll);};
-	
-	function Scrollbar(root, options){
-		var oSelf = this;
-		var oWrapper = root;
-		var oViewport = {obj: $('.viewport', root)};
-		var oContent = {obj: $('.overview', root)};
-		var oScrollbar = {obj: $('.scrollbar', root)};
-		var oTrack = {obj: $('.track', oScrollbar.obj)};
-		var oThumb = {obj: $('.thumb', oScrollbar.obj)};
-		var sAxis = options.axis == 'x', sDirection = sAxis ? 'left' : 'top', sSize = sAxis ? 'Width' : 'Height';
-		var iScroll, iPosition = {start: 0, now: 0}, iMouse = {};
+    $.tiny.scrollbar = {
+        options: {
+                axis       : 'y'    // vertical or horizontal scrollbar? ( x || y ).
+            ,   wheel      : 40     // how many pixels must the mouswheel scroll at a time.
+            ,   scroll     : true   // enable or disable the mousewheel.
+            ,   lockscroll : true   // return scrollwheel to browser if there is no more content.
+            ,   size       : 'auto' // set the size of the scrollbar to auto or a fixed number.
+            ,   sizethumb  : 'auto' // set the size of the thumb to auto or a fixed number.
+        }
+    };
 
-		function initialize() {	
-			oSelf.update();
-			setEvents();
-			return oSelf;
-		}
-		this.update = function(sScroll){
-			oViewport[options.axis] = oViewport.obj[0]['offset'+ sSize];
-			oContent[options.axis] = oContent.obj[0]['scroll'+ sSize];
-			oContent.ratio = oViewport[options.axis] / oContent[options.axis];
-			oScrollbar.obj.toggleClass('disable', oContent.ratio >= 1);
-			oTrack[options.axis] = options.size == 'auto' ? oViewport[options.axis] : options.size;
-			oThumb[options.axis] = Math.min(oTrack[options.axis], Math.max(0, ( options.sizethumb == 'auto' ? (oTrack[options.axis] * oContent.ratio) : options.sizethumb )));
-			oScrollbar.ratio = options.sizethumb == 'auto' ? (oContent[options.axis] / oTrack[options.axis]) : (oContent[options.axis] - oViewport[options.axis]) / (oTrack[options.axis] - oThumb[options.axis]);
-			iScroll = (sScroll == 'relative' && oContent.ratio <= 1) ? Math.min((oContent[options.axis] - oViewport[options.axis]), Math.max(0, iScroll)) : 0;
-			iScroll = (sScroll == 'bottom' && oContent.ratio <= 1) ? (oContent[options.axis] - oViewport[options.axis]) : isNaN(parseInt(sScroll)) ? iScroll : parseInt(sScroll);
-			setSize();
-		};
-		function setSize(){
-			oThumb.obj.css(sDirection, iScroll / oScrollbar.ratio);
-			oContent.obj.css(sDirection, -iScroll);
-			iMouse['start'] = oThumb.obj.offset()[sDirection];
-			var sCssSize = sSize.toLowerCase(); 
-			oScrollbar.obj.css(sCssSize, oTrack[options.axis]);
-			oTrack.obj.css(sCssSize, oTrack[options.axis]);
-			oThumb.obj.css(sCssSize, oThumb[options.axis]);		
-		};		
-		function setEvents(){
-			oThumb.obj.bind('mousedown', start);
-			oThumb.obj[0].ontouchstart = function(oEvent){
-				oEvent.preventDefault();
-				oThumb.obj.unbind('mousedown');
-				start(oEvent.touches[0]);
-				return false;
-			};	
-			oTrack.obj.bind('mouseup', drag);
-			if(options.scroll && this.addEventListener){
-				oWrapper[0].addEventListener('DOMMouseScroll', wheel, false);
-				oWrapper[0].addEventListener('mousewheel', wheel, false );
-			}
-			else if(options.scroll){oWrapper[0].onmousewheel = wheel;}
-		};
-		function start(oEvent){
-			iMouse.start = sAxis ? oEvent.pageX : oEvent.pageY;
-			var oThumbDir = parseInt(oThumb.obj.css(sDirection));
-			iPosition.start = oThumbDir == 'auto' ? 0 : oThumbDir;
-			$(document).bind('mousemove', drag);
-			document.ontouchmove = function(oEvent){
-				$(document).unbind('mousemove');
-				drag(oEvent.touches[0]);
-			};
-			$(document).bind('mouseup', end);
-			oThumb.obj.bind('mouseup', end);
-			oThumb.obj[0].ontouchend = document.ontouchend = function(oEvent){
-				$(document).unbind('mouseup');
-				oThumb.obj.unbind('mouseup');
-				end(oEvent.touches[0]);
-			};
-			return false;
-		};		
-		function wheel(oEvent){
-			if(!(oContent.ratio >= 1)){
-				var oEvent = oEvent || window.event;
-				var iDelta = oEvent.wheelDelta ? oEvent.wheelDelta/120 : -oEvent.detail/3;
-				iScroll -= iDelta * options.wheel;
-				iScroll = Math.min((oContent[options.axis] - oViewport[options.axis]), Math.max(0, iScroll));
-				oThumb.obj.css(sDirection, iScroll / oScrollbar.ratio);
-				oContent.obj.css(sDirection, -iScroll);
-				
-				oEvent = $.event.fix(oEvent);
-				oEvent.preventDefault();
-			};
-		};
-		function end(oEvent){
-			$(document).unbind('mousemove', drag);
-			$(document).unbind('mouseup', end);
-			oThumb.obj.unbind('mouseup', end);
-			document.ontouchmove = oThumb.obj[0].ontouchend = document.ontouchend = null;
-			return false;
-		};
-		function drag(oEvent){
-			if(!(oContent.ratio >= 1)){
-				iPosition.now = Math.min((oTrack[options.axis] - oThumb[options.axis]), Math.max(0, (iPosition.start + ((sAxis ? oEvent.pageX : oEvent.pageY) - iMouse.start))));
-				iScroll = iPosition.now * oScrollbar.ratio;
-				oContent.obj.css(sDirection, -iScroll);
-				oThumb.obj.css(sDirection, iPosition.now);
-			}
-			return false;
-		};
-		
-		return initialize();
-	};
-})(jQuery);
+    $.fn.tinyscrollbar = function( params )
+    {
+        var options = $.extend( {}, $.tiny.scrollbar.options, params );
+        
+        this.each( function()
+        { 
+            $( this ).data('tsb', new Scrollbar( $( this ), options ) ); 
+        });
 
+        return this;
+    };
+
+    $.fn.tinyscrollbar_update = function(sScroll)
+    {
+        return $( this ).data( 'tsb' ).update( sScroll ); 
+    };
+
+    function Scrollbar( root, options )
+    {
+        var oSelf       = this
+        ,   oWrapper    = root
+        ,   oViewport   = { obj: $( '.viewport', root ) }
+        ,   oContent    = { obj: $( '.overview', root ) }
+        ,   oScrollbar  = { obj: $( '.scrollbar', root ) }
+        ,   oTrack      = { obj: $( '.track', oScrollbar.obj ) }
+        ,   oThumb      = { obj: $( '.thumb', oScrollbar.obj ) }
+        ,   sAxis       = options.axis === 'x'
+        ,   sDirection  = sAxis ? 'left' : 'top'
+        ,   sSize       = sAxis ? 'Width' : 'Height'
+        ,   iScroll     = 0
+        ,   iPosition   = { start: 0, now: 0 }
+        ,   iMouse      = {}
+        ,   touchEvents = ( 'ontouchstart' in document.documentElement ) ? true : false
+        ;
+
+        function initialize()
+        {
+            oSelf.update();
+            setEvents();
+
+            return oSelf;
+        }
+
+        this.update = function( sScroll )
+        {
+            oViewport[ options.axis ] = oViewport.obj[0][ 'offset'+ sSize ];
+            oContent[ options.axis ]  = oContent.obj[0][ 'scroll'+ sSize ];
+            oContent.ratio            = oViewport[ options.axis ] / oContent[ options.axis ];
+
+            oScrollbar.obj.toggleClass( 'disable', oContent.ratio >= 1 );
+
+            oTrack[ options.axis ] = options.size === 'auto' ? oViewport[ options.axis ] : options.size;
+            oThumb[ options.axis ] = Math.min( oTrack[ options.axis ], Math.max( 0, ( options.sizethumb === 'auto' ? ( oTrack[ options.axis ] * oContent.ratio ) : options.sizethumb ) ) );
+        
+            oScrollbar.ratio = options.sizethumb === 'auto' ? ( oContent[ options.axis ] / oTrack[ options.axis ] ) : ( oContent[ options.axis ] - oViewport[ options.axis ] ) / ( oTrack[ options.axis ] - oThumb[ options.axis ] );
+            
+            iScroll = ( sScroll === 'relative' && oContent.ratio <= 1 ) ? Math.min( ( oContent[ options.axis ] - oViewport[ options.axis ] ), Math.max( 0, iScroll )) : 0;
+            iScroll = ( sScroll === 'bottom' && oContent.ratio <= 1 ) ? ( oContent[ options.axis ] - oViewport[ options.axis ] ) : isNaN( parseInt( sScroll, 10 ) ) ? iScroll : parseInt( sScroll, 10 );
+            
+            setSize();
+        };
+
+        function setSize()
+        {
+            var sCssSize = sSize.toLowerCase();
+
+            oThumb.obj.css( sDirection, iScroll / oScrollbar.ratio );
+            oContent.obj.css( sDirection, -iScroll );
+            iMouse.start = oThumb.obj.offset()[ sDirection ];
+
+            oScrollbar.obj.css( sCssSize, oTrack[ options.axis ] );
+            oTrack.obj.css( sCssSize, oTrack[ options.axis ] );
+            oThumb.obj.css( sCssSize, oThumb[ options.axis ] );
+        }
+
+        function setEvents()
+        {
+            if( ! touchEvents )
+            {
+                oThumb.obj.bind( 'mousedown', start );
+                oTrack.obj.bind( 'mouseup', drag );
+            }
+            else
+            {
+                oViewport.obj[0].ontouchstart = function( event )
+                {   
+                    if( 1 === event.touches.length )
+                    {
+                        start( event.touches[ 0 ] );
+                        event.stopPropagation();
+                    }
+                };
+            }
+
+            if( options.scroll && window.addEventListener )
+            {
+                oWrapper[0].addEventListener( 'DOMMouseScroll', wheel, false );
+                oWrapper[0].addEventListener( 'mousewheel', wheel, false );
+            }
+            else if( options.scroll )
+            {
+                oWrapper[0].onmousewheel = wheel;
+            }
+        }
+
+        function start( event )
+        {
+            var oThumbDir   = parseInt( oThumb.obj.css( sDirection ), 10 );
+            iMouse.start    = sAxis ? event.pageX : event.pageY;
+            iPosition.start = oThumbDir == 'auto' ? 0 : oThumbDir;
+            
+            if( ! touchEvents )
+            {
+                $( document ).bind( 'mousemove', drag );
+                $( document ).bind( 'mouseup', end );
+                oThumb.obj.bind( 'mouseup', end );
+            }
+            else
+            {
+                document.ontouchmove = function( event )
+                {
+                    event.preventDefault();
+                    drag( event.touches[ 0 ] );
+                };
+                document.ontouchend = end;        
+            }
+        }
+
+        function wheel( event )
+        {
+            if( oContent.ratio < 1 )
+            {
+                var oEvent = event || window.event
+                ,   iDelta = oEvent.wheelDelta ? oEvent.wheelDelta / 120 : -oEvent.detail / 3
+                ;
+
+                iScroll -= iDelta * options.wheel;
+                iScroll = Math.min( ( oContent[ options.axis ] - oViewport[ options.axis ] ), Math.max( 0, iScroll ));
+
+                oThumb.obj.css( sDirection, iScroll / oScrollbar.ratio );
+                oContent.obj.css( sDirection, -iScroll );
+
+                if( options.lockscroll || ( iScroll !== ( oContent[ options.axis ] - oViewport[ options.axis ] ) && iScroll !== 0 ) )
+                {
+                    oEvent = $.event.fix( oEvent );
+                    oEvent.preventDefault();
+                }
+            }
+        }
+
+        function drag( event )
+        {
+            if( oContent.ratio < 1 )
+            {
+                if( ! touchEvents )
+                {
+                    iPosition.now = Math.min( ( oTrack[ options.axis ] - oThumb[ options.axis ] ), Math.max( 0, ( iPosition.start + ( ( sAxis ? event.pageX : event.pageY ) - iMouse.start))));
+                }
+                else
+                {
+                    iPosition.now = Math.min( ( oTrack[ options.axis ] - oThumb[ options.axis ] ), Math.max( 0, ( iPosition.start + ( iMouse.start - ( sAxis ? event.pageX : event.pageY ) ))));
+                }
+
+                iScroll = iPosition.now * oScrollbar.ratio;
+                oContent.obj.css( sDirection, -iScroll );
+                oThumb.obj.css( sDirection, iPosition.now );
+            }
+        }
+        
+        function end()
+        {
+            $( document ).unbind( 'mousemove', drag );
+            $( document ).unbind( 'mouseup', end );
+            oThumb.obj.unbind( 'mouseup', end );
+            document.ontouchmove = document.ontouchend = null;
+        }
+
+        return initialize();
+    }
+
+}(jQuery));
 
 
 
 
 //CsSidebar class
     function CsSidebar(id){
-        this.id = id;
+        //Replace % to fix bug http://wordpress.org/support/topic/in-wp-35-sidebars-are-not-collapsable-anymore?replies=16#post-3990447
+        //We'll use this.id to select and the original id for html
+        // v1.2 
+        this.id = id.split('%').join('\\%');
+
         this.widgets = '';
-        this.name = trim(jQuery('#' + id).siblings('.sidebar-name').text());
-        this.description = trim(jQuery('#' + id).find('.sidebar-description').text());
+        this.name = trim(jQuery('#' + this.id).siblings('.sidebar-name').text());
+        this.description = trim(jQuery('#' + this.id).find('.sidebar-description').text());
         
         // Add editbar
         var editbar = jQuery('#cs-widgets-extra').find('.cs-edit-sidebar').clone();
-        jQuery('#' + id).parent().append(editbar);
+        jQuery('#' + this.id).parent().append(editbar);
         editbar.find('a').each(function(){
-            addIdToA(jQuery(this), id);//.attr('href', jQuery(this).attr('href') + id);
+            addIdToA(jQuery(this), id);// Add the original id to the html
         });
     }
     
@@ -372,7 +447,6 @@ return reversed;
             },
             receive: function(e, ui) {
                 if(ui.sender[0].id == ''){
-                alert('Recivendo');
                     csSidebars.showMessage($('#oldbrowsererror').text(), true);
                     //alert($('#oldbrowsererror').detach().html() + this.id);
                     return false;
@@ -422,13 +496,14 @@ return reversed;
     
     
     CsSidebar.prototype.remove = function($){
-       var ajaxdata = {
-           action:      'cs-ajax',
-           cs_action:   'cs-delete-sidebar',
-           'delete':    this.id,
-           nonce: $('#_delete_nonce').val()
-       }
-       var id = this.id;
+        var htmlid = this.id.split('\\').join(''),
+            id = this.id,
+            ajaxdata = {
+               action:      'cs-ajax',
+               cs_action:   'cs-delete-sidebar',
+               'delete':    htmlid,
+               nonce: $('#_delete_nonce').val()
+           }
        $.post(ajaxurl, ajaxdata, function(response){
            if(response.success){
                $('#' + id).parent().slideUp('fast', function(){
@@ -441,12 +516,13 @@ return reversed;
     };
     
     CsSidebar.prototype.showEdit = function($){
+        var htmlid = this.id.split('\\').join('');
         editbar = $('#' + this.id).siblings('.cs-edit-sidebar');
         this.editbar = editbar.html();
         editbar.html($('#cs-widgets-extra').find('.cs-cancel-edit-bar').html());
-        addIdToA(editbar.find('.cs-advanced-edit'), this.id);
+        addIdToA(editbar.find('.cs-advanced-edit'), htmlid);
         this.widgets = $('#' + this.id).detach();
-        editbar.before('<div id="' + this.id + '" class="widgets-sortables"></div>');
+        editbar.before('<div id="' + htmlid + '" class="widgets-sortables"></div>');
         form = $('#cs-widgets-extra').find('.sidebar-form').clone();
         form.find('form').addClass('cs-edit-form');
         form.find('.sidebar_name').val(this.name).attr('id', 'edit_sidebar_name');
@@ -461,7 +537,7 @@ return reversed;
                thiscs.edit($);
                return false;
            });
-        editbar.siblings('#' + id).prepend(form);
+        editbar.siblings('#' + this.id).prepend(form);
         return false;
     };
     
@@ -474,19 +550,21 @@ return reversed;
     }
     
     CsSidebar.prototype.edit = function($){
-        var ajaxdata = {
-           action:      'cs-ajax',
-           cs_action:   'cs-edit-sidebar',
-           'sidebar_name':    $('#' + this.id).find('#edit_sidebar_name').val(),
-           'sidebar_description': $('#' + this.id).find('#edit_sidebar_description').val(),
-           'cs_id':    this.id,
-           nonce: $('#_edit_nonce').val()
-       }
-       var $id = '#' + this.id;
-       var id = this.id
+        var $id = '#' + this.id,
+            htmlid = this.id.split('\\').join(''),
+            id = this.id,
+            ajaxdata = {
+               action:      'cs-ajax',
+               cs_action:   'cs-edit-sidebar',
+               'sidebar_name':    $('#' + this.id).find('#edit_sidebar_name').val(),
+               'sidebar_description': $('#' + this.id).find('#edit_sidebar_description').val(),
+               'cs_id':    htmlid,
+               nonce: $('#_edit_nonce').val()
+           }
+       
        $.post(ajaxurl, ajaxdata, function(response){
            if(response.success){
-                sidebar = csSidebars.find(id);
+                sidebar = csSidebars.find(htmlid);
                 editbar = $($id).siblings('.cs-edit-sidebar');
                 $($id).remove();
                 editbar.before(sidebar.widgets);
@@ -693,15 +771,26 @@ csSidebars = {
         return csSidebars.sidebars[id];
     }
 }
-$(function(){
+jQuery(function($){
     $('#csfooter').hide();
     if($('#widgets-right').length > 0)
         csSidebars.init();
-    else
+    /*else
         $('#wpbody-content').append(csSidebars.scrollKey());
+    */
     $('.defaultsContainer').hide();
     $('#defaultsidebarspage').on('click', '.csh3title', function(){
         $(this).siblings('.defaultsContainer').toggle();
+    });
+    
+    $('#widgets-right .widgets-sortables').on("sort", function(event, ui){
+        var topx = $('#widgets-right').top;
+        ui.position.top = - $('#widgets-right').css('top');
+        
+    });
+    
+    $('#widgets-right .widget').on("sortstart", function(event, ui){
+        
     });
 });
 })(jQuery);

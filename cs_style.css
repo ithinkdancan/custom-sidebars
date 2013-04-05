@@ -1,3 +1,5 @@
+/*@import url('rtl.css');*/
+
 #defaultsidebarspage p.submit{
 	padding : 0 0 10px;
 	clear: both;
@@ -61,8 +63,12 @@ margin-bottom:30px;
 	padding: 32px 5px;
 }
 
-.widgets-php #screen-meta-links{
-	margin-right: 340px;
+.widgets-php #wpcontent, .widgets-php #wpfooter {
+    margin-right: 325px;
+}
+
+.widgets-php #widgets-left {
+    margin-right: 0 !important;
 }
 
 .widgets-php #footer{
@@ -71,9 +77,6 @@ margin-bottom:30px;
 	padding-right: 20px;
 }
 
-.widgets-php #screen-meta{
-    margin-right: 325px;
-}
 
 .widgets-php .wrap{
     margin: 0;
@@ -81,6 +84,11 @@ margin-bottom:30px;
 
 .widgets-php .wrap h2{
     margin-bottom: 10px;
+}
+
+.cs-options{
+    margin-top: 12px;
+    text-align:right
 }
 
 
@@ -115,8 +123,14 @@ border-radius: 5px;}
 #cs-widgets-extra{
     display:none;
 }
+#cs-title-options {
+    overflow: hidden;
+    zoom: 1;
+}
 #cs-title-options h2{
     margin-left: 5px;
+    float: left;
+    margin-bottom: 0;
 }
 
 .sidebar-form{
@@ -135,7 +149,7 @@ border-radius: 5px;}
     text-align: right;
 }
 
-#sidebar_name, #sidebar_description{
+.sidebar_name, .sidebar_description{
     width: 100%;
 }
 
@@ -212,3 +226,53 @@ border: 1px solid #C00;
 #defaultsidebarspage .inside{
     position:static;
 }
+
+
+/* RTL Styles */
+
+.rtl div.widget-liquid-right {
+    float:left;
+    right: auto;
+    left:0;
+    background: #ECECEC url('../../../wp-admin/images/menu-shadow.png') right top repeat-y;
+}
+
+.rtl.widgets-php #widgets-left {
+    margin-left: 0 !important;
+}
+
+.rtl.widgets-php #wpcontent, .rtl.widgets-php #wpfooter {
+    margin-left: 325px;
+    margin-right: 165px;
+}
+
+.rtl.widgets-php.folded #wpcontent, .rtl.widgets-php.folded #wpfooter {
+    margin-left: 325px;
+    margin-right: 52px;
+}
+
+.rtl #cs-title-options h2 {
+    float: right;
+    margin-right: 5px;
+}
+
+.rtl .widget-liquid-right .viewport {
+    margin-right: 5px;
+    margin-left: 14px;
+}
+
+.rtl .widget-liquid-right .scrollbar {
+    float:left;
+}
+
+.rtl .cs-options{
+    text-align:left;
+}
+
+.rtl .sidebar-form .submit {
+    text-align: left;
+}
+
+
+.rtl #TB_ajaxWindowTitle { float:right; } 
+.rtl #TB_closeAjaxWindow { float: left; }

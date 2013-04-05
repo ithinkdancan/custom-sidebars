@@ -10,7 +10,7 @@
     <div id="oldbrowsererror" class="message error"><?php _e('You are using an old browser that doesn\'t support draggin widgets to a recently created sidebar. Refresh the page to add widgets to this sidebar and think about to update your browser.', 'custom-sidebars'); ?></div>
     <div id="cs-title-options">
         <h2><?php _e('Sidebars','custom-sidebars') ?></h2>
-        <div id="cs-options" class="cs-options" style="text-align:right">
+        <div id="cs-options" class="cs-options">
             <span><img src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" class="ajax-feedback" title="" alt=""></span><a href="themes.php?page=customsidebars" class="button create-sidebar-button"><?php _e('Create a new sidebar','custom-sidebars') ?></a>
         </div>
     </div>

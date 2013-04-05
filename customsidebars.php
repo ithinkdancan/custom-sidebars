@@ -3,7 +3,7 @@
 Plugin Name: Custom sidebars
 Plugin URI: http://marquex.es/698/custom-sidebars-1-0
 Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
-Version: 1.1
+Version: 1.2
 Author: Javier Marquez
 Author URI: http://marquex.es
 License: GPL2
@@ -104,13 +104,23 @@ class CustomSidebars{
 						$_wp_sidebars_widgets[$sb_name] = $original_widgets[$replacement];
 						//replace before/after widget/title?
 						$sidebar_for_replacing = $wp_registered_sidebars[$replacement];
-						if($this->replace_before_after_widget($sidebar_for_replacing))
+						if($this->replace_before_after_widget($sidebar_for_replacing)){
+							$sidebar_for_replacing = $this->clean_before_after_widget($sidebar_for_replacing);
 							$wp_registered_sidebars[$sb_name] = $sidebar_for_replacing;
+						}
 					}
-                                        $wp_registered_sidebars[$sb_name]['class'] = $replacement;
+                    $wp_registered_sidebars[$sb_name]['class'] = $replacement;
 				}
 			}
 		}
+	}
+	/* v1.2 clean the slashes of before and after */
+	function clean_before_after_widget($sidebar){
+		$sidebar['before_widget'] = stripslashes($sidebar['before_widget']);
+		$sidebar['after_widget'] = stripslashes($sidebar['after_widget']);
+		$sidebar['before_title'] = stripslashes($sidebar['before_title']);
+		$sidebar['after_title'] = stripslashes($sidebar['after_title']);
+		return $sidebar;
 	}
 
 	function determineReplacements($defaults){
@@ -182,6 +192,15 @@ class CustomSidebars{
 			}	
 			return;
 		}
+                
+        //Search comes before because searches with no results are recognized as post types archives
+        if(is_search()){
+            foreach($this->replaceable_sidebars as $sidebar){
+                    if(! empty($defaults['search'][$sidebar]))
+                            $this->replacements[$sidebar] = array($defaults['search'][$sidebar], 'search', -1);
+            }
+            return;
+        }
 		
 		//post type archive
 		if(!is_category() && !is_singular() && get_post_type()!='post'){
@@ -252,13 +271,6 @@ class CustomSidebars{
 			return;
 		}
                 
-                if(is_search()){
-                    foreach($this->replaceable_sidebars as $sidebar){
-                            if(! empty($defaults['search'][$sidebar]))
-                                    $this->replacements[$sidebar] = array($defaults['search'][$sidebar], 'search', -1);
-                    }
-                    return;
-                }
                 
                 if(is_date()){
                     foreach($this->replaceable_sidebars as $sidebar){
@@ -1091,8 +1103,11 @@ class CustomSidebars{
             $customsidebars = $this->getCustomSidebars();
             $themesidebars = $this->getThemeSidebars();
             $allsidebars = $this->getThemeSidebars(TRUE);
-            if(!isset($allsidebars[$_GET['id']])){
-                die(__('Unknown sidebar.', 'custom-sidebars'));
+            $sidebarId = strtolower(urlencode($_GET['id']));
+            if(!isset($allsidebars[$sidebarId])){
+            	echo urlencode($_GET['id']);
+            	var_dump($allsidebars);
+                die(__('Unknown sidebar.' , 'custom-sidebars'));
             }
             foreach($allsidebars as $key => $sb){
                 if(strlen($sb['name']) > 30)

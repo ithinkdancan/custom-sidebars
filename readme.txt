@@ -3,7 +3,7 @@ Contributors: marquex
 Donate link: http://marquex.es/donate
 Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 3.3
-Tested up to: 3.4 beta 4
+Tested up to: 3.5.1
 Stable tag: trunk
 
 Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
@@ -13,6 +13,8 @@ Allows to create your own widgetized areas and custom sidebars, and select what 
 Sometimes it is necessary to show different elements on the sidebars for some posts or pages. The themes nowadays give you some areas to put the widgets, but those areas are common for all the posts that are using the same template. NOTE: **You need to use a theme that accepts widgets to make this plugin work.** 
 
 Custom Sidebars allows you to create all the widgetized areas you need, your own custom sidebars, configure them adding widgets, and replace the default sidebars on the posts or pages you want in just few clicks.
+
+**Last versions of the plugin requires at least Wordpress 3.3. If you are running a earlier version of Wordpress download Custom Sidebars 0.8.2**
 
 
 You can also set new default sidebars for a group of posts or pages easily, keeping the chance of changing them individually.:
@@ -31,7 +33,9 @@ Translations are welcome! I will write your name down here if you donate your tr
 *	Spanish - marquex
 *	German - [Markus Vocke, Professionelles Webdesign](http://www.web-funk.de)
 *	Dutch - Herman Boswijk
-*       Italian - [David Pesarin](http://davidpesarin.wordpress.com) 
+*	Italian - [David Pesarin](http://davidpesarin.wordpress.com) 
+*	French - [Aldabra](http://www.unamourdeuxgeeks.com)
+*	Hebrew - [Dvir](http://foxy.co.il/blog/)
 
 == Installation ==
 
@@ -100,6 +104,13 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 5. screenshot-5.png The sidebar sb1 has replace the sidebar footer 1 in the front-end.
 
 == Changelog ==
+
+= 1.2 =
+*       Fixed: Searches with no results shows default sidebar.
+*		Added: RTL support (thanks to Dvir http://foxy.co.il/blog/)
+*		Improved: Minor enhancements in the interface to adapt it to wp3.
+*		Added: French and Hebrew translations
+*		Fixed: Slashes are added to the attributes of before and after title/widget
 
 = 1.1 =
 *       Fixed: Where lightbox not showing for everybody (Thanks to Robert Utnehmer)
