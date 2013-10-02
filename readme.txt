@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: marquex, WPMUDEV
+Contributors: WPMUDEV, marquex
 Donate link: http://marquex.es/donate
 Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 3.3
@@ -14,8 +14,11 @@ Sometimes it is necessary to show different elements on the sidebars for some po
 
 Custom Sidebars allows you to create all the widgetized areas you need, your own custom sidebars, configure them adding widgets, and replace the default sidebars on the posts or pages you want in just few clicks.
 
-**Last versions of the plugin requires at least Wordpress 3.3. If you are running a earlier version of Wordpress download Custom Sidebars 0.8.2**
+= Important Update: WPMU DEV has taken over the maintenance and support for Custom Sidebars =
 
+With the backing of [WPMU DEV's professional WordPress team](http://premium.wpmudev.org/) you can expect faster support, bug-fixes, and new features. And the donate button won't disturb you anymore!
+
+= Customize every widget area =
 
 You can also set new default sidebars for a group of posts or pages easily, keeping the chance of changing them individually.:
 
@@ -25,7 +28,7 @@ You can also set new default sidebars for a group of posts or pages easily, keep
 *	Sidebars for the main blog page.
 *	Sidebars for search results.
 
-I also recommend the use of [Widget Entries plugin](http://wordpress.org/extend/plugins/widget-entries/) to manage lots of HTML widgets with ease for your new sidebars. This way you will boost the content manager facet of your Wordpress installation.  
+= Translations =
 
 Translations are welcome! I will write your name down here if you donate your translation work. Thanks very much to:
 
@@ -36,6 +39,12 @@ Translations are welcome! I will write your name down here if you donate your tr
 *	Italian - [David Pesarin](http://davidpesarin.wordpress.com) 
 *	French - [Aldabra](http://www.unamourdeuxgeeks.com)
 *	Hebrew - [Dvir](http://foxy.co.il/blog/)
+
+= About Us =
+
+WPMU DEV is a premium supplier of quality WordPress plugins and themes. For premium support with any WordPress related issues you can join us here: [http://premium.wpmudev.org/join/](http://premium.wpmudev.org/join/)
+
+Don't forget to stay up to date on everything WordPress from the Internet's number one resource: [http://wpmu.org](http://wpmu.org)
 
 == Installation ==
 
@@ -86,14 +95,9 @@ Sidebars for custom taxonomies are not working by the moment, it’s hard to bui
 
 Custom Sidebars has the same license as Wordpress, so you can use it wherever you want for free. Nevertheless, donations are welcome.
 
-= How can I remove the donation banner? =
+= I like the plugin, but what can I do if my website is based in a WP version older than 3.3 =
 
-The banner it is not hard to remove for any programmer, but the easiest way to remove the banner is making a donation to the plugin, 1 cent and you get rid of it. [Donate](http://marquex.es/donate).
-
-= Some howtos =
-
-You can find some simple tutorials on the [Custom sidebars plugin web page](http://marquex.es/541/custom-sidebars-plugin-v0-8)
-
+If you are running a earlier version of Wordpress download Custom Sidebars 0.8.2.
 
 == Screenshots ==
 
@@ -110,6 +114,7 @@ You can find some simple tutorials on the [Custom sidebars plugin web page](http
 *		Improved: Styles to make them compatible with WP 3.6
 *		Fixed: Creation of sidebars from the custom sidebars option 
 *		Fixed: Missing loading icons in the admin area
+*		Removed: Donate banner. Thanks to the ones that have be supporting Custom Sidebar so far.
 
 = 1.2 =
 *       Fixed: Searches with no results shows default sidebar.
@@ -207,3 +212,17 @@ This version adds several options for customize the sidebars by categories and r
 
 
 
+== About Us ==
+WPMU DEV is a premium supplier of quality WordPress plugins and themes. For premium support with any WordPress related issues you can join us here:
+<a href="http://premium.wpmudev.org/join/">http://premium.wpmudev.org/join/</a>
+
+Don't forget to stay up to date on everything WordPress from the Internet's number one resource:
+<a href="http://wpmu.org/">http://wpmu.org</a>
+
+Hey, one more thing... we hope you <a href="http://profiles.wordpress.org/WPMUDEV/">enjoy our free offerings</a> as much as we've loved making them for you!
+
+== Contact and Credits ==
+
+Originally written by [Javier Marquez](http://marquex.es/) (e-mail 'javi' at 'marquex dot es').
+
+Custom Sidebars uses the great jQuery plugin [Tiny Scrollbar](http://www.baijs.nl/tinyscrollbar/) by Maarten Baijs.

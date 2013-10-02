@@ -1,12 +1,17 @@
 <?php
 /*
 Plugin Name: Custom sidebars
-Plugin URI: http://marquex.es/698/custom-sidebars-1-0
+Plugin URI: http://wordpress.org/plugins/custom-sidebars/
 Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
 Version: 1.3
-Author: Javier Marquez, WPMUDEV
-Author URI: http://marquex.es
+Author: WPMUDEV
+Author URI: http://premium.wpmudev.org/
 License: GPL2
+*/
+
+/*
+This plugin was originally developed by Javier Marquez. 
+http://marquex.es/
 */
 
 if(!class_exists('CustomSidebars')):
@@ -415,8 +420,6 @@ class CustomSidebars{
 			}
 			else if($_GET['p']=='edit')
 				include('views/edit.php');
-                        else if($_GET['p']=='removebanner')
-                            return $this->removeBanner();
 			else
 				include('views/settings.php');	
 				
@@ -428,10 +431,7 @@ class CustomSidebars{
 	function addSubMenus(){
 		$page = add_submenu_page('themes.php', __('Custom sidebars','custom-sidebars'), __('Custom sidebars','custom-sidebars'), $this->cap_required, 'customsidebars', array($this, 'createPage'));
 		
-                add_action('admin_print_scripts-' . $page, array($this, 'addScripts'));
-                
-                global $workingcode;
-                $workingcode = $this->getWorkingCode();
+        add_action('admin_print_scripts-' . $page, array($this, 'addScripts'));
 	}
 	
 	function addScripts(){
@@ -961,40 +961,6 @@ class CustomSidebars{
 		$cat = &get_category($catid);
 		return 1 + $this->getCategoryLevel($cat->category_parent);
 	}
-        
-        protected function removeBanner(){
-            if(isset($_GET['code']) && strpos(strtolower(base64_decode(strrev(urldecode($_GET['code'])))), strtolower($_SERVER['HTTP_HOST'])) !== FALSE)
-                    $this->registerCode(urldecode($_GET['code']));
-            else if(isset($_GET['code']) && $_GET['code']=='unregistercode'){
-                    unset($this->options['code']);
-                    update_option($this->option_modifiable, $this->options);
-            }
-            
-            include 'views/removeBanner.php';
-        }
-        
-        protected function registerCode($code){
-            if($this->options !== FALSE){
-                    $this->options['code'] = $code;
-                    update_option($this->option_modifiable, $this->options);
-            }else{
-                    $this->options = array(
-                        'modifiable' => array(),
-                        'code' => $code
-                    );
-                    add_option($this->option_modifiable, $this->options);
-            }
-        }
-        
-        protected function getCode(){
-            if($this->options && isset($this->options['code']))
-                return $this->options['code'];
-            return false;
-        }
-        
-        protected function getWorkingCode(){
-            return substr(md5(mt_rand(10000, 900000)), 0, 10);
-        }
         
         function jsonResponse($obj){
             header('Content-Type: application/json');

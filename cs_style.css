@@ -132,6 +132,7 @@ border-radius: 5px;}
     margin-left: 5px;
     float: left;
     margin-bottom: 0;
+    border:none;
 }
 
 .sidebar-form{
