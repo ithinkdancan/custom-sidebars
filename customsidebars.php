@@ -3,7 +3,7 @@
 Plugin Name: Custom sidebars
 Plugin URI: http://wordpress.org/plugins/custom-sidebars/
 Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
-Version: 1.3
+Version: 1.3.1
 Author: WPMUDEV
 Author URI: http://premium.wpmudev.org/
 License: GPL2
@@ -439,14 +439,13 @@ class CustomSidebars{
 	}
 	
 	function addStyles($hook){
-            $dir = basename(dirname(__FILE__));
-            if( 'widgets.php' == $hook || 'appearance_page_customsidebars' == $hook){
-	        wp_enqueue_script( 'cs_script', plugins_url('/cs.js', __FILE__) );
-                wp_enqueue_script('thickbox',null,array('jquery'));
-                wp_enqueue_style('thickbox.css', '/'.WPINC.'/js/thickbox/thickbox.css', null, '1.0');
-            }
-	    wp_enqueue_style('cs_style', "/wp-content/plugins/$dir/cs_style.css" );
-		
+        $dir = basename(dirname(__FILE__));
+        if( 'widgets.php' == $hook || 'appearance_page_customsidebars' == $hook){
+        wp_enqueue_script( 'cs_script', plugins_url('/cs.js', __FILE__) );
+            wp_enqueue_script('thickbox', null, array('jquery'));
+            wp_enqueue_style('thickbox.css', includes_url() . 'js/thickbox/thickbox.css', null, '1.0');
+        }
+	    wp_enqueue_style( 'cs_style', plugins_url( 'cs_style.css', __FILE__ ) );		
 	}
 	
 	function addMetaBox(){
@@ -482,8 +481,7 @@ class CustomSidebars{
 	}
 	
 	function loadTextDomain(){
-		$dir = basename(dirname(__FILE__))."/lang";
-		load_plugin_textdomain( 'custom-sidebars', 'wp-content/plugins/'.$dir, $dir);
+		load_plugin_textdomain( 'custom-sidebars', false, dirname(plugin_basename( __FILE__ )) . "/lang/");
 	}
 	
 	function getReplacements($postid){
@@ -710,8 +708,8 @@ class CustomSidebars{
 	}
 	
 	function storeSidebar(){
-		$name = trim($_POST['sidebar_name']);
-		$description = trim($_POST['sidebar_description']);
+		$name = stripslashes(trim($_POST['sidebar_name']));
+		$description = stripslashes(trim($_POST['sidebar_description']));
 		if(empty($name) OR empty($description))
 			$this->setError(__('You have to fill all the fields to create a new sidebar.','custom-sidebars'));
 		else{
@@ -766,13 +764,13 @@ class CustomSidebars{
 	}
 	
 	function updateSidebar(){
-		$id = trim($_POST['cs_id']);
-		$name = trim($_POST['sidebar_name']);
-		$description = trim($_POST['sidebar_description']);
-		$before_widget = trim($_POST['cs_before_widget']);
-		$after_widget = trim($_POST['cs_after_widget']);
-		$before_title = trim($_POST['cs_before_title']);
-		$after_title = trim($_POST['cs_after_title']);
+		$id = stripslashes(trim($_POST['cs_id']));
+		$name = stripslashes(trim($_POST['sidebar_name']));
+		$description = stripslashes(trim($_POST['sidebar_description']));
+		$before_widget = stripslashes(trim($_POST['cs_before_widget']));
+		$after_widget = stripslashes(trim($_POST['cs_after_widget']));
+		$before_title = stripslashes(trim($_POST['cs_before_title']));
+		$after_title = stripslashes(trim($_POST['cs_after_title']));
 		
 		$sidebars = $this->getCustomSidebars();
 		
@@ -1032,8 +1030,8 @@ class CustomSidebars{
             return array(
                 'success' => true,
                 'message' => __('The sidebar has been created successfully.','custom-sidebars'),
-                'name' => trim($_POST['sidebar_name']),
-                'description' => trim($_POST['sidebar_description']),
+                'name' => stripslashes(trim($_POST['sidebar_name'])),
+                'description' => stripslashes(trim($_POST['sidebar_description'])),
                 'id' => $this->sidebar_prefix . sanitize_html_class(sanitize_title_with_dashes($_POST['sidebar_name']))
             );
         }

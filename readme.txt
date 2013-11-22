@@ -109,6 +109,10 @@ If you are running a earlier version of Wordpress download Custom Sidebars 0.8.2
 
 == Changelog ==
 
+= 1.3.1 = 
+*		Fixed: Absolute paths that leaded to the outdated browser error
+*		Fixed: Stripped slashes for the pre/post widget/title fields
+
 = 1.3 =
 *		Fixed: A lot of warnings with the PHP debug mode on
 *		Improved: Styles to make them compatible with WP 3.6
