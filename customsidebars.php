@@ -947,7 +947,7 @@ class CustomSidebars{
 		$l1 = $this->getCategoryLevel($cat1->cat_ID);
 		$l2 = $this->getCategoryLevel($cat2->cat_ID);
 		if($l1 == $l2)
-			return strcasecmp($cat1->name, $cat1->name);
+			return strcasecmp($cat1->name, $cat2->name);
 		else 
 			return $l1 < $l2 ? 1 : -1;
 	}
