@@ -15,6 +15,7 @@
         </div>
     </div>
     <div id="cs-new-sidebar" class="widgets-holder-wrap">
+    
         <div class="sidebar-name">
             <div class="sidebar-name-arrow"><br></div>
             <h3><?php _e('New Sidebar','custom-sidebars') ?><span><img src="<?php echo admin_url() ?>/images/wpspin_light.gif" class="ajax-feedback" title="" alt=""></span></h3>

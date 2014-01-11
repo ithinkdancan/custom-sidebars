@@ -3,7 +3,7 @@
 Plugin Name: Custom sidebars
 Plugin URI: http://wordpress.org/plugins/custom-sidebars/
 Description: Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
-Version: 1.3.1
+Version: 1.4
 Author: WPMUDEV
 Author URI: http://premium.wpmudev.org/
 License: GPL2
@@ -131,9 +131,9 @@ class CustomSidebars{
 	function determineReplacements($defaults){
 		//posts
 		if(is_single()){
-			//print_r("Single");
 			//Post sidebar
 			global $post;
+
 			$replacements = get_post_meta($post->ID, $this->postmeta_key, TRUE);
 			foreach($this->replaceable_sidebars as $sidebar){
 				if(is_array($replacements) && !empty($replacements[$sidebar])){
@@ -141,16 +141,16 @@ class CustomSidebars{
 					$this->replacements_todo--;
 				}
 			}
-                        //Parent sidebar
-                        if($post->post_parent != 0 && $this->replacements_todo > 0){
-                            $replacements = get_post_meta($post->post_parent, $this->postmeta_key, TRUE);
-                            foreach($this->replaceable_sidebars as $sidebar){
-                                    if(!$this->replacements[$sidebar] && is_array($replacements) && !empty($replacements[$sidebar])){
-                                            $this->replacements[$sidebar] = array($replacements[$sidebar], 'particular', -1);
-                                            $this->replacements_todo--;
-                                    }
-                            }
+            //Parent sidebar
+            if($post->post_parent != 0 && $this->replacements_todo > 0){
+                $replacements = get_post_meta($post->post_parent, $this->postmeta_key, TRUE);
+                foreach($this->replaceable_sidebars as $sidebar){
+                        if(!$this->replacements[$sidebar] && is_array($replacements) && !empty($replacements[$sidebar])){
+                                $this->replacements[$sidebar] = array($replacements[$sidebar], 'particular', -1);
+                                $this->replacements_todo--;
                         }
+                }
+            }
 			//Category sidebar
 			global $sidebar_category;
 			if($this->replacements_todo > 0){
@@ -172,8 +172,8 @@ class CustomSidebars{
 			if($this->replacements_todo > 0){
 				$post_type = get_post_type($post);
 				foreach($this->replaceable_sidebars as $sidebar){
-				if(isset($defaults['post_type_posts'][$post_type]) && isset($defaults['post_type_posts'][$post_type][$sidebar]))
-					$this->replacements[$sidebar] = array($defaults['post_type_posts'][$post_type][$sidebar], 'defaults', $post_type);
+					if(!$this->replacements[$sidebar] && isset($defaults['post_type_posts'][$post_type]) && isset($defaults['post_type_posts'][$post_type][$sidebar]))
+						$this->replacements[$sidebar] = array($defaults['post_type_posts'][$post_type][$sidebar], 'defaults', $post_type);
 					$this->replacements_todo--;
 				}
 			}
@@ -947,7 +947,7 @@ class CustomSidebars{
 		$l1 = $this->getCategoryLevel($cat1->cat_ID);
 		$l2 = $this->getCategoryLevel($cat2->cat_ID);
 		if($l1 == $l2)
-			return strcasecmp($cat1->name, $cat2->name);
+			return strcasecmp($cat1->name, $cat1->name);
 		else 
 			return $l1 < $l2 ? 1 : -1;
 	}
@@ -1086,6 +1086,15 @@ class CustomSidebars{
                     unset($categories[0]);
             include 'views/ajax.php';
         }
+
+    function checkMP6($classes){
+    	global $wp_version;
+
+    	if ( !( defined( 'MP6' ) && MP6 ) && !version_compare( $wp_version, '3.8', '>=' ) ) {
+	        $classes .= 'cs-no-mp6';
+	    }
+	    return $classes;
+    }
 }
 endif; //exists class
 
@@ -1100,8 +1109,10 @@ if(!isset($plugin_sidebars)){
 	add_action( 'save_post', array($plugin_sidebars,'storeReplacements'));
 	add_action( 'init', array($plugin_sidebars,'loadTextDomain'));
 	add_action( 'admin_enqueue_scripts', array($plugin_sidebars,'addStyles'));
-        //AJAX actions
-        add_action( 'wp_ajax_cs-ajax', array($plugin_sidebars, 'ajaxHandler'));
+    //AJAX actions
+    add_action( 'wp_ajax_cs-ajax', array($plugin_sidebars, 'ajaxHandler'));
+
+    add_filter('admin_body_class', array($plugin_sidebars, 'checkMP6'));
         
 }
 if(! class_exists('CustomSidebarsEmptyPlugin')){

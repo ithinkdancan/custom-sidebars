@@ -524,15 +524,21 @@ csSidebars = {
            $('#new-sidebar-form').find('.ajax-feedback').css('visibility', 'visible');
            $.post(ajaxurl, ajaxdata, function(response){
                if(response.success){
-                   var holder = $('#new-sidebar-holder');
+                   var holder = $('#new-sidebar-holder'),
+                        column = $('#widgets-right').find('.sidebars-column-1'),
+                        content
+                    ;
                    holder.removeAttr('id')
                         .find('.sidebar-name h3').html(getSidebarTitle(response.name));
                    holder.find('#new-sidebar').attr('id', response.id) ;
-                   holder = $('#' + response.id).html('<p class="sidebar-description description">' + response.description + '</p>');
+                   
 
-                   csSidebars.add(holder.attr('id')).initDrag($);
+                    if(column.length)
+                        holder.detach().prependTo(column);
 
-                   //setEditbar(holder, $);
+                    content = $('#' + response.id).html('<p class="sidebar-description description">' + response.description + '</p>');
+
+                   csSidebars.add(content.attr('id')).initDrag($);
                }
 
                $('#_create_nonce').val(response.nonce);

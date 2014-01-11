@@ -109,6 +109,11 @@ If you are running a earlier version of Wordpress download Custom Sidebars 0.8.2
 
 == Changelog ==
 
+= 1.4 =
+*		Fixed: Individual post sidebar selection when default sidebars for single posts are defined
+*		Fixed: Category sidebars sorting
+*		Added: WP 3.8 new admin design (MP6) support
+
 = 1.3.1 = 
 *		Fixed: Absolute paths that leaded to the outdated browser error
 *		Fixed: Stripped slashes for the pre/post widget/title fields
