@@ -1,9 +1,9 @@
-=== Plugin Name ===
+﻿=== Plugin Name ===
 Contributors: WPMUDEV, marquex
 Donate link: http://marquex.es/donate
 Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 3.3
-Tested up to: 3.6.1
+Tested up to: 3.8.2
 Stable tag: trunk
 
 Allows to create your own widgetized areas and custom sidebars, and select what sidebars to use for each post or page.
@@ -30,10 +30,10 @@ You can also set new default sidebars for a group of posts or pages easily, keep
 
 = Translations =
 
-Translations are welcome! I will write your name down here if you donate your translation work. Thanks very much to:
+Translations are welcome! We will write your name down here if you donate your translation work. Thanks very much to:
 
-*	English - marquex
-*	Spanish - marquex
+*	English - Javi Marquez (http://arqex.com)
+*	Spanish - Javi Marquez (http://arqex.com)
 *	German - [Markus Vocke, Professionelles Webdesign](http://www.web-funk.de)
 *	Dutch - Herman Boswijk
 *	Italian - [David Pesarin](http://davidpesarin.wordpress.com) 
@@ -108,6 +108,8 @@ If you are running a earlier version of Wordpress download Custom Sidebars 0.8.2
 5. screenshot-5.png The sidebar sb1 has replace the sidebar footer 1 in the front-end.
 
 == Changelog ==
+= 1.5 =
+*		Added: Custom sidebars now works with buddypress pages.
 
 = 1.4 =
 *		Fixed: Individual post sidebar selection when default sidebars for single posts are defined
