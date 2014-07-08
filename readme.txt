@@ -6,7 +6,7 @@ Requires at least: 3.3
 Tested up to: 3.9.1
 Stable tag:   trunk
 
-Create new widgetized areas and custom sidebars and select where they display based on post, pages, categories and archives - "Easy to use. Even with complex themes. Made my work much easier."
+Create your own widgetized areas and choose on which pages they show up - "Easy to use. Even with complex themes. Made my work much easier."
 
 == Description ==
 
