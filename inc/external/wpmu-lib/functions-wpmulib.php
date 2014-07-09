@@ -42,8 +42,9 @@ class TheLib {
 	static protected function css_url( $file ) {
 		static $Url = null;
 		if ( null === $Url ) {
-			$basedir = dirname( __FILE__ ) . '/';
-			$basedir = str_replace( ABSPATH, site_url() . '/', $basedir );
+			$basedir = trailingslashit( str_replace( '\\', '/', dirname( __FILE__ ) ) );
+			$abspath = trailingslashit( str_replace( '\\', '/', ABSPATH ) );
+			$basedir = str_replace( $abspath, site_url() . '/', $basedir );
 			$Url = $basedir . 'css/';
 		}
 		return $Url . $file;
@@ -59,8 +60,9 @@ class TheLib {
 	static protected function js_url( $file ) {
 		static $Url = null;
 		if ( null === $Url ) {
-			$basedir = dirname( __FILE__ ) . '/';
-			$basedir = str_replace( ABSPATH, site_url() . '/', $basedir );
+			$basedir = trailingslashit( str_replace( '\\', '/', dirname( __FILE__ ) ) );
+			$abspath = trailingslashit( str_replace( '\\', '/', ABSPATH ) );
+			$basedir = str_replace( $abspath, site_url() . '/', $basedir );
 			$Url = $basedir . 'js/';
 		}
 		return $Url . $file;

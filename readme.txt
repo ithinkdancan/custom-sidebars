@@ -117,6 +117,9 @@ If you are running a earlier version of Wordpress download Custom Sidebars 0.8.2
 
 == Changelog ==
 
+= 2.0.3 =
+*		Fixed: Javascript errors on Windows servers are fixed.
+
 = 2.0.2 =
 *		Fixed: Dashboard notification is now removed when clicking "dismiss"
 
