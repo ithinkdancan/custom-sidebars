@@ -115,6 +115,9 @@ If you are running a earlier version of Wordpress download Custom Sidebars 0.8.2
 
 == Changelog ==
 
+= 2.0.2 =
+*		Fixed: Dashboard notification is now removed when clicking "dismiss"
+
 = 2.0.1 =
 *		PHP 5.2 compatibility layer.
 
