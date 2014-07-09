@@ -2,7 +2,7 @@
 
 /*
 
-Plugin Name: Custom Sidebars Free
+Plugin Name: Custom Sidebars
 
 Plugin URI:  http://premium.wpmudev.org/project/custom-sidebars/
 
