@@ -11,7 +11,7 @@ Create your own widgetized areas and choose on which pages they show up - "Easy 
 
 If you'd like to show different widgets on the sidebars or footers of any area of your site - then this is the plugin for you.
 
-<iframe width="640" height="360" src="//www.youtube.com/embed/J9ys4LtB7HY" frameborder="0" allowfullscreen></iframe>
+[youtube https://www.youtube.com/embed/J9ys4LtB7HY]
 
 Custom Sidebars allows you to create all the widgetized areas you need, your own custom sidebars, configure them adding widgets, and replace the default sidebars on the posts or pages you want in just few clicks.
 
