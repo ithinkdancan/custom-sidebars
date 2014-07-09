@@ -18,7 +18,7 @@ Find out why it's the most popular widget extension plugin for WordPress availab
 <blockquote>
 <h4>And if you like this, you'll love Custom Sidebars Pro</h4>
 
-<a href=“http://premium.wpmudev.org/project/custom-sidebars-pro/‎”>Custom Sidebars Pro</a> gives you everything you'll find in Custom Sidebars, and much, much more.
+<a href="http://premium.wpmudev.org/project/custom-sidebars-pro/‎”>Custom Sidebars Pro"</a> gives you everything you'll find in Custom Sidebars, and much, much more.
 
 Included with the Pro Version:
 
@@ -27,10 +27,10 @@ Included with the Pro Version:
 <li>Clone sidebars to save hours of work and then link them to update synchronously or allow them to be individually edited</li>
 <li>Import and export custom sidebars for easy backup, sharing and deployment across multiple sites</li>
 <li>24/7/365 under and hour support from <a href="http://premium.wpmudev.org/support/">the best WordPress support team on the planet</a></li>
-<li><a href=“http://premium.wpmudev.org/join”>Over 400 other premium plugins and theme</a> included in your membership</li>
+<li><a href="http://premium.wpmudev.org/join/">Over 400 other premium plugins and theme</a> included in your membership</li>
 </ul>
 
-So checkout <a href=“http://premium.wpmudev.org/project/custom-sidebars-pro/‎”>Custom Sidebars Pro</a> and take your site to a brand new level.
+So checkout <a href="http://premium.wpmudev.org/project/custom-sidebars-pro/‎">Custom Sidebars Pro</a> and take your site to a brand new level.
 </blockquote>
 
 The free version is pretty rocking too though, for example, with this plugin you can customize every widget area by setting new default sidebars for a group of posts or pages easily, keeping the chance of changing them individually.
@@ -231,17 +231,6 @@ This version also changes the capability for managing custom sidebars to 'switch
 
 = 0.6 =
 This version adds several options for customize the sidebars by categories and replace the default blog page sidebars. Now it's possible to edit sidebar properties. Also fixes some minor bugs.
-
-
-
-== About Us ==
-WPMU DEV is a premium supplier of quality WordPress plugins and themes. For premium support with any WordPress related issues you can join us here:
-<a href="http://premium.wpmudev.org/join/">http://premium.wpmudev.org/join/</a>
-
-Don't forget to stay up to date on everything WordPress from the Internet's number one resource:
-<a href="http://wpmu.org/">http://wpmu.org</a>
-
-Hey, one more thing... we hope you <a href="http://profiles.wordpress.org/WPMUDEV/">enjoy our free offerings</a> as much as we've loved making them for you!
 
 == Contact and Credits ==
 
