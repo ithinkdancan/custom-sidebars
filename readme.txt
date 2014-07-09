@@ -72,7 +72,7 @@ Find more functionality and usage information on the [Custom Sidebars Pro page](
 
 = How do I begin working with this plugin? =
 
-Please refer to <a href="http://premium.wpmudev.org/project/custom-sidebars-pro/#usage">>the usage section of Custom Sidebars Pro</a>
+Please refer to <a href="http://premium.wpmudev.org/project/custom-sidebars-pro/#usage">the usage section of Custom Sidebars Pro</a>
 
 = Why can't I see a widget menu? =
 
