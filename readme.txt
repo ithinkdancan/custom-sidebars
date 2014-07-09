@@ -30,7 +30,7 @@ Included with the Pro Version:
 <li><a href="http://premium.wpmudev.org/join/">Over 400 other premium plugins and theme</a> included in your membership</li>
 </ul>
 
-So checkout <a href="http://premium.wpmudev.org/project/custom-sidebars-pro‎">Custom Sidebars Pro</a> and take your site to a brand new level.
+So checkout <a href="http://premium.wpmudev.org/project/custom-sidebars-pro/">Custom Sidebars Pro</a> and take your site to a brand new level.
 </blockquote>
 
 The free version is pretty rocking too though, for example, with this plugin you can customize every widget area by setting new default sidebars for a group of posts or pages easily, keeping the chance of changing them individually.
