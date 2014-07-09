@@ -1,4 +1,4 @@
-﻿=== Plugin Name ===
+=== Plugin Name ===
 Contributors: WPMUDEV, marquex
 Donate link:  http://marquex.es/donate
 Tags:         custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
@@ -19,7 +19,7 @@ Find out why it's the most popular widget extension plugin for WordPress availab
 <blockquote>
 <h4>And if you like this, you'll love Custom Sidebars Pro</h4>
 
-<a href="http://premium.wpmudev.org/project/custom-sidebars-pro/ ‎">Custom Sidebar Pro</a> gives you everything you'll find in Custom Sidebars, and much, much more.
+<a href="http://premium.wpmudev.org/project/custom-sidebars-pro/‎">Custom Sidebar Pro</a> gives you everything you'll find in Custom Sidebars, and much, much more.
 
 Included with the Pro Version:
 
