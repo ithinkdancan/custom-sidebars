@@ -1,6 +1,5 @@
 === Plugin Name ===
 Contributors: WPMUDEV, marquex
-Donate link:  http://marquex.es/donate
 Tags:         custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 3.3
 Tested up to: 3.9.1
@@ -49,12 +48,6 @@ For example, you can change...
 And of course both this plugin and the Pro version are <a href="http://premium.wpmudev.org/translate/projects/custom_sidebars_pro">fully internationalized</a>.
 
 And if you're not convinced yet, <a href="https://wordpress.org/support/view/plugin-reviews/custom-sidebars?filter=5">check out some of the 5 star reviews for this plugin</a> - and please feel free to add your own :)
-
-= About Us =
-
-WPMU DEV is a premium supplier of quality WordPress plugins and themes. For premium support with any WordPress related issues you can join us here: [http://premium.wpmudev.org/join/](http://premium.wpmudev.org/join/)
-
-Don't forget to stay up to date on everything WordPress from the Internet's number one resource: [http://wpmu.org](http://wpmu.org)
 
 == Installation ==
 
