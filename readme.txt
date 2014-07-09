@@ -17,7 +17,6 @@ Find out why it's the most popular widget extension plugin for WordPress availab
 
 <blockquote>
 <h4>And if you like this, you'll love Custom Sidebars Pro</h4>
-<br />
 
 <a href="http://premium.wpmudev.org/project/custom-sidebars-pro/">Custom Sidebars Pro</a> gives you everything you'll find in Custom Sidebars, and much, much more.
 
@@ -111,6 +110,9 @@ If you are running a earlier version of Wordpress download Custom Sidebars 0.8.2
 4. screenshot-4.png Or finetune the sidebars by selecting them directly for a special post or page!
 
 == Changelog ==
+
+= 2.0.1 =
+*		PHP 5.2 compatibility layer.
 
 = 2.0 =
 *		Complete UI redesign!

@@ -92,30 +92,8 @@ class CustomSidebars {
 		do_action( 'cs_init' );
 
 		// Free version only
-		add_action(
-			'in_widget_form',
-			function( $widget ) {
-				?>
-				<input type="hidden" name="csb-buttons" value="0" />
-				<?php if ( ! isset( $_POST[ 'csb-buttons' ] ) ) : ?>
-					<div class="csb-pro-layer csb-pro-<?php echo esc_attr( $widget->id ); ?>">
-						<a href="#" class="button csb-clone-button"><?php _e( 'Clone', CSB_LANG ); ?></a>
-						<a href="#" class="button csb-visibility-button"><span class="dashicons dashicons-visibility"></span> <?php _e( 'Visibility', CSB_LANG ); ?></a>
-						<a href="<?php echo esc_url( CustomSidebars::$pro_url ); ?>" target="_blank" class="pro-info">
-						<?php printf(
-							__( 'Pro Version Features', CSB_LANG ),
-							CustomSidebars::$pro_url
-						); ?>
-						</a>
-					</div>
-				<?php
-				endif;
-			},
-			10, 1
-		);
+		add_action( 'in_widget_form', array( $this, 'in_widget_form' ), 10, 1 );
 	}
-
-
 
 	// =========================================================================
 	// == DATA ACCESS
@@ -739,5 +717,29 @@ class CustomSidebars {
 		 * @param  string $action The specified ajax action.
 		 */
 		do_action( 'cs_ajax_request', $action );
+	}
+
+
+	/**
+	* Callback for in_widget_form action
+	*
+	* Free version only
+	*/
+	public function in_widget_form ( $widget ) {
+		?>
+		<input type="hidden" name="csb-buttons" value="0" />
+		<?php if ( ! isset( $_POST[ 'csb-buttons' ] ) ) : ?>
+			<div class="csb-pro-layer csb-pro-<?php echo esc_attr( $widget->id ); ?>">
+				<a href="#" class="button csb-clone-button"><?php _e( 'Clone', CSB_LANG ); ?></a>
+				<a href="#" class="button csb-visibility-button"><span class="dashicons dashicons-visibility"></span> <?php _e( 'Visibility', CSB_LANG ); ?></a>
+				<a href="<?php echo esc_url( CustomSidebars::$pro_url ); ?>" target="_blank" class="pro-info">
+				<?php printf(
+					__( 'Pro Version Features', CSB_LANG ),
+					CustomSidebars::$pro_url
+				); ?>
+				</a>
+			</div>
+		<?php
+		endif;
 	}
 };
