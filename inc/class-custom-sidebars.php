@@ -58,14 +58,14 @@ class CustomSidebars {
 		 * ========== Pointer ==========
 		 *  Internal ID:  wpmudcs1 [WPMUDev CustomSidebars 1]
 		 *  Point at:     #menu-appearance (Appearance menu item)
-		 *  Title:        Custom Sidebars Pro
+		 *  Title:        Custom Sidebars
 		 *  Description:  Create and edit custom sidebars in your widget screen!
 		 * -------------------------------------------------------------------------
 		 */
 		TheLib::pointer(
 			'wpmudcs1',                               // Internal Pointer-ID
 			'#menu-appearance',                       // Point at
-			__( 'Custom Sidebars Pro', CSB_LANG ),    // Title
+			__( 'Custom Sidebars', CSB_LANG ),    // Title
 			sprintf(
 				__(
 					'Now you can create and edit custom sidebars in your ' .
