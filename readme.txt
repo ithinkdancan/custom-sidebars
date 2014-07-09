@@ -66,13 +66,17 @@ There are two ways of installing the plugin:
 
 Once you have the plugin activated you will find all new features inside your "Widgets" screen! There you will be able to create and manage your own sidebars.
 
-You can find some simple tutorials on the [Custom sidebars plugin web page](http://marquex.es/541/custom-sidebars-plugin-v0-8)
+Find more functionality and usage information on the [Custom Sidebars Pro page](http://premium.wpmudev.org/project/custom-sidebars-pro/).
 
 == Frequently Asked Questions ==
 
-= How do begin to work with the plugin? =
+= How do I begin working with this plugin? =
 
-Here there is an old [video tutorial](http://vimeo.com/18746218) about how to set up your first sidebars.
+Please refer to <a href="http://premium.wpmudev.org/project/custom-sidebars-pro/#usage">>the usage section of Custom Sidebars Pro</a>
+
+= Why can't I see a widget menu? =
+
+This plugin requires your theme to have widget areas enabled, if you don't have widget areas enabled you probably need to use a different theme that does!
 
 = Where do I set my sidebars up? =
 
@@ -92,11 +96,11 @@ Any user that can switch themes, can create sidebars. Switch_themes is the capab
 
 = Does it have custom taxonomies support? =
 
-Sidebars for custom taxonomies are not working by the moment, it’s hard to build an interface.
+This plugin supports showing your posts on all different categories or tags, it's awesome, for more visibility controls try <a href="http://premium.wpmudev.org/project/custom-sidebars-pro/">Custom Sidebars Pro</a>
 
 = Can I use the plugin in commercial projects? =
 
-Custom Sidebars has the same license as Wordpress, so you can use it wherever you want for free. Nevertheless, donations are welcome.
+Custom Sidebars has the same license as WordPress, so you can use it wherever you want for free. Yay!
 
 = I like the plugin, but what can I do if my website is based in a WP version older than 3.3 =
 
@@ -237,6 +241,8 @@ This version adds several options for customize the sidebars by categories and r
 
 == Contact and Credits ==
 
-Originally written by [Javier Marquez](http://marquex.es/) (e-mail 'javi' at 'marquex dot es').
+Custom sidebars is maintained and developed by <a href="http://premium.wpmudev.org">WPMU DEV</a>.
+
+Original development completed by <a href="http://marquex.es/">Javier Marquez</a>
 
 Custom Sidebars uses the great jQuery plugin [Tiny Scrollbar](http://www.baijs.nl/tinyscrollbar/) by Maarten Baijs.
