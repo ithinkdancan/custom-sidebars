@@ -9,20 +9,20 @@ class TheLib {
 	 * Only used for 5.2 version as alternative to closures.
 	 * @var array
 	 */
-	protected static $data = array();
+	static protected $data = array();
 
-	protected function _have( $key ) {
+	static protected function _have( $key ) {
 		return isset( self::$data[ $key ] );
 	}
 
-	protected function _add( $key, $value ) {
+	static protected function _add( $key, $value ) {
 		if ( ! is_array( @self::$data[ $key ] ) ) {
 			self::$data[ $key ] = array();
 		}
 		self::$data[ $key ][] = $value;
 	}
 
-	protected function _get( $key ) {
+	static protected function _get( $key ) {
 		if ( ! is_array( @self::$data[ $key ] ) ) {
 			self::$data[ $key ] = array();
 		}
