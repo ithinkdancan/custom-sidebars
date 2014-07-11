@@ -51,6 +51,12 @@ And if you're not convinced yet, <a href="https://wordpress.org/support/view/plu
 
 == Installation ==
 
+Using custom sidebars is really easy, just install and activate the plugin and head to Appearance > Widgets.
+
+However, we've made a really quick and useful tutorial to give you an overview and help explain some of the cooler things you can do with this plugin:
+
+https://www.youtube.com/watch?v=q05O9OFEYHM&list=UULgqhMisF-ykzHZzuMEfV4Q
+
 There are two ways of installing the plugin:
 
 **From the [WordPress plugins page](http://wordpress.org/extend/plugins/)**
