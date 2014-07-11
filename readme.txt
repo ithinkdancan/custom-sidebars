@@ -15,6 +15,8 @@ Custom Sidebars allows you to create all the widgetized areas you need, your own
 
 Find out why it's the most popular widget extension plugin for WordPress available today with over 400,000 downloads.
 
+https://www.youtube.com/watch?v=J9ys4LtB7HY
+
 <blockquote>
 <h4>And if you like this, you'll love Custom Sidebars Pro</h4>
 <br />
