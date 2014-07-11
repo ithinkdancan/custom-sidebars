@@ -15,8 +15,6 @@ Custom Sidebars allows you to create all the widgetized areas you need, your own
 
 Find out why it's the most popular widget extension plugin for WordPress available today with over 400,000 downloads.
 
-https://www.youtube.com/watch?v=J9ys4LtB7HY
-
 <blockquote>
 <h4>And if you like this, you'll love Custom Sidebars Pro</h4>
 <br />
@@ -52,12 +50,6 @@ And of course both this plugin and the Pro version are <a href="http://premium.w
 And if you're not convinced yet, <a href="https://wordpress.org/support/view/plugin-reviews/custom-sidebars?filter=5">check out some of the 5 star reviews for this plugin</a> - and please feel free to add your own :)
 
 == Installation ==
-
-Using custom sidebars is really easy, just install and activate the plugin and head to Appearance > Widgets.
-
-However, we've made a really quick and useful tutorial to give you an overview and help explain some of the cooler things you can do with this plugin:
-
-https://www.youtube.com/watch?v=q05O9OFEYHM&list=UULgqhMisF-ykzHZzuMEfV4Q
 
 There are two ways of installing the plugin:
 
@@ -122,6 +114,9 @@ If you are running a earlier version of Wordpress download Custom Sidebars 0.8.2
 4. screenshot-4.png Or finetune the sidebars by selecting them directly for a special post or page!
 
 == Changelog ==
+
+= 2.0.7 =
+*		Fix: Fixed issue with some people losing some sidebar settings after update.
 
 = 2.0.6.1 =
 *		Minor fix: Use WordPress core functions to get URL to javascript files.
