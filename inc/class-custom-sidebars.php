@@ -76,7 +76,7 @@ class CustomSidebars {
 		);
 
 		// Load the text domain for the plugin
-		TheLib::load_textdomain( CSB_LANG, CSB_LANG_DIR );
+		TheLib::translate_plugin( CSB_LANG, CSB_LANG_DIR );
 
 		// Load javascripts/css files
 		TheLib::add_ui( 'core', 'widgets.php' );
@@ -90,6 +90,12 @@ class CustomSidebars {
 
 		// Extensions use this hook to initialize themselfs.
 		do_action( 'cs_init' );
+
+		// Display a message after import.
+		if ( isset( $_GET['cs-msg'] ) ) {
+			$msg = base64_decode( $_GET['cs-msg'] );
+			TheLib::message( $msg );
+		}
 
 		// Free version only
 		add_action( 'in_widget_form', array( $this, 'in_widget_form' ), 10, 1 );

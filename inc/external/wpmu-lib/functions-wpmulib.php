@@ -42,10 +42,7 @@ class TheLib {
 	static protected function css_url( $file ) {
 		static $Url = null;
 		if ( null === $Url ) {
-			$basedir = trailingslashit( str_replace( '\\', '/', dirname( __FILE__ ) ) );
-			$abspath = trailingslashit( str_replace( '\\', '/', ABSPATH ) );
-			$basedir = str_replace( $abspath, site_url() . '/', $basedir );
-			$Url = $basedir . 'css/';
+			$Url = plugins_url( 'css/', __FILE__ );
 		}
 		return $Url . $file;
 	}
@@ -60,10 +57,7 @@ class TheLib {
 	static protected function js_url( $file ) {
 		static $Url = null;
 		if ( null === $Url ) {
-			$basedir = trailingslashit( str_replace( '\\', '/', dirname( __FILE__ ) ) );
-			$abspath = trailingslashit( str_replace( '\\', '/', ABSPATH ) );
-			$basedir = str_replace( $abspath, site_url() . '/', $basedir );
-			$Url = $basedir . 'js/';
+			$Url = plugins_url( 'js/', __FILE__ );
 		}
 		return $Url . $file;
 	}
@@ -227,7 +221,7 @@ class TheLib {
 		}
 
 		self::_have( 'init_pointer' ) || add_action(
-			'plugins_loaded',
+			'init',
 			array( __CLASS__, 'init_pointer' )
 		);
 		self::_add( 'init_pointer', compact( 'pointer_id', 'html_el', 'title', 'body' ) );
@@ -335,10 +329,10 @@ class TheLib {
 	 * @param  string $domain Translations will be mapped to this domain.
 	 * @param  string $rel_dir Path to the dictionary folder; relative to ABSPATH.
 	 */
-	static public function load_textdomain( $domain, $rel_dir ) {
+	static public function translate_plugin( $domain, $rel_dir ) {
 		self::_have( 'textdomain' ) || add_action(
 			'plugins_loaded',
-			array( __CLASS__, 'load_textdomain_callback' )
+			array( __CLASS__, 'translate_plugin_callback' )
 		);
 		self::_add( 'textdomain', compact( 'domain', 'rel_dir' ) );
 	}
@@ -349,7 +343,7 @@ class TheLib {
 	 *
 	 * @since  1.0.1
 	 */
-	static public function load_textdomain_callback() {
+	static public function translate_plugin_callback() {
 		$items = self::_get( 'textdomain' );
 		foreach ( $items as $item ) {
 			extract( $item ); // domain, rel_dir

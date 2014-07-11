@@ -123,6 +123,10 @@ If you are running a earlier version of Wordpress download Custom Sidebars 0.8.2
 
 == Changelog ==
 
+= 2.0.6.1 =
+*		Minor fix: Use WordPress core functions to get URL to javascript files.
+*		Minor fix: Refactor function name to avoid misunderstandings.
+
 = 2.0.5 =
 *		Fixed: Meta box in post editor did show missing sidebars (e.g. after switching the theme)
 *		Fixed: PHP warning about strict standards.

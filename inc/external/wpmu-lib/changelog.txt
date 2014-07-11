@@ -4,6 +4,13 @@ Author:      Philipp Stracker
 Change Log:
 ----------------------------------------------------------------------
 
+1.0.5 - 2014-07-11
+----------------------------------------------------------------------
+- Fix buddypress warning caused by calling get_current_user_id too early.
+- Add new parameter to ajax().load_http() to specify the target frame.
+- Change function name "load_textlang" to "translate_plugin"
+- Fix issues with url translation (css_url / js_url)
+
 1.0.4 - 2014-07-10
 ----------------------------------------------------------------------
 - Fix warning about static functions.
