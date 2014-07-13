@@ -88,7 +88,7 @@ You can create all the sidebars you want, but you need some sidebars of your the
 
 = Everything is working properly on Admin area, but the site is not displaying the sidebars. Why? =
 
- You are probably are using a theme that doesn’t load dynamic sidebars properly or doesn’t use the wp_head() function in its header. The plugin replace the sidebars inside that function, and many other plugins hook there, so it is [more than recommended to use it](http://josephscott.org/archives/2009/04/wordpress-theme-authors-dont-forget-the-wp_head-function/).
+ You are probably using a theme that doesn’t load dynamic sidebars properly or doesn’t use the wp_head() function in its header. The plugin will replace the sidebars inside that function, many other plugins also hook there, so it is [more than recommended to use it](http://josephscott.org/archives/2009/04/wordpress-theme-authors-dont-forget-the-wp_head-function/).
 
 = It appears that only an Admin can choose to add a sidebar. How can Editors (or any other role) edit customs sidebars? =
 
