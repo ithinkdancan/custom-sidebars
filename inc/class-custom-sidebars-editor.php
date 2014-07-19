@@ -296,13 +296,13 @@ class CustomSidebarsEditor extends CustomSidebars {
 				$options['modifiable'][] = $req->id;
 			}
 		} else {
-			$req->replaceable = false;
-			for ( $i = count( $options['modifiable'] ) - 1; $i >= 0; $i -= 1 ) {
-				if ( $options['modifiable'][$i] == $req->id ) {
-					unset( $options['modifiable'][$i] );
-					break;
-				}
-			}
+            $req->replaceable = false;
+            foreach ($options['modifiable'] as $key => $value) {
+                if ( $value == $req->id ) {
+                    unset( $options['modifiable'][$key] );
+                    break;
+                }
+            }
 		}
 		$options['modifiable'] = array_values( $options['modifiable'] );
 		self::set_options( $options );
