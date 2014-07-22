@@ -23,13 +23,21 @@ class CustomSidebars {
 	 * have this capability then he will not see any change on admin dashboard.
 	 * @var  string
 	 */
-	static protected $cap_required = 'switch_themes';
+	static protected $cap_required = 'edit_theme_options';
 
 	/**
 	 * URL to the documentation/info page of the pro plugin
 	 * @var  string
 	 */
 	static public $pro_url = 'http://premium.wpmudev.org/project/custom-sidebars-pro/';
+
+	/**
+	 * Flag that specifies if the page is loaded in accessibility mode.
+	 * This plugin does not support accessibility mode!
+	 * @var   bool
+	 * @since 2.0.9
+	 */
+	static protected $accessibility_mode = false;
 
 
 	/**
@@ -78,28 +86,51 @@ class CustomSidebars {
 		// Load the text domain for the plugin
 		TheLib::translate_plugin( CSB_LANG, CSB_LANG_DIR );
 
-		// Load javascripts/css files
-		TheLib::add_ui( 'core', 'widgets.php' );
-		TheLib::add_ui( 'scrollbar', 'widgets.php' );
-		TheLib::add_ui( 'select', 'widgets.php' );
-		TheLib::add_ui( CSB_JS_URL . 'cs.min.js', 'widgets.php' );
-		TheLib::add_ui( CSB_CSS_URL . 'cs.css', 'widgets.php' );
+		// Find out if the page is loaded in accessibility mode.
+		$flag = isset( $_GET['widgets-access'] ) ? $_GET['widgets-access'] : get_user_setting( 'widgets_access' );
+		self::$accessibility_mode = ( 'on' == $flag );
 
-		// AJAX actions
-		add_action( 'wp_ajax_cs-ajax', array( $this, 'ajax_handler' ) );
+		// We don't support accessibility mode. Display a note to the user.
+		if ( true === self::$accessibility_mode ) {
+			TheLib::message(
+				sprintf(
+					__(
+						'<strong>Accessibility mode is not supported by the
+						%1$s plugin.</strong><br /><a href="%2$s">Click here</a>
+						to disable accessibility mode and use the %1$s plugin!',
+						CSB_LANG
+					),
+					'Custom Sidebars',
+					admin_url( 'widgets.php?widgets-access=off' )
+				),
+				'err'
+			);
+		} else {
+			// Load javascripts/css files
+			TheLib::add_ui( 'core', 'widgets.php' );
+			TheLib::add_ui( 'scrollbar', 'widgets.php' );
+			TheLib::add_ui( 'select', 'widgets.php' );
+			TheLib::add_ui( CSB_JS_URL . 'cs.min.js', 'widgets.php' );
+			TheLib::add_ui( CSB_CSS_URL . 'cs.css', 'widgets.php' );
 
-		// Extensions use this hook to initialize themselfs.
-		do_action( 'cs_init' );
+			// AJAX actions
+			add_action( 'wp_ajax_cs-ajax', array( $this, 'ajax_handler' ) );
 
-		// Display a message after import.
-		if ( isset( $_GET['cs-msg'] ) ) {
-			$msg = base64_decode( $_GET['cs-msg'] );
-			TheLib::message( $msg );
+			// Extensions use this hook to initialize themselfs.
+			do_action( 'cs_init' );
+
+			// Display a message after import.
+			if ( isset( $_GET['cs-msg'] ) ) {
+				$msg = base64_decode( $_GET['cs-msg'] );
+				TheLib::message( $msg );
+			}
+
+			// Free version only
+			add_action( 'in_widget_form', array( $this, 'in_widget_form' ), 10, 1 );
 		}
-
-		// Free version only
-		add_action( 'in_widget_form', array( $this, 'in_widget_form' ), 10, 1 );
 	}
+
+
 
 	// =========================================================================
 	// == DATA ACCESS
@@ -691,6 +722,9 @@ class CustomSidebars {
 	// =========================================================================
 
 
+
+
+
 	/**
 	 * Output JSON data and die()
 	 *
@@ -701,7 +735,7 @@ class CustomSidebars {
 		while ( 0 < ob_get_level() ) { ob_end_clean(); }
 
 		header( 'Content-Type: application/json' );
-		echo json_encode( $obj, JSON_FORCE_OBJECT );
+		echo json_encode( (object) $obj );
 		die();
 	}
 

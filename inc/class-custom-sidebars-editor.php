@@ -291,21 +291,22 @@ class CustomSidebarsEditor extends CustomSidebars {
 
 		$options = self::get_options();
 		if ( 'true' === $state ) {
-			$req->replaceable = true;
+			$req->status = true;
 			if ( ! in_array( $req->id, $options['modifiable'] ) ) {
 				$options['modifiable'][] = $req->id;
 			}
 		} else {
-            $req->replaceable = false;
-            foreach ($options['modifiable'] as $key => $value) {
-                if ( $value == $req->id ) {
-                    unset( $options['modifiable'][$key] );
-                    break;
-                }
-            }
+			$req->status = false;
+			foreach ( $options['modifiable'] as $i => $sb_id ) {
+				if ( $sb_id == $req->id ) {
+					unset( $options['modifiable'][$i] );
+					break;
+				}
+			}
 		}
 		$options['modifiable'] = array_values( $options['modifiable'] );
 		self::set_options( $options );
+		$req->replaceable = (object) $options['modifiable'];
 
 		return $req;
 	}
