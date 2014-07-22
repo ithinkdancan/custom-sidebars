@@ -4,6 +4,15 @@ Author: Javier Marquez (Incsub), Philipp Stracker (Incsub)
 Change Log:
 ----------------------------------------------------------------------
 
+2.0.9
+----------------------------------------------------------------------
+- Fix: Fixed issue with WP sidebar chooser right after creating a new sidebar.
+- Fix: Fixed various issues when flagging a sidebar s replaceable.
+- Fix: Plugin will not load in accessibility mode but display a notice instead.
+- Minor fix: Make code compatible with PHP 5.2.4
+- Minor fix: Slight improvement of ajax stability
+- Minor fix: Plugin now requires capability "edit_theme_options"
+
 2.0.8
 ----------------------------------------------------------------------
 - Fix: Fixed issue with settings not being saved correctly.
@@ -32,7 +41,7 @@ Change Log:
 
 2.0.1
 ----------------------------------------------------------------------
-- PHP 5.2 compatibility layer.
+- PHP 5.2 compatibility update.
 
 2.0
 ----------------------------------------------------------------------
