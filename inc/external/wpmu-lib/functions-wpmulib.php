@@ -291,20 +291,20 @@ class TheLib {
 	 * @since  1.0.0
 	 * @param  string $text Text to display.
 	 * @param  string $class Message-type [updated|error]
+	 * @param  string $screen Limit message to this screen-ID
 	 */
-	static public function message( $text, $class = 'updated' ) {
-		if ( 'green' == $class || 'update' == $class || 'ok' == $class ) {
-			$class = 'updated';
-		}
-		if ( 'red' == $class || 'err' == $class ) {
+	static public function message( $text, $class = '', $screen = '' ) {
+		if ( 'red' == $class || 'err' == $class || 'error' == $class ) {
 			$class = 'error';
+		} else {
+			$class = 'updated';
 		}
 		self::_have( 'message' ) || add_action(
 			'admin_notices',
 			array( __CLASS__, 'admin_notice_callback' ),
 			1
 		);
-		self::_add( 'message', compact( 'text', 'class' ) );
+		self::_add( 'message', compact( 'text', 'class', 'screen' ) );
 	}
 
 
@@ -315,9 +315,14 @@ class TheLib {
 	 */
 	static public function admin_notice_callback() {
 		$items = self::_get( 'message' );
+		$screen_info = get_current_screen();
+		$screen_id = $screen_info->id;
+
 		foreach ( $items as $item ) {
-			extract( $item ); // text, class
-			echo '<div class="' . esc_attr( $class ) . '"><p>' . $text . '</p></div>';
+			extract( $item ); // text, class, screen
+			if ( empty( $screen ) || $screen_id == $screen ) {
+				echo '<div class="' . esc_attr( $class ) . '"><p>' . $text . '</p></div>';
+			}
 		}
 	}
 

@@ -103,7 +103,8 @@ class CustomSidebars {
 					'Custom Sidebars',
 					admin_url( 'widgets.php?widgets-access=off' )
 				),
-				'err'
+				'err',
+				'widgets'
 			);
 		} else {
 			// Load javascripts/css files
