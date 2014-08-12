@@ -11,6 +11,8 @@ Create your own widgetized areas and choose on which pages they show up - "Easy 
 
 If you'd like to show different widgets on the sidebars or footers of any area of your site - then this is the plugin for you.
 
+[youtube https://www.youtube.com/watch?v=J9ys4LtB7HY]
+
 Custom Sidebars allows you to create all the widgetized areas you need, your own custom sidebars, configure them adding widgets, and replace the default sidebars on the posts or pages you want in just few clicks.
 
 Find out why it's the most popular widget extension plugin for WordPress available today with over 400,000 downloads.
@@ -50,6 +52,8 @@ And of course both this plugin and the Pro version are <a href="http://premium.w
 And if you're not convinced yet, <a href="https://wordpress.org/support/view/plugin-reviews/custom-sidebars?filter=5">check out some of the 5 star reviews for this plugin</a> - and please feel free to add your own :)
 
 == Installation ==
+
+[youtube https://www.youtube.com/watch?v=q05O9OFEYHM]
 
 There are two ways of installing the plugin:
 
