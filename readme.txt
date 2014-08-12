@@ -53,8 +53,6 @@ And if you're not convinced yet, <a href="https://wordpress.org/support/view/plu
 
 == Installation ==
 
-[youtube https://www.youtube.com/watch?v=q05O9OFEYHM]
-
 There are two ways of installing the plugin:
 
 **From the [WordPress plugins page](http://wordpress.org/extend/plugins/)**
@@ -71,6 +69,8 @@ There are two ways of installing the plugin:
 Once you have the plugin activated you will find all new features inside your "Widgets" screen! There you will be able to create and manage your own sidebars.
 
 Find more functionality and usage information on the [Custom Sidebars Pro page](http://premium.wpmudev.org/project/custom-sidebars-pro/).
+
+[youtube https://www.youtube.com/watch?v=q05O9OFEYHM]
 
 == Frequently Asked Questions ==
 
