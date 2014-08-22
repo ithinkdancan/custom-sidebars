@@ -90,9 +90,9 @@ You have a sidebar box when editing a entry. Also you can define default sidebar
 
 You can create all the sidebars you want, but you need some sidebars of your theme to be replaced by the ones that you have created. You have to select which sidebars from your theme are suitable to be replaced in the Custom Sidebars settings page and you will have them available to switch.
 
-= Everything is working properly on Admin area, but the site is not displayin the sidebars. Why? =
+= Everything is working properly on Admin area, but the custom sidebars are not displayed on the site. Why? =
 
- You probably are using a theme that don’t load dynamic sidebars properly or don’t use the wp_head() function in its header. The plugin replace the sidebars inside that function, and many others plugins hook there, so it is [more than recommended to use it](http://josephscott.org/archives/2009/04/wordpress-theme-authors-dont-forget-the-wp_head-function/).
+ You are probably using a theme that doesn’t load dynamic sidebars properly or doesn’t use the wp_head() function in its header. The plugin replaces the sidebars inside that function, and many other plugins hook there, so it is [more than recommended to use it](http://josephscott.org/archives/2009/04/wordpress-theme-authors-dont-forget-the-wp_head-function/).
 
 = It appears that only an Admin can choose to add a sidebar. How can Editors (or any other role) edit customs sidebars? =
 
