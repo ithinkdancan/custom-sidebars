@@ -119,6 +119,14 @@ If you are running a earlier version of Wordpress download Custom Sidebars 0.8.2
 
 == Changelog ==
 
+= 2.0.9.2 =
+*		Fix: Sidebar Locations "Front Page" and "Post Index" now work correctly.
+
+= 2.0.9.1 =
+*		Fix: Sidebars now support unicode-text in name/description.
+*		Minor: New debugging output that explains why a sidebar/widget is displayed.
+
+
 = 2.0.9 =
 *		Fix: Fixed issue with WP sidebar chooser right after creating a new sidebar.
 *		Fix: Fixed various issues when flagging a sidebar s replaceable.
