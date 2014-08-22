@@ -150,7 +150,7 @@ class CustomSidebarsEditor extends CustomSidebars {
 	private function save_item( $req, $data )  {
 		$sidebars = self::get_custom_sidebars();
 		$sb_id = $req->id;
-		$sb_name = substr( stripslashes( trim( @$data['name'] ) ), 0, 40 );
+		$sb_name = mb_substr( stripslashes( trim( @$data['name'] ) ), 0, 40 );
 		$sb_desc = stripslashes( trim( @$_POST['description'] ) );
 
 		if ( empty( $sb_name ) ) {
@@ -185,8 +185,8 @@ class CustomSidebarsEditor extends CustomSidebars {
 			}
 		}
 
-		if ( strlen( $sb_desc ) > 200 ) {
-			$sb_desc = substr( $sb_desc, 0, 200 );
+		if ( mb_strlen( $sb_desc ) > 200 ) {
+			$sb_desc = mb_substr( $sb_desc, 0, 200 );
 		}
 
 		// Populate the sidebar object.
@@ -361,12 +361,17 @@ class CustomSidebarsEditor extends CustomSidebars {
 		// Build a list of archive types.
 		$archives = array(); // Start with a copy of the posttype list.
 		foreach ( $raw_posttype as $item ) {
-			$sel_archive = @$defaults['post_type_archive'][$item->name];
+			if ( $item->name == 'post' ) {
+				$label = __( 'Post Index', CSB_LANG );
+			} else {
+				if ( ! $item->has_archive ) { continue; }
+				$label = sprintf(
+					__( '%1$s Archives', CSB_LANG ),
+					$item->labels->singular_name
+				);
+			}
 
-			$label = sprintf(
-				__( '%1$s Archives', CSB_LANG ),
-				$item->labels->singular_name
-			);
+			$sel_archive = @$defaults['post_type_archive'][$item->name];
 
 			$archives[ $item->name ] = array(
 				'name' => $label,

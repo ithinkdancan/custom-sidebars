@@ -1,7 +1,7 @@
 <?php
 /**
  * Code-snippet for WordPress pointers.
- * Used in function TheLib::pointer()
+ * Used in function WDev()->pointer()
  *
  * Variables:
  *   - $pointer_id
@@ -21,7 +21,7 @@ $code = str_replace( array("\r", "\n"), '', $code );
 	jQuery(document).ready(function() {
 		if ( typeof( jQuery().pointer ) != 'undefined' ) {
 			jQuery( '<?php echo esc_attr( $html_el ); ?>' ).pointer({
-				content: '<?php echo $code; ?>',
+				content: '<?php echo '' . $code; ?>',
 				position: {
 					edge: 'left',
 					align: 'center'

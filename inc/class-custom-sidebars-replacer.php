@@ -107,6 +107,10 @@ class CustomSidebarsReplacer extends CustomSidebars {
 			$wp_registered_sidebars,
 			$wp_registered_widgets;
 
+		$expl = CustomSidebarsExplain::do_explain();
+
+		$expl && do_action( 'cs_explain', '<h4>Replace sidebars</h4>', true );
+
 		/**
 		 * Original sidebar configuration by WordPress:
 		 * Lists sidebars and all widgets inside each sidebar.
@@ -129,6 +133,7 @@ class CustomSidebarsReplacer extends CustomSidebars {
 
 		foreach ( $replacements as $sb_id => $replace_info ) {
 			if ( ! is_array( $replace_info ) || count( $replace_info ) < 3 ) {
+				$expl && do_action( 'cs_explain', 'Replacement for "' . $sb_id . '": -none-' );
 				continue;
 			}
 
@@ -136,6 +141,8 @@ class CustomSidebarsReplacer extends CustomSidebars {
 			$check = $this->is_valid_replacement( $sb_id, $replacement, $replacement_type, $extra_index );
 
 			if ( $check ) {
+				$expl && do_action( 'cs_explain', 'Replacement for "' . $sb_id . '": ' . $replacement );
+
 				if ( sizeof( $original_widgets[$replacement] ) == 0 ) {
 					// No widgets on custom sidebar, show nothing.
 					$wp_registered_widgets['csemptywidget'] = $this->get_empty_widget();
@@ -156,7 +163,9 @@ class CustomSidebarsReplacer extends CustomSidebars {
 				}
 				$wp_registered_sidebars[$sb_id]['class'] = $replacement;
 			}  // endif: is_valid_replacement
-
+			else {
+				$expl && do_action( 'cs_explain', 'Replacement for "' . $sb_id . '": -none-' );
+			}
 		} // endforeach
 	}
 
@@ -176,7 +185,7 @@ class CustomSidebarsReplacer extends CustomSidebars {
 		$sidebars = self::get_options( 'modifiable' );
 		$replacements_todo = sizeof( $sidebars );
 		$replacements = array();
-		$branch = 0; // Debugging information
+		$expl = CustomSidebarsExplain::do_explain();
 
 		foreach ( $sidebars as $sb ) {
 			$replacements[ $sb ] = false;
@@ -184,10 +193,11 @@ class CustomSidebarsReplacer extends CustomSidebars {
 
 		// 1 |== Single posts/pages --------------------------------------------
 		if ( is_single() ) {
-			$branch = 1;
-
 			$post_type = get_post_type();
+			$expl && do_action( 'cs_explain', 'Type 1: single ' . $post_type );
+
 			if ( ! self::supported_post_type( $post_type ) ) {
+				$expl && do_action( 'cs_explain', 'Invalid post type, use default sidebars.' );
 				return $options;
 			}
 
@@ -265,7 +275,7 @@ class CustomSidebarsReplacer extends CustomSidebars {
 
 		// 2 |== Category archive ----------------------------------------------
 		if ( is_category() ) {
-			$branch = 2;
+			$expl && do_action( 'cs_explain', 'Type 2: category archive' );
 
 			// 2.1 Start at current category and travel up all parents
 			$category_object = get_queried_object();
@@ -293,7 +303,7 @@ class CustomSidebarsReplacer extends CustomSidebars {
 		// Must be before the post-type archive section; otherwise a search with
 		// no results is recognized as post-type archive...
 		if ( is_search() ) {
-			$branch = 3;
+			$expl && do_action( 'cs_explain', 'Type 3: is_search' );
 
 			foreach ( $sidebars as $sb_id ) {
 				if ( ! empty( $options['search'][$sb_id] ) ) {
@@ -307,11 +317,13 @@ class CustomSidebarsReplacer extends CustomSidebars {
 		} else
 
 		// 4 |== Post-Tpe Archive ----------------------------------------------
+		// `get_post_type() != 'post'` .. post-archive = post-index (see 7)
 		if ( ! is_category() && ! is_singular() && get_post_type() != 'post' ) {
-			$branch = 4;
-
 			$post_type = get_post_type();
+			$expl && do_action( 'cs_explain', 'Type 4: ' . $post_type . ' archive' );
+
 			if ( ! self::supported_post_type( $post_type ) ) {
+				$expl && do_action( 'cs_explain', 'Invalid post type, use default sidebars.' );
 				return $options;
 			}
 
@@ -331,11 +343,13 @@ class CustomSidebarsReplacer extends CustomSidebars {
 		} else
 
 		// 5 |== Page ----------------------------------------------------------
-		if ( is_page() ) {
-			$branch = 5;
-
+		// `! is_front_page()` .. in case the site uses static front page.
+		if ( is_page() && ! is_front_page() ) {
 			$post_type = get_post_type();
+			$expl && do_action( 'cs_explain', 'Type 5: ' . $post_type );
+
 			if ( ! self::supported_post_type( $post_type ) ) {
+				$expl && do_action( 'cs_explain', 'Invalid post type, use default sidebars.' );
 				return $options;
 			}
 
@@ -389,8 +403,14 @@ class CustomSidebarsReplacer extends CustomSidebars {
 		} else
 
 		// 6 |== Front Page ----------------------------------------------------
-		if ( is_home() ) {
-			$branch = 6;
+		if ( is_front_page() ) {
+			/*
+			 * The front-page of the site. Either
+			 * - the post-index (default) or
+			 * - a static front-page.
+			 */
+
+			$expl && do_action( 'cs_explain', 'Type 6: front-page' );
 
 			foreach ( $sidebars as $sb_id ) {
 				if ( ! empty( $options['blog'][$sb_id] ) ) {
@@ -403,9 +423,33 @@ class CustomSidebarsReplacer extends CustomSidebars {
 			}
 		} else
 
-		// 7 |== Tag archive ---------------------------------------------------
+		// 7 |== Post Index ----------------------------------------------------
+		if ( is_home() ) {
+			/*
+			 * The post-index of the site. Either
+			 * - the front-page (default)
+			 * - when a static front page is used the post-index page.
+			 *
+			 * Note: When the default front-page is used the condition 6
+			 * "is_front_page" above is used and this node is never executed.
+			 */
+
+			$expl && do_action( 'cs_explain', 'Type 7: post-index' );
+
+			foreach ( $sidebars as $sb_id ) {
+				if ( ! empty( $options['post_type_archive']['post'][$sb_id] ) ) {
+					$replacements[$sb_id] = array(
+						$options['post_type_archive']['post'][$sb_id],
+						'postindex',
+						-1,
+					);
+				}
+			}
+		} else
+
+		// 8 |== Tag archive ---------------------------------------------------
 		if ( is_tag() ) {
-			$branch = 7;
+			$expl && do_action( 'cs_explain', 'Type 8: tag archive' );
 
 			foreach ( $sidebars as $sb_id ) {
 				if ( ! empty( $options['tags'][$sb_id] ) ) {
@@ -418,9 +462,9 @@ class CustomSidebarsReplacer extends CustomSidebars {
 			}
 		} else
 
-		// 8 |== Author archive ------------------------------------------------
+		// 9 |== Author archive ------------------------------------------------
 		if ( is_author() ) {
-			$branch = 8;
+			$expl && do_action( 'cs_explain', 'Type 9: author archive' );
 
 			foreach ( $sidebars as $sb_id ) {
 				if ( ! empty( $options['authors'][$sb_id] ) ) {
@@ -433,9 +477,9 @@ class CustomSidebarsReplacer extends CustomSidebars {
 			}
 		} else
 
-		// 9 |== Date archive --------------------------------------------------
+		// 10 |== Date archive --------------------------------------------------
 		if ( is_date() ) {
-			$branch = 9;
+			$expl && do_action( 'cs_explain', 'Type 10: Date Archive' );
 
 			foreach ( $sidebars as $sb_id ) {
 				if ( ! empty( $options['date'][$sb_id] ) ) {

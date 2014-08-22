@@ -4,6 +4,22 @@ Author:      Philipp Stracker
 Change Log:
 ----------------------------------------------------------------------
 
+1.0.9 - 2014-08-15
+----------------------------------------------------------------------
+- Add the UI files 'vnav': WDev()->add_ui( 'vnav' );
+- Fix bug that happened when enqueuing the very first script/style using WDev()
+
+1.0.8 - 2014-08-12
+----------------------------------------------------------------------
+- Methods now must be called via "WDev()->method()" and not "TheLib::method()".
+- Situations when plugins include different versions of the library are resolved correctly now.
+
+1.0.7 - 2014-07-28
+----------------------------------------------------------------------
+- Make message() persitent: Message is displayed even after redirect
+- add_js() and add_css() now accept a script-alias instead of url to load core WordPress scripts.
+- New function TheLib::current_url()
+
 1.0.6 - 2014-07-21
 ----------------------------------------------------------------------
 - New javascript function "wpmUi.obj()": Convert JS array to object.
