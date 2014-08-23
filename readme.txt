@@ -119,6 +119,10 @@ If you are running a earlier version of Wordpress download Custom Sidebars 0.8.2
 
 == Changelog ==
 
+= 2.0.9.3 =
+*		Fix: Z-index issue in Dashboard where wide widgets where covered by the main-menu.
+*		Fix: Added compatibility for static front-page sidebars with version 2.0.9
+
 = 2.0.9.2 =
 *		Fix: Sidebar Locations "Front Page" and "Post Index" now work correctly.
 
