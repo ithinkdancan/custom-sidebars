@@ -119,6 +119,12 @@ If you are running a earlier version of Wordpress download Custom Sidebars 0.8.2
 
 == Changelog ==
 
+= 2.0.9.6 =
+*		Fix: In some browsers the "Add sidebar" popup was partially hidden.
+*		Fix: Sometimes the dropdown list of a multiselect list stayed open.
+*		Fix: Plugin now correctly loads the .po files to translate to other languages.
+*		Some other small improvements.
+
 = 2.0.9.4 =
 *		Fix: For some users the plugin was not loading anymore after updating to 2.0.9.1.
 
