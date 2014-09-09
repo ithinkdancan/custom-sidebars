@@ -328,7 +328,8 @@ class CustomSidebarsEditor extends CustomSidebars {
 		$archive_type = array(
 			'_blog' => __( 'Front Page', CSB_LANG ),
 			'_search' => __( 'Search Results', CSB_LANG ),
-			'_authors' => __( 'Author Archives', CSB_LANG ),
+			'_404' => __( 'Not found (404)', CSB_LANG ),
+			'_authors' => __( 'Any Author Archive', CSB_LANG ),
 			'_tags' => __( 'Tag Archives', CSB_LANG ),
 			'_date' => __( 'Date Archives', CSB_LANG ),
 		);
@@ -412,6 +413,7 @@ class CustomSidebarsEditor extends CustomSidebars {
 		$data = @$_POST['cs'];
 		$special_arc = array(
 			'blog',
+			'404',
 			'tags',
 			'authors',
 			'search',
@@ -535,7 +537,7 @@ class CustomSidebarsEditor extends CustomSidebars {
 			add_meta_box(
 				'customsidebars-mb',
 				__( 'Sidebars', CSB_LANG ),
-				array( $this, 'print_metabox' ),
+				array( $this, 'print_metabox_editor' ),
 				$post_type,
 				'side'
 			);
@@ -545,10 +547,21 @@ class CustomSidebarsEditor extends CustomSidebars {
 	/**
 	 * Renders the Custom Sidebars meta box in the post-editor.
 	 */
-	public function print_metabox() {
-		global $post, $wp_registered_sidebars;
+	public function print_metabox_editor() {
+		global $post;
+		$this->print_sidebars_form( $post->ID, 'metabox' );
+	}
 
-		$replacements = self::get_replacements( $post->ID );
+	/**
+	 * Renders the Custom Sidebars form.
+	 *
+	 * @param  int $post_id The post-ID to display
+	 * @param  string $type Which form to display. 'metabox/quick-edit/col-sidebars'.
+	 */
+	protected function print_sidebars_form( $post_id, $type = 'metabox' ) {
+		global $wp_registered_sidebars;
+
+		$replacements = self::get_replacements( $post_id );
 
 		$available = $wp_registered_sidebars;
 		ksort( $available );
@@ -567,7 +580,6 @@ class CustomSidebarsEditor extends CustomSidebars {
 		include CSB_VIEWS_DIR . 'metabox.php';
 	}
 
-
 	public function store_replacements( $post_id ) {
 		global $action;
 
@@ -585,9 +597,9 @@ class CustomSidebarsEditor extends CustomSidebars {
 		}
 
 		/*
-		 * Make sure we are editing the post normaly, if we are bulk editing or
-		 * quick editing, no sidebar data is recieved and the sidebars would
-		 * be deleted.
+		 * 'editpost' .. Saved from full Post-Editor screen.
+		 * 'inline-save' .. Saved via the quick-edit form.
+		 * We do not (yet) offer a bulk-editing option for custom sidebars.
 		 */
 		if ( $action != 'editpost' ) {
 			return $post_id;

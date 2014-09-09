@@ -1,7 +1,7 @@
 <?php
 
 // Based on Jigsaw plugin by Jared Novack (http://jigsaw.upstatement.com/)
-class TheLib_1_0_11 {
+class TheLib_1_0_12 {
 
 	// --- Start of 5.2 compatibility functions
 
