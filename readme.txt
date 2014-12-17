@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: WPMUDEV, marquex
+Contributors: WPMUDEV, marquex, WPMUDEV-Support2
 Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 3.3
 Tested up to: 4.0
