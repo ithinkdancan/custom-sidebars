@@ -1,8 +1,8 @@
 === Plugin Name ===
-Contributors: WPMUDEV, marquex, WPMUDEV-Support2,WPMUDEV-Support1, WPMUDEV-Support6,WPMUDEV-Support4, strackerphil-1
+Contributors: WPMUDEV, marquex, WPMUDEV-Support2, WPMUDEV-Support1, WPMUDEV-Support6, WPMUDEV-Support4
 Tags: custom sidebars, widgets, sidebars, custom, sidebar, widget, personalize
 Requires at least: 3.3
-Tested up to: 4.0
+Tested up to: 4.1
 Stable tag:   trunk
 
 Create your own widgetized areas and choose on which pages they show up - "Easy to use. Even with complex themes. Made my work much easier."
