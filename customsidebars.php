@@ -77,7 +77,7 @@ function inc_sidebars_free_init() {
 if ( ! class_exists( 'CustomSidebarsEmptyPlugin' ) ) {
 	class CustomSidebarsEmptyPlugin extends WP_Widget {
 		public function CustomSidebarsEmptyPlugin() {
-			parent::WP_Widget( false, $name = 'CustomSidebarsEmptyPlugin' );
+			parent::__construct( false, $name = 'CustomSidebarsEmptyPlugin' );
 		}
 		public function form( $instance ) {
 			//Nothing, just a dummy plugin to display nothing
